@@ -1,0 +1,21 @@
+Package: speedyseq
+Title: Faster implementations of common phyloseq operations
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Michael",
+           family = "McLaren",
+           role = c("aut", "cre"),
+           email = "m.mclaren42@gmail.com")
+Description: Faster implementations of common phyloseq operations.
+URL: https://github.com/mikemc/speedyseq
+BugReports: https://github.com/mikemc/speedyseq/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    phyloseq,
+    magrittr,
+    dplyr,
+    tibble,
+    tidyr
+RoxygenNote: 6.1.1
