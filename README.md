@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
@@ -17,8 +13,8 @@ than `phyloseq`'s current version, and includes copies of `plot_bar()`,
 faster `psmelt()` will be used. It also implements a faster version of
 `tax_glom()`. 
 
-**NOTE: `speedyseq`'s `tax_glom` function is currently not behaving as expected
-and should not be used in your analysis!**
+**NOTE: `speedyseq`'s `tax_glom` function has not yet been tested with
+non-default options.**
 
 My aim is for these functions to create output that is identical
 to what would be obtained from `phyloseq`; however, I have not tested this
@@ -47,12 +43,12 @@ system.time(
     df1 <- psmelt(GlobalPatterns) # slow
 )
 #>    user  system elapsed 
-#>  94.152   0.097  94.509
+#>  93.853   0.142  94.268
 system.time(
     df2 <- speedyseq::psmelt(GlobalPatterns) # fast
 )
 #>    user  system elapsed 
-#>   0.386   0.000   0.388
+#>   0.344   0.000   0.344
 ```
 
 Method 2: Load `speedyseq` after `phyloseq`, which will cause calls to the
@@ -71,11 +67,17 @@ system.time(
     ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
 )
 #>    user  system elapsed 
-#>  57.316   0.103  57.616
+#>  58.581   0.117  58.908
 system.time(
     # Calls speedyseq's tax_glom
     ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
 #>    user  system elapsed 
-#>   0.291   0.000   0.292
+#>   0.299   0.000   0.300
+all.equal(taxa_names(ps1), taxa_names(ps2))
+#> [1] TRUE
+all.equal(otu_table(ps1), otu_table(ps2))
+#> [1] TRUE
+all.equal(tax_table(ps1), tax_table(ps2))
+#> [1] TRUE
 ```

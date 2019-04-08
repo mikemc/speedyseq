@@ -77,7 +77,7 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
 	}
 	# Error if bad taxrank
 	if( !taxrank[1] %in% rank_names(physeq) ){
-		stop("Bad taxrank argument. Must be among the values of rank_names(physeq)")		
+		stop("Bad taxrank argument. Must be among the values of rank_names(physeq)")
 	}
 	# Make a vector from the taxonomic data.
 	CN  <- which( rank_names(physeq) %in% taxrank[1] )
@@ -90,12 +90,6 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
 	# Concatenate data up to the taxrank column, use this for agglomeration
 	tax <- as(access(physeq, "tax_table"), "matrix")[, 1:CN, drop=FALSE]
 	tax <- apply(tax, 1, function(i){paste(i, sep=";_;", collapse=";_;")})
-	# Remove NAs and useless from the vector/factor for looping.
-	# This does not remove the taxa that have an unknown (NA)
-	# taxonomic designation at this particular taxonomic rank.
-	tax <- tax[ !(tax %in% bad_empty) ]
-	# Define the OTU cliques to loop through
-	spCliques <- tapply(names(tax), factor(tax), list)
     #### **Speedyseq changes start here**
     ## Make the new OTU table
     # Starting point is a tibble with rows as taxa, to be able to combine taxa
@@ -112,9 +106,11 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
     tb <- tb %>%
         tibble::add_column(Tax = tax, Sum = taxa_sums(physeq)) %>%
         dplyr::group_by(Tax)
-    # Name new taxa by the most abundant OTU
+    # Name new taxa by the most abundant OTU; pick the first OTU in case of
+    # ties (to be consistent with phyloseq)
     new_taxa_names <- tb %>% 
         dplyr::top_n(1, Sum) %>%
+        dplyr::slice(1) %>%
         dplyr::select(Tax, OTU)
     # Sum abundances and rename taxa
     tb0 <- tb %>%
@@ -138,7 +134,7 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
 	# "Empty" the taxonomy values to the right of the rank, using
     # NA_character_.
     bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
-    tax_table(physeq)[,bad_ranks] <- NA_character_		
+    tax_table(physeq)[, bad_ranks] <- NA_character_		
 	## Return.
 	return(physeq)
 }
