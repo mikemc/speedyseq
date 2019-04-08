@@ -73,4 +73,5 @@ system.time(
 all.equal(taxa_names(ps1), taxa_names(ps2))
 all.equal(otu_table(ps1), otu_table(ps2))
 all.equal(tax_table(ps1), tax_table(ps2))
+all.equal(phy_tree(ps1), phy_tree(ps2))
 ```

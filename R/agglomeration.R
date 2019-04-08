@@ -92,12 +92,17 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
 	tax <- apply(tax, 1, function(i){paste(i, sep=";_;", collapse=";_;")})
     #### **Speedyseq changes start here**
     ## Make the new OTU table
+    # Work with taxa as rows
+    if (!taxa_are_rows(physeq)) {
+        physeq <- phyloseq::t(physeq)
+        # Note that we need to flip back to samples as rows at the end
+        needs_flip <- TRUE
+    } else {
+        needs_flip <- FALSE
+    }
     # Starting point is a tibble with rows as taxa, to be able to combine taxa
     # with the dplyr::summarize_*() functions
     otu <- otu_table(physeq)
-    if (!taxa_are_rows(physeq)) {
-        otu <- t(otu)
-    }
     tb <- otu %>%
         as("matrix") %>%
         tibble::as_tibble(rownames = "OTU")
@@ -123,9 +128,6 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
         as("matrix")
     rownames(mat) <- tb0$OTU
     otu0 <- otu_table(mat, taxa_are_rows = TRUE)
-    if (!taxa_are_rows(physeq)) {
-        otu0 <- t(otu0)
-    }
     ## Make the new phyloseq object
     # Replacing the original otu_table with the new, smaller table will
     # automatically prune the taxonomy, tree, and refseq to the smaller set of
@@ -136,5 +138,8 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
     bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
     tax_table(physeq)[, bad_ranks] <- NA_character_		
 	## Return.
+    if (needs_flip) {
+        physeq <- phyloseq::t(physeq)
+    }
 	return(physeq)
 }

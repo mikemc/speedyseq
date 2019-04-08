@@ -43,12 +43,12 @@ system.time(
     df1 <- psmelt(GlobalPatterns) # slow
 )
 #>    user  system elapsed 
-#>  93.853   0.142  94.268
+#>  95.558   0.110  95.927
 system.time(
     df2 <- speedyseq::psmelt(GlobalPatterns) # fast
 )
 #>    user  system elapsed 
-#>   0.344   0.000   0.344
+#>   0.354   0.000   0.355
 ```
 
 Method 2: Load `speedyseq` after `phyloseq`, which will cause calls to the
@@ -67,17 +67,19 @@ system.time(
     ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
 )
 #>    user  system elapsed 
-#>  58.581   0.117  58.908
+#>  56.715   0.080  56.982
 system.time(
     # Calls speedyseq's tax_glom
     ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
 #>    user  system elapsed 
-#>   0.299   0.000   0.300
+#>   0.287   0.000   0.288
 all.equal(taxa_names(ps1), taxa_names(ps2))
 #> [1] TRUE
 all.equal(otu_table(ps1), otu_table(ps2))
 #> [1] TRUE
 all.equal(tax_table(ps1), tax_table(ps2))
+#> [1] TRUE
+all.equal(phy_tree(ps1), phy_tree(ps2))
 #> [1] TRUE
 ```
