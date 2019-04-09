@@ -48,8 +48,6 @@
 #'
 #'  \code{\link{merge}}
 #' 
-#' @importFrom dplyr %>%
-#' 
 #' @export
 #'
 #' @examples
