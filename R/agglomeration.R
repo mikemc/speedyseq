@@ -135,8 +135,10 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
     otu_table(physeq) <- otu0
 	# "Empty" the taxonomy values to the right of the rank, using
     # NA_character_.
-    bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
-    tax_table(physeq)[, bad_ranks] <- NA_character_		
+	if (CN < length(rank_names(physeq))) {
+        bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
+        tax_table(physeq)[, bad_ranks] <- NA_character_
+    }
 	## Return.
     if (needs_flip) {
         physeq <- phyloseq::t(physeq)
