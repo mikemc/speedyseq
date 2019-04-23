@@ -12,8 +12,9 @@ BugReports: https://github.com/mikemc/speedyseq/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends:
+    phyloseq
 Imports: 
-    phyloseq,
     magrittr,
     dplyr,
     tibble,

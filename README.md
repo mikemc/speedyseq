@@ -48,29 +48,29 @@ system.time(
 #>   0.346   0.003   0.349
 ```
 
-Method 2: Load `speedyseq` after `phyloseq`, which will cause calls to the
+Method 2: Load `speedyseq`, which will load `phyloseq` but cause calls to the
 overlapping function names to go to `speedyseq` by default:
 
 ```r
-library(phyloseq)
 library(speedyseq)
+#> Loading required package: phyloseq
 #> 
 #> Attaching package: 'speedyseq'
 #> The following objects are masked from 'package:phyloseq':
 #> 
-#>     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom
+#>     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom
 data(GlobalPatterns)
 system.time(
     ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
 )
 #>    user  system elapsed 
-#>  57.279   0.103  57.573
+#>  53.673   0.422  54.308
 system.time(
     # Calls speedyseq's tax_glom
     ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
 #>    user  system elapsed 
-#>   0.286   0.000   0.287
+#>   0.287   0.007   0.295
 all.equal(taxa_names(ps1), taxa_names(ps2))
 #> [1] TRUE
 all.equal(otu_table(ps1), otu_table(ps2))

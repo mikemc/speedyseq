@@ -54,10 +54,9 @@ system.time(
 )
 ```
 
-Method 2: Load `speedyseq` after `phyloseq`, which will cause calls to the
+Method 2: Load `speedyseq`, which will load `phyloseq` but cause calls to the
 overlapping function names to go to `speedyseq` by default:
 ```{r}
-library(phyloseq)
 library(speedyseq)
 data(GlobalPatterns)
 system.time(
