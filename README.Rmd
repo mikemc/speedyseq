@@ -14,6 +14,13 @@ knitr::opts_chunk$set(
 ```
 # speedyseq
 
+<!-- badges: start -->
+[![Travis build
+status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travis-ci.org/mikemc/speedyseq)
+[![Codecov test
+coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=master)
+<!-- badges: end -->
+
 The goal of `speedyseq` is to accelerate common operations that are currently
 very slow in `phyloseq`: the function `psmelt` (and the plotting functions that
 use it) and the taxonomic aggregation functions `tax_glom` and `tip_glom`.
