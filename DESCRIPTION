@@ -15,13 +15,15 @@ LazyData: true
 Depends:
     phyloseq
 Imports: 
-    magrittr,
+    ape,
+    data.table,
     dplyr,
+    ggplot2,
+    magrittr,
     tibble,
     tidyr,
-    ggplot2,
-    ape,
-    data.table
+    scales,
+    vegan
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
