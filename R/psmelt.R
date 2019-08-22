@@ -63,7 +63,6 @@
 #' p = ggplot(mdf, aes(x=SampleType, y=Abundance, fill=Genus))
 #' p = p + geom_bar(color="black", stat="identity", position="stack")
 #' print(p)
-# TODO: test behavior vs. phyloseq's
 psmelt = function(physeq){
   # Access covariate names from object, if present
   if(!inherits(physeq, "phyloseq")){
@@ -152,9 +151,9 @@ psmelt = function(physeq){
       tb <- tb %>%
           dplyr::left_join(tax, by = "OTU")
   }
-  # Arrange by Abundance; TODO: verify this sorting behavior matches phyloseq's
+  # Arrange by Abundance, then OTU names (to approx. phyloseq behavior)
   tb <- tb %>%
-      dplyr::arrange(desc(Abundance))
+      dplyr::arrange(desc(Abundance), OTU)
   # Return as a data.frame for phyloseq compatibility
   tb %>% as.data.frame
 }
