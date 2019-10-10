@@ -4,6 +4,7 @@
 # speedyseq
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/179732395.svg)](https://zenodo.org/badge/latestdoi/179732395)
 [![Travis build
 status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travis-ci.org/mikemc/speedyseq)
 [![Codecov test
