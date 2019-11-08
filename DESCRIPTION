@@ -9,7 +9,7 @@ Authors@R:
 Description: Faster implementations of common phyloseq functions.
 URL: https://github.com/mikemc/speedyseq
 BugReports: https://github.com/mikemc/speedyseq/issues
-License: MIT + file LICENSE
+License: AGPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:

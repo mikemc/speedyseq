@@ -1,3 +1,6 @@
+# Attribution: The documentation for `psmelt()` is from phyloseq,
+# https://github.com/joey711/phyloseq/blob/master/R/plot-methods.R
+
 #' Melt phyloseq data object into large data.frame
 #'
 #' The psmelt function is a specialized melt function for melting phyloseq objects

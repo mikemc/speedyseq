@@ -1,3 +1,6 @@
+# Attribution: The documentation for `tax_glom()` is from phyloseq,
+# https://github.com/joey711/phyloseq/blob/master/R/transform_filter-methods.
+
 #' Agglomerate taxa of the same type.
 #'
 #' This method merges species that have the same taxonomy at a certain

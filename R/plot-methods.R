@@ -1,7 +1,9 @@
-# Note, these are all copied straight from phyloseq, with added importFrom's
-# and calling of phyloseq internal functions as needed to adjust for the
-# missing functions from phyloseq's plot-methods.R
-################################################################################
+# These code and documentation in this file is taken from phyloseq
+# (https://github.com/joey711/phyloseq) with minimal mofication to work within
+# the speedyseq package. These functions are included so that users can take
+# advantage of speedyseq's faster `psmelt()` function when using phyloseq's
+# plotting functions.
+
 #' A flexible, informative barplot phyloseq data
 #'
 #' There are many useful examples of phyloseq barplot graphics in the
@@ -105,7 +107,7 @@ plot_bar = function(physeq, x="Sample", y="Abundance", fill=NULL,
 	
 	return(p)
 }
-################################################################################
+
 #' Plot a phylogenetic tree with optional annotations
 #'
 #' There are many useful examples of phyloseq tree graphics in the
