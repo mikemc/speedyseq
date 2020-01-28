@@ -66,7 +66,7 @@
 #' p = ggplot(mdf, aes(x=SampleType, y=Abundance, fill=Genus))
 #' p = p + geom_bar(color="black", stat="identity", position="stack")
 #' print(p)
-psmelt = function(physeq){
+psmelt <- function(physeq){
   # Access covariate names from object, if present
   if(!inherits(physeq, "phyloseq")){
     rankNames = NULL
@@ -131,32 +131,29 @@ psmelt = function(physeq){
   # per row)
   tb <- otutab %>% 
       as("matrix") %>%
-      tibble::as_tibble(rownames = "OTU") %>%
-      tidyr::gather("Sample", "Abundance", -OTU)
+      data.table::as.data.table(keep.rownames = "OTU") %>%
+      data.table::melt(id.vars = c("OTU"), variable.name = "Sample", 
+          value.name = "Abundance")
   # Add the sample data if it exists
   if (!is.null(sampleVars)) {
       sam <- sample_data(physeq) %>%
           as("data.frame") %>% 
-          tibble::as_tibble(rownames = "Sample")
-      tb <- tb %>%
-          dplyr::left_join(sam, by = "Sample")
+          data.table::as.data.table(keep.rownames = "Sample")
+      tb <- tb[sam, on = .(Sample = Sample)]
   }
   # Add the tax table if it exists
   if (!is.null(rankNames)) {
       tax <- tax_table(physeq) %>%
           as("matrix") %>%
-          tibble::as_tibble(rownames = "OTU")
-      # Convert taxonomy vars to factors for phyloseq compatibiiity
-      if (getOption("stringsAsFactors")) {
-          tax <- tax %>%
-          dplyr::mutate_at(dplyr::vars(-OTU), as.factor)
-      }
-      tb <- tb %>%
-          dplyr::left_join(tax, by = "OTU")
+          as.data.frame %>%
+          data.table::as.data.table(keep.rownames = "OTU")
+      # NOTE: Conversion to data.frame functions to converts taxonomy vars to
+      # factors if stringsAsFactors = TRUE, for phyloseq compatibility.
+      tb <- tb[tax, on = .(OTU = OTU)]
   }
   # Arrange by Abundance, then OTU names (to approx. phyloseq behavior)
   tb <- tb %>%
-      dplyr::arrange(desc(Abundance), OTU)
+      data.table::setorder(-Abundance, OTU)
   # Return as a data.frame for phyloseq compatibility
   tb %>% as.data.frame
 }
