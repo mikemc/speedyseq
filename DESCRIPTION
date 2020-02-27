@@ -1,6 +1,6 @@
 Package: speedyseq
 Title: Faster implementations of common phyloseq functions
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
@@ -24,6 +24,6 @@ Imports:
     tidyr,
     scales,
     vegan
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: 
     testthat

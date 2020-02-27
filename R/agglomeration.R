@@ -71,9 +71,11 @@
 #' # data(enterotype)
 #' # ## print the available taxonomic ranks. Shows only 1 rank available, not useful for tax_glom
 #' # colnames(tax_table(enterotype))
-tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
-					NArm=TRUE, bad_empty=c(NA, "", " ", "\t")){
-    #### This part is identical to phyloseq's tax_glom
+tax_glom <- function(physeq, 
+                     taxrank = rank_names(physeq)[1],
+                     NArm = TRUE, 
+                     bad_empty = c(NA, "", " ", "\t")) {
+  #### This part is identical to phyloseq's tax_glom
 	# Error if tax_table slot is empty
 	if( is.null(access(physeq, "tax_table")) ){
 		stop("The tax_glom() function requires that physeq contain a taxonomyTable")
@@ -93,58 +95,45 @@ tax_glom <- function(physeq, taxrank=rank_names(physeq)[1],
 	# Concatenate data up to the taxrank column, use this for agglomeration
 	tax <- as(access(physeq, "tax_table"), "matrix")[, 1:CN, drop=FALSE]
 	tax <- apply(tax, 1, function(i){paste(i, sep=";_;", collapse=";_;")})
-    #### **Speedyseq changes start here**
-    ## Make the new OTU table
-    # Work with taxa as rows
-    if (!taxa_are_rows(physeq)) {
-        physeq <- phyloseq::t(physeq)
-        # Note that we need to flip back to samples as rows at the end
-        needs_flip <- TRUE
-    } else {
-        needs_flip <- FALSE
-    }
-    # Starting point is a tibble with rows as taxa, to be able to combine taxa
-    # with the dplyr::summarize_*() functions
-    otu <- otu_table(physeq)
-    tb <- otu %>%
-        as("matrix") %>%
-        tibble::as_tibble(rownames = "OTU")
-    # We want to name each new taxon (group of merged OTUs) by its "archetype",
-    # the most abundant OTU in the group
-    tb <- tb %>%
-        tibble::add_column(Tax = tax, Sum = taxa_sums(physeq)) %>%
-        dplyr::group_by(Tax)
-    # Name new taxa by the most abundant OTU; pick the first OTU in case of
-    # ties (to be consistent with phyloseq)
-    new_taxa_names <- tb %>% 
-        dplyr::top_n(1, Sum) %>%
-        dplyr::slice(1) %>%
-        dplyr::select(Tax, OTU)
-    # Sum abundances and rename taxa
-    tb0 <- tb %>%
-        dplyr::summarize_at(dplyr::vars(sample_names(physeq)), sum) %>%
-        dplyr::left_join(new_taxa_names, by = "Tax") %>%
-        dplyr::select(OTU, dplyr::everything(), -Tax)
-    # Put back into phyloseq form
-    mat <- tb0 %>%
-        dplyr::select(-OTU) %>%
-        as("matrix")
-    rownames(mat) <- tb0$OTU
-    otu0 <- otu_table(mat, taxa_are_rows = TRUE)
-    ## Make the new phyloseq object
-    # Replacing the original otu_table with the new, smaller table will
-    # automatically prune the taxonomy, tree, and refseq to the smaller set of
-    # archetypal otus
-    otu_table(physeq) <- otu0
-	# "Empty" the taxonomy values to the right of the rank, using
-    # NA_character_.
+  #### **Speedyseq changes start here**
+  # Note, `tax` is a named vector whose names are the OTU/taxa names and whose
+  # elements are strings of the ranks up to `taxrank` such as
+  # "Archaea;_;Crenarchaeota;_;Thaumarchaeota;_;Cenarchaeales" 
+  ## Make the new OTU table
+  # Work with taxa as rows
+  if (!taxa_are_rows(physeq)) {
+    physeq <- t(physeq)
+    # Note that we need to flip back to samples as rows at the end
+    needs_flip <- TRUE
+  } else {
+    needs_flip <- FALSE
+  }
+  otu <- otu_table(physeq)
+  # Compute new table with base::rowsum()
+  new_otu <- otu_table(rowsum(otu, tax), taxa_are_rows = TRUE)
+  # The archetype is the most abundant OTU in each group. The first OTU is
+  # chosen in the case of ties, which should be consistent with original
+  # phyloseq behavior.
+  archetypes <- vapply(
+    split(taxa_sums(otu), tax),
+    function (x) names(x)[which.max(x)],
+    "a"
+  )
+  stopifnot(all.equal(names(archetypes), rownames(new_otu)))
+  taxa_names(new_otu) <- unname(archetypes)
+  ## Make the new phyloseq object
+  # Replacing the original otu_table with the new, smaller table will
+  # automatically prune the taxonomy, tree, and refseq to the smaller set of
+  # archetypal OTUs
+  otu_table(physeq) <- new_otu
+  # "Empty" the taxonomy values to the right of the rank, using NA_character_.
 	if (CN < length(rank_names(physeq))) {
-        bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
-        tax_table(physeq)[, bad_ranks] <- NA_character_
-    }
+    bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
+    tax_table(physeq)[, bad_ranks] <- NA_character_
+  }
 	## Return.
-    if (needs_flip) {
-        physeq <- phyloseq::t(physeq)
-    }
+  if (needs_flip) {
+    physeq <- t(physeq)
+  }
 	return(physeq)
 }
