@@ -5,44 +5,46 @@
 \title{Agglomerate taxa of the same type.}
 \usage{
 tax_glom(physeq, taxrank=rank_names(physeq)[1], NArm=TRUE,
-bad_empty=c(NA, "", " ", "\t"))
+  bad_empty=c(NA, "", " ", "\t"))
 }
 \arguments{
-\item{physeq}{(Required). \code{\link{phyloseq-class}} or \code{\link{otu_table}}.}
+\item{physeq}{(Required). \code{\link{phyloseq-class}} or
+\code{\link{tax_table}}. (NOTE: Currently only works on phyloseq objects)}
 
-\item{taxrank}{A character string specifying the taxonomic level
-that you want to agglomerate over.
-Should be among the results of \code{rank_names(physeq)}.
-The default value is \code{rank_names(physeq)[1]},
-which may agglomerate too broadly for a given experiment.
-You are strongly encouraged to try different values for this argument.}
+\item{taxrank}{A character string specifying the taxonomic level that you
+want to agglomerate over. Should be among the results of
+\code{rank_names(physeq)}. The default value is
+\code{rank_names(physeq)[1]}, which may agglomerate too broadly for a
+given experiment. You are strongly encouraged to try different values for
+this argument.}
 
-\item{NArm}{(Optional). Logical, length equal to one. Default is \code{TRUE}.
-CAUTION. The decision to prune (or not) taxa for which you lack categorical
-data could have a large effect on downstream analysis. You may want to
-re-compute your analysis under both conditions, or at least think carefully
-about what the effect might be and the reasons explaining the absence of 
-information for certain taxa. In the case of taxonomy, it is often a result 
-of imprecision in taxonomic designation based on short phylogenetic sequences
-and a patchy system of nomenclature. If this seems to be an issue for your
-analysis, think about also trying the nomenclature-agnostic \code{\link{tip_glom}}
-method if you have a phylogenetic tree available.}
+\item{NArm}{(Optional). Logical, length equal to one. Default is
+\code{TRUE}.  CAUTION. The decision to prune (or not) taxa for which you
+lack categorical data could have a large effect on downstream analysis.
+You may want to re-compute your analysis under both conditions, or at
+least think carefully about what the effect might be and the reasons
+explaining the absence of information for certain taxa. In the case of
+taxonomy, it is often a result of imprecision in taxonomic designation
+based on short phylogenetic sequences and a patchy system of nomenclature.
+If this seems to be an issue for your analysis, think about also trying
+the nomenclature-agnostic \code{\link{tip_glom}} method if you have a
+phylogenetic tree available.}
 
-\item{bad_empty}{(Optional). Character vector. Default: \code{c(NA, "", " ", "\t")}.
-Defines the bad/empty values 
-that should be ignored and/or considered unknown. They will be removed
-from the internal agglomeration vector derived from the argument to \code{tax},
-and therefore agglomeration will not combine taxa according to the presence
-of these values in \code{tax}. Furthermore, the corresponding taxa can be
+\item{bad_empty}{(Optional). Character vector. Default: \code{c(NA, "", " ",
+"\t")}. Defines the bad/empty values that should be ignored and/or
+considered unknown. They will be removed from the internal agglomeration
+vector derived from the argument to \code{tax}, and therefore
+agglomeration will not combine taxa according to the presence of these
+values in \code{tax}. Furthermore, the corresponding taxa can be
 optionally pruned from the output if \code{NArm} is set to \code{TRUE}.}
 }
 \value{
-A taxonomically-agglomerated, optionally-pruned, object with class matching
-the class of \code{physeq}.
+A taxonomically-agglomerated, optionally-pruned, object with class
+matching the class of \code{physeq}.
 }
 \description{
 This method merges species that have the same taxonomy at a certain
-taxonomic rank.  Its approach is analogous to \code{\link{tip_glom}}, but
+taxonomic rank. Its approach is analogous to \code{\link{tip_glom}}, but
 uses categorical data instead of a tree. In principal, other categorical
 data known for all taxa could also be used in place of taxonomy, but for the
 moment, this must be stored in the \code{taxonomyTable} of the data. Also,
@@ -51,9 +53,11 @@ be replaced with \code{NA}, because they should be meaningless following
 agglomeration.
 }
 \details{
-NOTE: This is the speedyseq reimplementation of phyloseq's tax_glom
-function. It is designed to produce identical results but this has not been
-thoroughly tested. Please report any discrepancies!
+This is the speedyseq reimplementation of phyloseq's tax_glom function. It
+is designed to produce identical results but this has not been thoroughly
+tested. Please report any discrepancies.
+
+Documentation and general strategy derived from `phyloseq::tax_glom()`.
 }
 \examples{
 # data(GlobalPatterns)
@@ -69,9 +73,11 @@ thoroughly tested. Please report any discrepancies!
 # colnames(tax_table(enterotype))
 }
 \seealso{
+\code{\link{phyloseq::tax_glom}}
+
 \code{\link{tip_glom}}
 
 \code{\link{prune_taxa}}
 
-\code{\link{merge_taxa}}
+\code{\link{merge_taxa_vec}}
 }
