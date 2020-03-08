@@ -1,4 +1,5 @@
-# Attribution: The documentation for `tax_glom()` is from phyloseq,
+# Attribution: The documentation and coding strategy for `tax_glom()` and
+# `tip_glom()` are modified from phyloseq
 # https://github.com/joey711/phyloseq/blob/master/R/transform_filter-methods.
 
 #' Agglomerate taxa of the same type.
@@ -172,4 +173,103 @@ tax_glom0 <- function(physeq,
     physeq <- t(physeq)
   }
 	return(physeq)
+}
+
+#' Agglomerate closely-related taxa using phylogeny-derived distances
+#' 
+#' All tips of the tree separated by a phylogenetic cophenetic distance smaller
+#' than \code{h} will be agglomerated into one taxon.
+#' 
+#' Can be used to create a non-trivial OTU Table, if a phylogenetic tree is
+#' available.
+#'
+#' By default, simple ``greedy'' single-linkage clustering is used. It is
+#' possible to specify different clustering approaches by setting \code{hcfun}
+#' and its parameters in `...`. In particular, complete-linkage clustering
+#' appears to be used more commonly for OTU clustering applications.
+#'
+#' The merged taxon is named according to the "archetype" defined as the the
+#' most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
+#' tree and refseq objects are pruned to the archetype taxa.
+#'
+#' Documentation and general strategy derived from `phyloseq::tip_glom()`.
+#'
+#' Speedyseq note: \code{\link[stats]{hclust}} is faster than the default
+#' `hcfun`; set `method = "average"` to get equivalent clustering.
+#'
+#' @param physeq (Required). A \code{\link{phyloseq-class}}, containing a
+#'   phylogenetic tree. Alternatively, a phylogenetic tree
+#'   \code{\link[ape]{phylo}} will also work. (NOTE: currently only works on
+#'   phyloseq objects)
+#' @param h (Optional). Numeric scalar of the height where the tree should be
+#'   cut. This refers to the tree resulting from hierarchical clustering of the
+#'   distance matrix, not the original phylogenetic tree. Default value is
+#'   \code{0.2}.
+#' @param hcfun (Optional). A function. The (agglomerative, hierarchical)
+#'   clustering function to use. The default is \code{\link[cluster]{agnes}}
+#'   for phyloseq compatiblity.
+#' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
+#'   conservative adjustment (see \code{\link{merge_taxa_vec}} for details)
+#' @param ... (Optional). Additional named arguments to pass to \code{hcfun}. 
+#' @return An instance of the \code{\link{phyloseq-class}}.  Or alternatively,
+#'   a \code{\link{phylo}} object if the \code{physeq} argument was just a
+#'   tree.  In the expected-use case, the number of OTUs will be fewer (see
+#'   \code{\link{ntaxa}}), after merging OTUs that are related enough to be
+#'   called the same OTU. 
+#'
+#' @seealso 
+#'
+#' \code{\link[phyloseq]{tip_glom}}
+#' 
+#' \code{\link{merge_taxa_vec}}
+#' 
+#' \code{\link[cluster]{agnes}}
+#' 
+#' \code{\link[stats]{hclust}}
+#' 
+#' \code{\link[castor]{get_all_pairwise_distances}}
+#' 
+#' \code{\link[ape]{phylo}}
+#'
+#' @export
+#'
+#' @examples 
+#' data("esophagus")
+#' esophagus <- prune_taxa(taxa_names(esophagus)[1:25], esophagus)
+#' plot_tree(esophagus, label.tips="taxa_names", size="abundance", 
+#'   title="Before tip_glom()")
+#' plot_tree(tip_glom(esophagus, h=0.2), label.tips="taxa_names", 
+#'   size="abundance", title="After tip_glom()")
+#' 
+#' # *speedyseq only:* Demonstration of different `tax_adjust` behaviors
+#' data(GlobalPatterns)
+#' 
+#' set.seed(20190421)
+#' ps <- prune_taxa(sample(taxa_names(GlobalPatterns), 2e2), GlobalPatterns)
+#'
+#' ps1 <- tip_glom(ps, 0.1, tax_adjust = 1)
+#' ps2 <- tip_glom(ps, 0.1, tax_adjust = 2)
+#' tax_table(ps1)[c(108, 136, 45),]
+#' tax_table(ps2)[c(108, 136, 45),]
+tip_glom <- function(physeq, 
+                     h = 0.2, 
+                     # hcfun = hclust, # Need method = "average" for compat
+                     hcfun = cluster::agnes,
+                     tax_adjust = 1L,
+                     ...) {
+  if (! "phyloseq" %in% class(physeq))
+    stop('Currently only implemented for phyloseq objects. Use `phyloseq::tip_glom()` for phylo objects.')
+  tree <- access(physeq, "phy_tree")
+  if (is.null(tree)) {
+    stop("The tip_glom() function requires that `physeq` contain a phylogenetic tree")
+  }
+  d <- castor::get_all_pairwise_distances(
+    tree,
+    only_clades = taxa_names(tree),
+    check_input = FALSE
+  )
+  rownames(d) <- colnames(d) <- taxa_names(tree)
+  d <- as.dist(d)
+  psclust <- cutree(as.hclust(hcfun(d, ...)), h = h)
+  merge_taxa_vec(physeq, psclust, tax_adjust = tax_adjust)
 }
