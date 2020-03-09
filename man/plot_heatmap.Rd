@@ -183,27 +183,38 @@ gpac <- subset_taxa(GlobalPatterns, Phylum=="Crenarchaeota")
 # Remove the nearly-empty samples (e.g. 10 reads or less)
 gpac = prune_samples(sample_sums(gpac) > 50, gpac)
 # Arbitrary order if method set to NULL
-plot_heatmap(gpac, method=NULL, sample.label="SampleType", taxa.label="Family")
+plot_heatmap(gpac, method=NULL, sample.label="SampleType",
+  taxa.label="Family")
 # Use ordination
 plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family")
 # Use ordination for OTUs, but not sample-order
-plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family", sample.order="SampleType")
-# Specifying both orders omits any attempt to use ordination. The following should be the same.
-p0 = plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family", taxa.order="Phylum", sample.order="SampleType")
-p1 = plot_heatmap(gpac, method=NULL, sample.label="SampleType", taxa.label="Family", taxa.order="Phylum", sample.order="SampleType")
+plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family",
+  sample.order="SampleType")
+# Specifying both orders omits any attempt to use ordination. The following
+# should be the same.
+p0 = plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family",
+  taxa.order="Phylum", sample.order="SampleType")
+p1 = plot_heatmap(gpac, method=NULL, sample.label="SampleType",
+  taxa.label="Family", taxa.order="Phylum", sample.order="SampleType")
 #expect_equivalent(p0, p1)
-# Example: Order matters. Random ordering of OTU indices is difficult to interpret, even with structured sample order
+# Example: Order matters. Random ordering of OTU indices is difficult to
+# interpret, even with structured sample order
 rando = sample(taxa_names(gpac), size=ntaxa(gpac), replace=FALSE)
-plot_heatmap(gpac, method=NULL, sample.label="SampleType", taxa.label="Family", taxa.order=rando, sample.order="SampleType")
+plot_heatmap(gpac, method=NULL, sample.label="SampleType",
+  taxa.label="Family", taxa.order=rando, sample.order="SampleType")
 # # Select the edges of each axis. 
 # First, arbitrary edge, ordering
 plot_heatmap(gpac, method=NULL)
-# Second, biological-ordering (instead of default ordination-ordering), but arbitrary edge
+# Second, biological-ordering (instead of default ordination-ordering), but
+# arbitrary edge
 plot_heatmap(gpac, taxa.order="Family", sample.order="SampleType")
 # Third, biological ordering, selected edges
-plot_heatmap(gpac, taxa.order="Family", sample.order="SampleType", first.taxa="546313", first.sample="NP2")
+plot_heatmap(gpac, taxa.order="Family", sample.order="SampleType",
+  first.taxa="546313", first.sample="NP2")
 # Fourth, add meaningful labels
-plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family", taxa.order="Family", sample.order="SampleType", first.taxa="546313", first.sample="NP2")
+plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family",
+  taxa.order="Family", sample.order="SampleType", first.taxa="546313",
+  first.sample="NP2")
 }
 \references{
 Because this function relies so heavily in principle, and in code, on some of the

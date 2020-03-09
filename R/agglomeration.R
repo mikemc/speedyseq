@@ -53,7 +53,7 @@
 #' matching the class of \code{physeq}.
 #'
 #' @seealso
-#' \code{\link{phyloseq::tax_glom}}
+#' \code{\link[phyloseq]{tax_glom}}
 #' 
 #' \code{\link{tip_glom}}
 #' 
@@ -64,17 +64,13 @@
 #' @export
 #'
 #' @examples
-#' # data(GlobalPatterns)
-#' # ## print the available taxonomic ranks
-#' # colnames(tax_table(GlobalPatterns))
-#' # ## agglomerate at the Family taxonomic rank
-#' # (x1 <- tax_glom(GlobalPatterns, taxrank="Family") )
-#' # ## How many taxa before/after agglomeration?
-#' # ntaxa(GlobalPatterns); ntaxa(x1)
-#' # ## Look at enterotype dataset...
-#' # data(enterotype)
-#' # ## print the available taxonomic ranks. Shows only 1 rank available, not useful for tax_glom
-#' # colnames(tax_table(enterotype))
+#' data(GlobalPatterns)
+#' # print the available taxonomic ranks
+#' colnames(tax_table(GlobalPatterns))
+#' # agglomerate at the Family taxonomic rank
+#' (x1 <- tax_glom(GlobalPatterns, taxrank="Family"))
+#' # How many taxa before/after agglomeration?
+#' ntaxa(GlobalPatterns); ntaxa(x1)
 tax_glom <- function(physeq, 
                      taxrank = rank_names(physeq)[1],
                      NArm = TRUE, 
@@ -106,73 +102,6 @@ tax_glom <- function(physeq,
     tax_table(physeq)[, bad_ranks] <- NA_character_
   }
   physeq
-}
-
-tax_glom0 <- function(physeq, 
-                     taxrank = rank_names(physeq)[1],
-                     NArm = TRUE, 
-                     bad_empty = c(NA, "", " ", "\t")) {
-  #### This part is identical to phyloseq's tax_glom
-	# Error if tax_table slot is empty
-	if( is.null(access(physeq, "tax_table")) ){
-		stop("The tax_glom() function requires that physeq contain a taxonomyTable")
-	}
-	# Error if bad taxrank
-	if( !taxrank[1] %in% rank_names(physeq) ){
-		stop("Bad taxrank argument. Must be among the values of rank_names(physeq)")
-	}
-	# Make a vector from the taxonomic data.
-	CN  <- which( rank_names(physeq) %in% taxrank[1] )
-	tax <- as(access(physeq, "tax_table"), "matrix")[, CN]
-	# if NArm is TRUE, remove the empty, white-space, NA values from 
-	if( NArm ){
-		keep_species <- names(tax)[ !(tax %in% bad_empty) ]
-		physeq <- prune_taxa(keep_species, physeq)
-	}
-	# Concatenate data up to the taxrank column, use this for agglomeration
-	tax <- as(access(physeq, "tax_table"), "matrix")[, 1:CN, drop=FALSE]
-	tax <- apply(tax, 1, function(i){paste(i, sep=";_;", collapse=";_;")})
-  #### **Speedyseq changes start here**
-  # Note, `tax` is a named vector whose names are the OTU/taxa names and whose
-  # elements are strings of the ranks up to `taxrank` such as
-  # "Archaea;_;Crenarchaeota;_;Thaumarchaeota;_;Cenarchaeales" 
-  ## Make the new OTU table
-  # Work with taxa as rows
-  if (!taxa_are_rows(physeq)) {
-    physeq <- t(physeq)
-    # Note that we need to flip back to samples as rows at the end
-    needs_flip <- TRUE
-  } else {
-    needs_flip <- FALSE
-  }
-  otu <- otu_table(physeq)
-  # Compute new table with base::rowsum()
-  new_otu <- otu_table(rowsum(otu, tax), taxa_are_rows = TRUE)
-  # The archetype is the most abundant OTU in each group. The first OTU is
-  # chosen in the case of ties, which should be consistent with original
-  # phyloseq behavior.
-  archetypes <- vapply(
-    split(taxa_sums(otu), tax),
-    function (x) names(x)[which.max(x)],
-    "a"
-  )
-  stopifnot(all.equal(names(archetypes), rownames(new_otu)))
-  taxa_names(new_otu) <- unname(archetypes)
-  ## Make the new phyloseq object
-  # Replacing the original otu_table with the new, smaller table will
-  # automatically prune the taxonomy, tree, and refseq to the smaller set of
-  # archetypal OTUs
-  otu_table(physeq) <- new_otu
-  # "Empty" the taxonomy values to the right of the rank, using NA_character_.
-	if (CN < length(rank_names(physeq))) {
-    bad_ranks <- seq(CN + 1, length(rank_names(physeq)))
-    tax_table(physeq)[, bad_ranks] <- NA_character_
-  }
-	## Return.
-  if (needs_flip) {
-    physeq <- t(physeq)
-  }
-	return(physeq)
 }
 
 #' Agglomerate closely-related taxa using phylogeny-derived distances
@@ -269,7 +198,7 @@ tip_glom <- function(physeq,
     check_input = FALSE
   )
   rownames(d) <- colnames(d) <- taxa_names(tree)
-  d <- as.dist(d)
-  psclust <- cutree(as.hclust(hcfun(d, ...)), h = h)
+  d <- stats::as.dist(d)
+  psclust <- stats::cutree(stats::as.hclust(hcfun(d, ...)), h = h)
   merge_taxa_vec(physeq, psclust, tax_adjust = tax_adjust)
 }

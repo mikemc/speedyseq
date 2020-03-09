@@ -40,18 +40,18 @@ and is ulitmately provided to \code{\link{ggplot}}2 graphics.
 The default is: \code{NULL}, resulting in no faceting.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}}2 graphic object -- rendered in the graphical device
- as the default \code{\link[base]{print}}/\code{\link[methods]{show}} method.
+A \code{\link[ggplot2]{ggplot}}2 graphic object -- rendered in the
+graphical device as the default
+\code{\link[base]{print}}/\code{\link[methods]{show}} method.
 }
 \description{
 There are many useful examples of phyloseq barplot graphics in the
-\href{http://joey711.github.io/phyloseq/plot_bar-examples}{phyloseq online tutorials}.
-This function wraps \code{ggplot2} plotting, and returns a \code{ggplot2}
- graphic object
-that can be saved or further modified with additional layers, options, etc.
-The main purpose of this function is to quickly and easily create informative
-summary graphics of the differences in taxa abundance between samples in
-an experiment.
+\href{http://joey711.github.io/phyloseq/plot_bar-examples}{phyloseq online
+tutorials}.  This function wraps \code{ggplot2} plotting, and returns a
+\code{ggplot2} graphic object that can be saved or further modified with
+additional layers, options, etc.  The main purpose of this function is to
+quickly and easily create informative summary graphics of the differences in
+taxa abundance between samples in an experiment.
 }
 \examples{
 data("GlobalPatterns")
@@ -63,11 +63,12 @@ plot_bar(gp.ch, "SampleType", fill="Genus", facet_grid=~Family)
 # See additional examples in the plot_bar online tutorial. Link above.
 }
 \seealso{
-\href{http://joey711.github.io/phyloseq/plot_bar-examples}{phyloseq online tutorials}.
+\href{http://joey711.github.io/phyloseq/plot_bar-examples}{phyloseq online
+tutorials}.
 
- \code{\link{psmelt}}
+\code{\link{psmelt}}
 
- \code{\link{ggplot}}
+\code{\link{ggplot}}
 
- \code{\link{qplot}}
+\code{\link{qplot}}
 }

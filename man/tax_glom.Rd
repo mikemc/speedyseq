@@ -60,20 +60,16 @@ tested. Please report any discrepancies.
 Documentation and general strategy derived from `phyloseq::tax_glom()`.
 }
 \examples{
-# data(GlobalPatterns)
-# ## print the available taxonomic ranks
-# colnames(tax_table(GlobalPatterns))
-# ## agglomerate at the Family taxonomic rank
-# (x1 <- tax_glom(GlobalPatterns, taxrank="Family") )
-# ## How many taxa before/after agglomeration?
-# ntaxa(GlobalPatterns); ntaxa(x1)
-# ## Look at enterotype dataset...
-# data(enterotype)
-# ## print the available taxonomic ranks. Shows only 1 rank available, not useful for tax_glom
-# colnames(tax_table(enterotype))
+data(GlobalPatterns)
+# print the available taxonomic ranks
+colnames(tax_table(GlobalPatterns))
+# agglomerate at the Family taxonomic rank
+(x1 <- tax_glom(GlobalPatterns, taxrank="Family"))
+# How many taxa before/after agglomeration?
+ntaxa(GlobalPatterns); ntaxa(x1)
 }
 \seealso{
-\code{\link{phyloseq::tax_glom}}
+\code{\link[phyloseq]{tax_glom}}
 
 \code{\link{tip_glom}}
 

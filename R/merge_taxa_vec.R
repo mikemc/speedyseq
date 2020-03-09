@@ -77,7 +77,7 @@ setMethod("merge_taxa_vec", "phyloseq",
       bad_string <- paste0("BAD", Sys.time())
       new_tax_mat <- tax_table(x)@.Data %>% 
         as.data.frame(stringsAsFactors = FALSE) %>%
-        aggregate(
+        stats::aggregate(
           by = list(group = group),
           bad_or_unique, bad = bad_string
         ) %>%
