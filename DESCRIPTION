@@ -1,12 +1,12 @@
 Package: speedyseq
-Title: Faster implementations of common phyloseq functions
-Version: 0.1.2.9003
+Title: Faster implementations of phyloseq functions
+Version: 0.1.2.9004
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
            role = c("aut", "cre"),
            email = "m.mclaren42@gmail.com")
-Description: Faster implementations of common phyloseq functions.
+Description: Faster implementations of phyloseq functions.
 URL: https://github.com/mikemc/speedyseq
 BugReports: https://github.com/mikemc/speedyseq/issues
 License: AGPL-3 + file LICENSE
@@ -21,11 +21,14 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    purrr,
     tibble,
     tidyr,
     scales,
     vegan
 RoxygenNote: 7.0.2
 Suggests: 
+    cowplot,
     DECIPHER,
+    ggtree,
     testthat

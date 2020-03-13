@@ -2,7 +2,7 @@
 # `tip_glom()` are modified from phyloseq
 # https://github.com/joey711/phyloseq/blob/master/R/transform_filter-methods.
 
-#' Agglomerate taxa of the same type.
+#' Agglomerate taxa using taxonomy.
 #'
 #' This method merges species that have the same taxonomy at a certain
 #' taxonomic rank. Its approach is analogous to \code{\link{tip_glom}}, but
@@ -104,7 +104,7 @@ tax_glom <- function(physeq,
   physeq
 }
 
-#' Agglomerate closely-related taxa using phylogeny-derived distances
+#' Agglomerate taxa using phylogeny-derived distances.
 #' 
 #' All tips of the tree separated by a phylogenetic cophenetic distance smaller
 #' than \code{h} will be agglomerated into one taxon.
@@ -187,10 +187,10 @@ tip_glom <- function(physeq,
                      tax_adjust = 1L,
                      ...) {
   if (! "phyloseq" %in% class(physeq))
-    stop('Currently only implemented for phyloseq objects. Use `phyloseq::tip_glom()` for phylo objects.')
+    stop('Currently only implemented for phyloseq objects. Use `phyloseq::tip_glom()` for phylo (tree) objects.')
   tree <- access(physeq, "phy_tree")
   if (is.null(tree)) {
-    stop("The tip_glom() function requires that `physeq` contain a phylogenetic tree")
+    stop("`tip_glom()` requires that `physeq` contain a phylogenetic tree")
   }
   d <- castor::get_all_pairwise_distances(
     tree,
@@ -201,4 +201,119 @@ tip_glom <- function(physeq,
   d <- stats::as.dist(d)
   psclust <- stats::cutree(stats::as.hclust(hcfun(d, ...)), h = h)
   merge_taxa_vec(physeq, psclust, tax_adjust = tax_adjust)
+}
+
+#' Agglomerate taxa at a given phylogenetic resolution.
+#'
+#' This function merges taxa that are sufficiently closely related in the tree
+#' in `phy_tree(physeq)`. It is similar to `tip_glom()`, except that it uses
+#' the tree directly, rather than as the basis for hierarchical clustering.
+#'
+#' This function uses \code{\link[castor]{collapse_tree_at_resolution}} from
+#' the castor package to determine the groups of taxa to be collapsed; see this
+#' function for details about the `resolution` and `criterion` parameters.
+#'
+#' New taxa are named according to the most abundant taxon of each group. The
+#' tree, reference sequences, and (by default) the taxonomy table reflect these
+#' "archetype" taxa.
+#'
+#' @param physeq \code{\link{phyloseq-class}}.
+#' @param resolution Phylogenetic resolution at which to merge taxa. 
+#' @param criterion Criterion for determining whether to collapse taxa. See
+#'   \code{\link[castor]{collapse_tree_at_resolution}} for details.
+#' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
+#'   conservative adjustment (see \code{\link{merge_taxa_vec}} for details)
+#'
+#' @return A \code{physeq} object with new taxa reflecting the
+#'   phylogenetically merged groups.
+#'
+#' @seealso
+#' \code{\link[castor]{collapse_tree_at_resolution}} for more information about
+#'   the `resolution` and `criterion` parameters.
+#'
+#' \code{\link{merge_taxa_vec}} for more about `tax_adjust` and general merging
+#' behavior
+#'
+#' \code{\link{tip_glom}}
+#'
+#' \code{\link{tax_glom}}
+#' 
+#' @export
+#'
+#' @examples
+#' data(GlobalPatterns)
+#' ps1 <- subset_taxa(GlobalPatterns, Phylum == "Chlamydiae")
+#' ntaxa(ps1)
+#' ps2 <- tree_glom(ps1, 0.05)
+#' ntaxa(ps2)
+#'
+#' library(dplyr)
+#' library(ggtree)
+#' library(cowplot)
+#'
+#' plot1 <- phy_tree(ps1) %>%
+#'   ggtree +
+#'   geom_tiplab() +
+#'   geom_label(aes(x = branch, label = round(branch.length, 4)))
+#' plot2 <- phy_tree(ps2) %>%
+#'   ggtree +
+#'   geom_tiplab() +
+#'   geom_label(aes(x = branch, label = round(branch.length, 4)))
+#' plot_grid(plot1, plot2)
+tree_glom <- function(physeq, 
+                      resolution, 
+                      criterion = "max_tip_depth",
+                      tax_adjust = 1L) {
+  if (! "phyloseq" %in% class(physeq))
+    stop('Currently only implemented for phyloseq objects.')
+  tree <- access(physeq, "phy_tree")
+  if (is.null(tree)) {
+    stop("`tree_glom()` requires that `physeq` contain a phylogenetic tree")
+  }
+
+  # Find the groups of taxa to collapse ---------------------------------------
+  # Collapse the tree (results include info about the collapsed groups)
+  collapsed <- castor::collapse_tree_at_resolution(
+    tree, 
+    resolution, 
+    by_edge_count = FALSE, 
+    shorten = FALSE,
+    # `rename_collapsed_nodes = TRUE` can give errors
+    rename_collapsed_nodes = FALSE,
+    criterion = criterion
+  )
+
+  # If no collapsed nodes, return physeq as is
+  if (length(collapsed$collapsed_nodes) == 0)
+    return(physeq)
+
+  # Data frame mapping collapsed tips to group names
+  collapsed_tbl <- tibble::tibble(
+    collapsed_node = collapsed$collapsed_nodes
+    ) %>%
+    dplyr::mutate(
+      collapsed_tip = purrr::map(collapsed_node,
+        ~castor::get_subtree_at_node(tree, .)$subtree$tip.label
+      )
+    ) %>%
+    tidyr::unnest(collapsed_tip) %>%
+    # Name the group by the first taxon, rather than the node name, to ensure no
+    # name conflicts. Archetypes are computed in merge_taxa_vec later on.
+    dplyr::group_by(collapsed_node) %>%
+    dplyr::mutate(
+      group = utils::head(collapsed_tip, 1)
+    ) %>%
+    dplyr::ungroup()
+
+  # Compute merged ps object --------------------------------------------------
+  # Will use merge_taxa_vec with a `group` vector reflecting the
+  # phylogenetically similar groups; this will automatically prune the
+  # reference sequences and tree to the archetypes
+  group <- tibble::tibble(taxon = taxa_names(physeq)) %>%
+    dplyr::left_join(collapsed_tbl, 
+      by = c("taxon" = "collapsed_tip")) %>%
+    dplyr::mutate(group = ifelse(is.na(group), taxon, group)) %>%
+    dplyr::select(taxon, group) %>%
+    tibble::deframe()
+  merge_taxa_vec(physeq, group, tax_adjust = tax_adjust)
 }

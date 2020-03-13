@@ -2,7 +2,7 @@
 % Please edit documentation in R/agglomeration.R
 \name{tip_glom}
 \alias{tip_glom}
-\title{Agglomerate closely-related taxa using phylogeny-derived distances}
+\title{Agglomerate taxa using phylogeny-derived distances.}
 \usage{
 tip_glom(physeq, h = 0.2, hcfun = cluster::agnes, tax_adjust = 1L, ...)
 }

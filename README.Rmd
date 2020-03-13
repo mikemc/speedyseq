@@ -23,22 +23,30 @@ coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)]
 <!-- badges: end -->
 
 Speedyseq aims to accelerate [phyloseq](https://joey711.github.io/phyloseq/)
-operations that can be very slow on large datasets. Current functions include
+operations that can be very slow on large datasets. Current reimplementations
+of phyloseq functions include
 
 * A faster version of phyloseq's `psmelt()` and the plotting functions that
   make use of it (`plot_bar()`, `plot_heatmap()`, and `plot_tree()`).
 * Faster versions of phyloseq's taxonomic merging functions `tax_glom()` and
   `tip_glom()`. Speedyseq's `tip_glom()` also has significantly lower memory
   usage.
-* A general-purpose merging function `merge_taxa_vec()` that provides a
-  vectorized version of phyloseq's `merge_taxa()` function; see
-  [NEWS.md](./NEWS.md) for details and an example.
 
 My general aim is for these functions to be drop-in replacements for phyloseq's
 versions; however, there are small differences that should not affect most use
-cases. In some cases, I have added optional arguments to allow modifying the
-phyloseq behavior. See [NEWS.md](./NEWS.md) for information about these
+cases. In some functions, I have added optional arguments to allow modifying
+the phyloseq behavior. See [NEWS.md](./NEWS.md) for information about these
 differences and enhancements.
+
+New functions that provide additional types of taxonomic merging include
+
+* A general-purpose merging function `merge_taxa_vec()` that provides a
+  vectorized version of phyloseq's `merge_taxa()` function.
+* A function `tree_glom()` that performs direct phylogenetic merging of
+  taxa. This function provides an alternative to the indirect phylogenetic
+  merging done by `tip_glom()` that is much faster and arguably more intuitive.
+
+See [NEWS.md](./NEWS.md) for details and examples.
 
 ## Installation
 

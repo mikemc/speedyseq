@@ -73,3 +73,52 @@ test_that("tip_glom() is equivalent with phyloseq::tip_glom()", {
     expect_equal(tax_table(ps1), tax_table(ps2))
     expect_equal(phy_tree(ps1), phy_tree(ps2))
 })
+
+# tree_glom-------------------------------------------------------------------- 
+
+data(GlobalPatterns)
+ps <- subset_taxa(GlobalPatterns, Phylum == "Chlamydiae")
+# # Prune to just the bigger clade
+# phy_tree(ps) %>%
+#   ggtree::ggtree +
+#   ggtree::geom_nodelab()
+ps0 <- prune_taxa(
+  ape::extract.clade(phy_tree(ps), "0.589.38") %>% .$tip.label,
+  ps
+)
+# # Will test `tree_glom()` against manual merging calc'd from these branch
+# # lengths:
+# phy_tree(ps0) %>%
+#   ggtree::ggtree() +
+#   ggtree::geom_tiplab() +
+#   ggtree::geom_label(aes(x = branch, label = branch.length %>% round(4)))
+# ggsave("/tmp/tree.pdf")
+
+test_that("tree_glom() agrees with manual merging", {
+  # Resolution = 0.001; no merging should be done
+  ps1 <- tree_glom(ps0, 0.001)
+  expect_equal(ps1, ps0)
+  # Resolution = 0.03; several pairs should be merged
+  ps1 <- tree_glom(ps0, 0.03)
+  ps2 <- ps0 %>%
+    merge_taxa(c("253897", "239522")) %>%
+    merge_taxa(c("25769", "249365")) %>%
+    merge_taxa(c("89521", "217851"))
+  expect_equal(ps1, ps2)
+  # Resolution = 0.05; some larger groups merged
+  ps1 <- tree_glom(ps0, 0.05)
+  ps2 <- ps0 %>%
+    merge_taxa(c("253897", "239522", "152689")) %>%
+    merge_taxa(c("25769", "249365")) %>%
+    merge_taxa(c("89521", "217851", "2935")) %>%
+    merge_taxa(c("552935", "171324"))
+  expect_equal(ps1, ps2)
+  # Try alt. merging criterion
+  ps1 <- tree_glom(ps0, 0.070, criterion = "max_tip_pair_dist")
+  ps2 <- ps0 %>%
+    merge_taxa(c("253897", "239522", "152689")) %>%
+    merge_taxa(c("25769", "249365")) %>%
+    merge_taxa(c("89521", "217851")) %>%
+    merge_taxa(c("552935", "171324"))
+  expect_equal(ps1, ps2)
+})

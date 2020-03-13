@@ -2,7 +2,7 @@
 % Please edit documentation in R/agglomeration.R
 \name{tax_glom}
 \alias{tax_glom}
-\title{Agglomerate taxa of the same type.}
+\title{Agglomerate taxa using taxonomy.}
 \usage{
 tax_glom(physeq, taxrank=rank_names(physeq)[1], NArm=TRUE,
   bad_empty=c(NA, "", " ", "\t"))

@@ -1,14 +1,17 @@
 # speedyseq (development version)
 
-* New `merge_taxa_vec()` provides a vectorized version of
+* New `merge_taxa_vec()` function provides a vectorized version of
   `phyloseq::merge_taxa()` for `phyloseq` and `otu_table` objects.
 
 * New `tip_glom()` function provides a speedy version of
-  `phyloseq::tip_glom()`.
+  `phyloseq::tip_glom()` for indirect phylogenetic merging of taxa.
 
-* Adds dependency
-  [castor](https://cran.r-project.org/web/packages/castor/index.html) to enable
-  faster phylogenetic distance computation in `tip_glom()`
+* New `tree_glom()` function performs direct phylogenetic merging of taxa. This
+  function is much faster and arguably more intuitive than `tip_glom()`.
+
+* Adds dependencies
+  [castor](https://cran.r-project.org/web/packages/castor/index.html) and
+  [purrr](https://purrr.tidyverse.org/)
 
 ## New general-purpose vectorized merging function
 
@@ -17,7 +20,7 @@ set of taxa `eqtaxa` and merges them into a single taxon. In place of the
 `eqtaxa` argument, speedyseq's `merge_taxa_vec()` takes a vector `group` of
 length `ntaxa(physeq)` that defines how all the taxa in `x` should be merged
 into multiple new groups. Its syntax and behavior is patterned after that of
-`base::rowsum()`, which it uses to do the merging in the otu table. When aiming
+`base::rowsum()`, which it uses to do the merging in the OTU table. When aiming
 to merge a large number of taxa into a smaller but still large number of
 groups, it is much faster to do all the merging with one call to
 `merge_taxa_vec()` than to loop through many calls to `merge_taxa()`.
@@ -68,12 +71,19 @@ tax_table(ps1)[c(108, 136, 45),]
 tax_table(ps2)[c(108, 136, 45),]
 ```
 
-## Speedy `tip_glom()`
+## Speedy `tip_glom()` for indirect phylogenetic merging
 
-The new `tip_glom()` function provides a faster and more memory efficient
-alternative to `phyloseq::tip_glom(). It does so using vectorized merging (via
-`merge_taxa_vec()`) and faster and lower-memory phylogenetic-distance
-computation (via `get_all_pairwise_distances()` from the
+Phyloseq provides `tip_glom()` to perform a form of indirect phylogenetic
+merging using the phylogenetic tree in `phy_tree(physeq)`. This function uses
+the tree to create a distance matrix, performs hierarchical clustering on the
+distance matrix, and then defines new taxonomic groups by cutting the
+dendrogram produced by the clustering at a user defined height. Phyloseq's
+version can be slow and memory intensive when the number of taxa is large.
+
+Speedyseq's new `tip_glom()` function provides a faster and less
+memory-intensive alternative to `phyloseq::tip_glom() through the use of
+vectorized merging (via `merge_taxa_vec()`) and faster and lower-memory
+phylogenetic-distance computation (via `get_all_pairwise_distances()` from the
 [castor](https://cran.r-project.org/web/packages/castor/index.html) package).
 
 Speedyseq's `tax_glom()` also has the new `tax_adjust` argument, which is
@@ -86,6 +96,50 @@ using the `hclust` function from base R with the `method == "average"` option.
 
 Speedyseq's `tip_glom()` currently only works on phyloseq objects and will give
 an error if used on a phylo (tree) object.
+
+## Direct phylogenetic merging with `tree_glom()`
+
+It might be desirable in many cases to perform phylogenetic merging based
+directly on the phylogenetic tree rather than (as in `tip_glom()`) a dendrogram
+derived from it. Speedyseq's new `tree_glom()` function performs such direct
+phylogenetic merging, which has several advantages.
+
+1. A merged group of taxa correspond to a clade in the original tree being
+   collapsed to a single taxon.
+2. The `resolution` parameter that controls the degree fo merging has
+   units in terms of the tree's branch lengths, making it potentially more
+   biologically meaningful than the `h` parameter in `tip_glom()`.
+3. The distance-matrix computation and hierarchical clustering in `tip_glom()`
+   can be skipped, making `tree_glom()` much faster and less memory intensive
+   than `tip_glom()` when the number of taxa is large.
+
+`tree_glom()` uses functions from the
+[castor](https://cran.r-project.org/web/packages/castor/index.html) package to
+determine which clades are to be merged using one of three criteria. The
+default behavior is to merge a clade if the maximum distance from a node to
+each of its tips is less than the distance `resolution`.
+
+```r
+data(GlobalPatterns)
+ps1 <- subset_taxa(GlobalPatterns, Phylum == "Chlamydiae")
+ntaxa(ps1)
+ps2 <- tree_glom(ps1, 0.05)
+ntaxa(ps2)
+
+library(dplyr)
+library(ggtree)
+library(cowplot)
+
+plot1 <- phy_tree(ps1) %>%
+  ggtree +
+  geom_tiplab() +
+  geom_label(aes(x = branch, label = round(branch.length, 4)))
+plot2 <- phy_tree(ps2) %>%
+  ggtree +
+  geom_tiplab() +
+  geom_label(aes(x = branch, label = round(branch.length, 4)))
+plot_grid(plot1, plot2)
+```
 
 # speedyseq 0.1.2
 
