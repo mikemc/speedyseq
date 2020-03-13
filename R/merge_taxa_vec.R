@@ -126,7 +126,7 @@ setMethod("merge_taxa_vec", "otu_table",
     if (needs_flip) {
       otu <- t(otu)
     }
-    stopifnot(all.equal(names(new_taxa_names), rownames(otu)))
+    stopifnot(all.equal(names(new_taxa_names), taxa_names(otu)))
     taxa_names(otu) <- unname(new_taxa_names)
     otu
   }

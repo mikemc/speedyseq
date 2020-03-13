@@ -15,6 +15,12 @@ group <- tax_table(ps)[, rnks] %>%
   apply(1, paste, collapse = ";")
 group[20:25] <- NA
 
+test_that("merge_taxa_vec() works in both otu table orientations", {
+  expect_warning(ps1 <- merge_taxa_vec(ps, group))
+  expect_warning(ps2 <- merge_taxa_vec(t(ps), group) %>% t)
+  expect_equal(otu_table(ps1), otu_table(ps2))
+})
+
 test_that("merge_taxa_vec() agrees with tax_glom() with `NArm = TRUE`", {
   ps1 <- tax_glom(ps, taxrank)
   expect_warning(ps2 <- merge_taxa_vec(ps, group))
@@ -25,3 +31,4 @@ test_that("merge_taxa_vec() agrees with tax_glom() with `NArm = TRUE`", {
   expect_equal(tax_table(ps1)[, rnks], tax_table(ps2)[, rnks])
   expect_equal(phy_tree(ps1), phy_tree(ps2))
 })
+
