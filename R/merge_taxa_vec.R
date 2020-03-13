@@ -60,7 +60,6 @@ setGeneric("merge_taxa_vec",
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "phyloseq",
   function(x, group, tax_adjust = 1L) {
-    stopifnot(is.vector(group))
     stopifnot(ntaxa(x) == length(group))
     stopifnot(tax_adjust %in% c(0L, 1L, 2L))
     # Get the merged otu table with new taxa set to the archetype (max) names
@@ -99,7 +98,6 @@ setMethod("merge_taxa_vec", "phyloseq",
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "otu_table",
   function(x, group) {
-    stopifnot(is.vector(group))
     stopifnot(ntaxa(x) == length(group))
     # Work with taxa as rows
     if (!taxa_are_rows(x)) {
@@ -110,8 +108,8 @@ setMethod("merge_taxa_vec", "otu_table",
       needs_flip <- FALSE
     }
     # drop taxa with `is.na(group)`
-    if (any(is.na(group))) {
-      warning("`group` contains NAs; corresponding taxa will be dropped")
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding taxa will be dropped")
       otu <- otu[!is.na(group), ]
       group <- group[!is.na(group)]
     }
