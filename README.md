@@ -12,24 +12,34 @@ status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travi
 coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=master)
 <!-- badges: end -->
 
-The goal of speedyseq is to accelerate common operations that are
-currently very slow in phyloseq: the function `psmelt` (and the plotting
-functions that use it) and the taxonomic aggregation functions
-`tax_glom()` and (hopefully eventually) `tip_glom()`.
+Speedyseq aims to accelerate
+[phyloseq](https://joey711.github.io/phyloseq/) operations that can be
+very slow on large datasets. Current functions include
 
-The current version of speedyseq reimplements `psmelt()` to be faster
-than phyloseq’s version, and includes copies of `plot_bar()`,
-`plot_heatmap()`, and `plot_tree()` so that when called from speedyseq
-the faster `psmelt()` will be used. It also implements a faster version
-of `tax_glom()`.
+  - A faster version of phyloseq’s `psmelt()` and the plotting functions
+    that make use of it (`plot_bar()`, `plot_heatmap()`, and
+    `plot_tree()`).
+  - Faster versions of phyloseq’s taxonomic merging functions
+    `tax_glom()` and `tip_glom()`. Speedyseq’s `tip_glom()` also has
+    significantly lower memory usage.
+  - A general-purpose merging function `merge_taxa_vec()` that provides
+    a vectorized version of phyloseq’s `merge_taxa()` function; see
+    [NEWS.md](./NEWS.md) for details and an example.
+
+My general aim is for these functions to be drop-in replacements for
+phyloseq’s versions; however, there are small differences that should
+not affect most use cases. In some cases, I have added optional
+arguments to allow modifying the phyloseq behavior. See
+[NEWS.md](./NEWS.md) for information about these differences and
+enhancements.
 
 ## Installation
 
-Install with devtools
+Install the current development version with the remotes package,
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("mikemc/speedyseq")
+# install.packages("remotes")
+remotes::install_github("mikemc/speedyseq")
 ```
 
 ## Usage
@@ -41,16 +51,16 @@ speedyseq’s version instead of phyloseq:
 library(phyloseq)
 data(GlobalPatterns)
 system.time(
-    # Calls phyloseq's psmelt
-    df1 <- psmelt(GlobalPatterns) # slow
+  # Calls phyloseq's psmelt
+  df1 <- psmelt(GlobalPatterns) # slow
 )
 #>    user  system elapsed 
-#>  91.843   0.147  92.233
+#>  93.775   0.143  94.246
 system.time(
-    df2 <- speedyseq::psmelt(GlobalPatterns) # fast
+  df2 <- speedyseq::psmelt(GlobalPatterns) # fast
 )
 #>    user  system elapsed 
-#>   0.554   0.000   0.563
+#>   0.316   0.000   0.181
 dplyr::all_equal(df1, df2, ignore_row_order = TRUE)
 #> [1] TRUE
 detach(package:phyloseq)
@@ -66,43 +76,21 @@ library(speedyseq)
 #> Attaching package: 'speedyseq'
 #> The following objects are masked from 'package:phyloseq':
 #> 
-#>     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom
+#>     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom
 data(GlobalPatterns)
 system.time(
-    ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
+  ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
 )
 #>    user  system elapsed 
-#>  37.535   0.073  37.688
+#>  35.481   0.159  35.747
 system.time(
-    # Calls speedyseq's tax_glom
-    ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
+  # Calls speedyseq's tax_glom
+  ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
 #>    user  system elapsed 
-#>   0.275   0.000   0.275
-all.equal(taxa_names(ps1), taxa_names(ps2))
-#> [1] TRUE
+#>   0.237   0.007   0.245
 all.equal(otu_table(ps1), otu_table(ps2))
 #> [1] TRUE
 all.equal(tax_table(ps1), tax_table(ps2))
 #> [1] TRUE
-all.equal(phy_tree(ps1), phy_tree(ps2))
-#> [1] TRUE
 ```
-
-## Notes
-
-My aim is for these functions to be drop-in replacements for phyloseq’s
-versions. See the unit tests in the `tests/` folder for the tests for
-functional equivalence I’ve implemented so far. The `tax_glom()`
-functions should produce identical results to phyloseq’s version, though
-I have only implemented tests using the default `NArm` and `bad_empty`
-arguments. The `psmelt()` function in `phyloseq` drops columns of
-taxonomy data that are all `NA` (such as after performing a
-`tax_glom()`), and returns a data frame with extraneous row names.
-Speedyseq’s `psmelt()` will not drop columns and does not return row
-names. Both functions sort rows by the `Abundance` and `OTU` columns,
-but the row order can differ in cases of ties for both variables. If you
-have any problems or find any discrepancies from `phyloseq`’s behavior,
-please post an issue. Warning: Like phyloseq, speedyseq’s `psmelt()`
-will convert your taxonomy variables to factors if
-`getOption("stringsAsFactors")` is `TRUE`.
