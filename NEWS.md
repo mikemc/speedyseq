@@ -106,7 +106,7 @@ phylogenetic merging, which has several advantages.
 
 1. A merged group of taxa correspond to a clade in the original tree being
    collapsed to a single taxon.
-2. The `resolution` parameter that controls the degree fo merging has
+2. The `resolution` parameter that controls the degree of merging has
    units in terms of the tree's branch lengths, making it potentially more
    biologically meaningful than the `h` parameter in `tip_glom()`.
 3. The distance-matrix computation and hierarchical clustering in `tip_glom()`

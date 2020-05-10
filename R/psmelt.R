@@ -1,31 +1,24 @@
-# Attribution: The documentation for `psmelt()` is from phyloseq,
+# Attribution: The documentation for `psmelt()` and the first 54 lines of the
+# function's code are from phyloseq,
 # https://github.com/joey711/phyloseq/blob/master/R/plot-methods.R
 
 #' Melt phyloseq data object into large data.frame
 #'
-#' The psmelt function is a specialized melt function for melting phyloseq objects
-#' (instances of the phyloseq class), usually for producing graphics
-#' with \code{\link[ggplot2]{ggplot}2}.
-#' The naming conventions used in downstream phyloseq graphics functions
-#' have reserved the following variable names that should not be used
-#' as the names of \code{\link{sample_variables}}
-#' or taxonomic \code{\link{rank_names}}.
-#' These reserved names are \code{c("Sample", "Abundance", "OTU")}.
-#' Also, you should not have identical names for 
-#' sample variables and taxonomic ranks.
-#' That is, the intersection of the output of the following two functions
-#' \code{\link{sample_variables}}, \code{\link{rank_names}}
-#' should be an empty vector
-#' (e.g. \code{intersect(sample_variables(physeq), rank_names(physeq))}).
-#' All of these potential name collisions are checked-for
-#' and renamed automtically with a warning. 
-#' However, if you (re)name your variables accordingly ahead of time,
-#' it will reduce confusion and eliminate the warnings.
+#' The psmelt function is a specialized melt function for melting phyloseq
+#' objects (instances of the phyloseq class), usually for producing graphics
+#' with \code{\link[ggplot2]{ggplot}2}. The naming conventions used in
+#' downstream phyloseq graphics functions have reserved the following variable
+#' names that should not be used as the names of \code{\link{sample_variables}}
+#' or taxonomic \code{\link{rank_names}}. These reserved names are
+#' \code{c("Sample", "Abundance", "OTU")}. Also, you should not have identical
+#' names for sample variables and taxonomic ranks. That is, the intersection
+#' of the output of the following two functions \code{\link{sample_variables}},
+#' \code{\link{rank_names}} should be an empty vector (e.g.
+#' \code{intersect(sample_variables(physeq), rank_names(physeq))}). All of
+#' these potential name collisions are checked-for and renamed automtically
+#' with a warning. However, if you (re)name your variables accordingly ahead
+#' of time, it will reduce confusion and eliminate the warnings.
 #'
-#' NOTE: This is the speedyseq reimplementation of phyloseq's psmelt function.
-#' Speedyseq reimplements \code{psmelt} to use functions from the \code{tidyr}
-#' and \code{dplyr} packages.
-#' 
 #' Note that ``melted'' phyloseq data is stored much less efficiently, and so
 #' RAM storage issues could arise with a smaller dataset (smaller number of
 #' samples/OTUs/variables) than one might otherwise expect.  For common sizes
@@ -33,7 +26,7 @@
 #' the number of OTU entries has a large effect on the RAM requirement, methods
 #' to reduce the number of separate OTU entries -- for instance by
 #' agglomerating OTUs based on phylogenetic distance using
-#' \code{\link{tip_glom}} -- can help alleviate RAM usage problems.  This
+#' \code{\link{tip_glom}} -- can help alleviate RAM usage problems. This
 #' function is made user-accessible for flexibility, but is also used
 #' extensively by plot functions in phyloseq.
 #'
@@ -126,34 +119,34 @@ psmelt <- function(physeq){
   # supports "naked" otu_table as `physeq` input.
   otutab = otu_table(physeq)
   if(!taxa_are_rows(otutab)){otutab <- t(otutab)}
-  ## Speedyseq specific code starts here
+  ## Speedyseq changes start here
   # Convert the otu table to a tibble in tall form (one sample-taxon obsevation
   # per row)
-  tb <- otutab %>% 
-      as("matrix") %>%
-      data.table::as.data.table(keep.rownames = "OTU") %>%
-      data.table::melt(id.vars = c("OTU"), variable.name = "Sample", 
-          value.name = "Abundance")
+  dtb <- otutab %>% 
+    as("matrix") %>%
+    data.table::as.data.table(keep.rownames = "OTU") %>%
+    data.table::melt(id.vars = c("OTU"), variable.name = "Sample", 
+      value.name = "Abundance", variable.factor = FALSE)
   # Add the sample data if it exists
   if (!is.null(sampleVars)) {
-      sam <- sample_data(physeq) %>%
-          as("data.frame") %>% 
-          data.table::as.data.table(keep.rownames = "Sample")
-      tb <- tb[sam, on = .(Sample = Sample)]
+    sam <- sample_data(physeq) %>%
+      as("data.frame") %>% 
+      data.table::as.data.table(keep.rownames = "Sample")
+    dtb <- dtb[sam, on = .(Sample = Sample)]
   }
   # Add the tax table if it exists
+  # NOTE: Only purpose of as.data.frame step is to convert taxonomy strings
+  # to factors if stringsAsFactors = TRUE, for phyloseq compatibility.
   if (!is.null(rankNames)) {
-      tax <- tax_table(physeq) %>%
-          as("matrix") %>%
-          as.data.frame %>%
-          data.table::as.data.table(keep.rownames = "OTU")
-      # NOTE: Conversion to data.frame functions to converts taxonomy vars to
-      # factors if stringsAsFactors = TRUE, for phyloseq compatibility.
-      tb <- tb[tax, on = .(OTU = OTU)]
+    tax <- tax_table(physeq) %>%
+      as("matrix") %>%
+      as.data.frame %>%
+      data.table::as.data.table(keep.rownames = "OTU")
+    dtb <- dtb[tax, on = .(OTU = OTU)]
   }
   # Arrange by Abundance, then OTU names (to approx. phyloseq behavior)
-  tb <- tb %>%
-      data.table::setorder(-Abundance, OTU)
+  dtb <- dtb %>%
+    data.table::setorder(-Abundance, OTU)
   # Return as a data.frame for phyloseq compatibility
-  tb %>% as.data.frame
+  dtb %>% as.data.frame
 }
