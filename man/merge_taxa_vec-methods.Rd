@@ -4,6 +4,9 @@
 \alias{merge_taxa_vec}
 \alias{merge_taxa_vec,phyloseq-method}
 \alias{merge_taxa_vec,otu_table-method}
+\alias{merge_taxa_vec,taxonomyTable-method}
+\alias{merge_taxa_vec,phylo-method}
+\alias{merge_taxa_vec,XStringSet-method}
 \title{Merge taxa in groups (vectorized version)}
 \usage{
 merge_taxa_vec(x, group, tax_adjust = 1L)
@@ -11,12 +14,18 @@ merge_taxa_vec(x, group, tax_adjust = 1L)
 \S4method{merge_taxa_vec}{phyloseq}(x, group, tax_adjust = 1L)
 
 \S4method{merge_taxa_vec}{otu_table}(x, group)
+
+\S4method{merge_taxa_vec}{taxonomyTable}(x, group, tax_adjust = 1L)
+
+\S4method{merge_taxa_vec}{phylo}(x, group)
+
+\S4method{merge_taxa_vec}{XStringSet}(x, group)
 }
 \arguments{
 \item{x}{A phyloseq object or component object}
 
-\item{group}{A vector with one element for each taxon in `physeq` that
-defines the new groups. See `base::rowsum()`.}
+\item{group}{a vector with one element for each taxon in `physeq` that
+defines the new groups. see `base::rowsum()`.}
 
 \item{tax_adjust}{0: no adjustment; 1: phyloseq-compatible adjustment; 2:
 conservative adjustment (see Details)}
@@ -24,19 +33,20 @@ conservative adjustment (see Details)}
 \description{
 Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
 Taxa whose value in `group` is NA will be dropped. New taxa will be named
-either by the most abundant taxon in each group (`name == "max"`).
+according to the most abundant taxon in each group (`phyloseq` and
+`otu_table` objects) or the first taxon in each group (all other phyloseq
+component objects).
 }
 \details{
 The `tax_adjust` argument controls the handling of taxonomic disagreements
 within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
-of the new group is set to the archetype taxon (see below). Setting
-`tax_adjust == 1` corresponds to the original phyloseq behavior.
-Disagreements within a group at any rank cause the values at lower ranks to
-be set to `NA`, but ranks where all taxa in the group are already NA are not
-treated as disagreements. As a result, taxonomic assignments where e.g. the
-family is NA but the genus is not are be propagated to the new table.
-Setting `tax_adjust == 2` (the default) goes further, setting all ranks to
-NA after the first disagreement or NA.
+of the new group is set to the archetype taxon (see below). Otherwise,
+disagreements within a group at a given rank cause the values at lower ranks
+to be set to `NA`. If `tax_adjust == 1` (the default), then a rank where all
+taxa in the group are already NA is not counted as a disagreement, and lower
+ranks may be kept if the taxa agree. This corresponds to the original
+phyloseq behavior. If `tax_adjust == 2`, then these NAs are treated as a
+disagreement; all ranks are set to NA after the first disagreement or NA.
 }
 \examples{
 \dontrun{

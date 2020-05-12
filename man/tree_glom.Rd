@@ -7,7 +7,7 @@
 tree_glom(physeq, resolution, criterion = "max_tip_depth", tax_adjust = 1L)
 }
 \arguments{
-\item{physeq}{\code{\link{phyloseq-class}}.}
+\item{physeq}{\code{\link{phyloseq-class}} or \code{\link[ape]{phylo}}.}
 
 \item{resolution}{Phylogenetic resolution at which to merge taxa.}
 
@@ -63,7 +63,7 @@ plot_grid(plot1, plot2)
 \code{\link{merge_taxa_vec}} for more about `tax_adjust` and general merging
 behavior
 
-\code{\link{tip_glom}}
+\code{\link{tip_glom}} for indirect phylogenetic merging
 
 \code{\link{tax_glom}}
 }

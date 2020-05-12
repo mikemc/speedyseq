@@ -9,7 +9,7 @@ tax_glom(physeq, taxrank=rank_names(physeq)[1], NArm=TRUE,
 }
 \arguments{
 \item{physeq}{(Required). \code{\link{phyloseq-class}} or
-\code{\link{tax_table}}. (NOTE: Currently only works on phyloseq objects)}
+\code{\link{tax_table}}.}
 
 \item{taxrank}{A character string specifying the taxonomic level that you
 want to agglomerate over. Should be among the results of

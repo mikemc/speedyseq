@@ -23,7 +23,7 @@
 #'   bad_empty=c(NA, "", " ", "\t"))
 #'
 #' @param physeq (Required). \code{\link{phyloseq-class}} or
-#'   \code{\link{tax_table}}. (NOTE: Currently only works on phyloseq objects)
+#'   \code{\link{tax_table}}.
 #' @param taxrank A character string specifying the taxonomic level that you
 #'   want to agglomerate over. Should be among the results of
 #'   \code{rank_names(physeq)}. The default value is
@@ -76,10 +76,10 @@ tax_glom <- function(physeq,
                      NArm = TRUE, 
                      bad_empty = c(NA, "", " ", "\t")) {
   if (is.null(access(physeq, "tax_table"))) {
-    stop("The tax_glom() function requires that physeq contain a taxonomyTable")
+    stop("`tax_glom()` requires that `physeq` contain a taxonomy table")
   }
   if (!taxrank[1] %in% rank_names(physeq)) {
-    stop("Bad taxrank argument. Must be among the values of rank_names(physeq)")
+    stop("Bad `taxrank` argument. Must be among the values of `rank_names(physeq)`")
   }
   rank_idx <- which(rank_names(physeq) %in% taxrank[1])
   # if NArm is TRUE, remove taxa whose value for taxrank is in bad_empty
@@ -128,8 +128,7 @@ tax_glom <- function(physeq,
 #'
 #' @param physeq (Required). A \code{\link{phyloseq-class}}, containing a
 #'   phylogenetic tree. Alternatively, a phylogenetic tree
-#'   \code{\link[ape]{phylo}} will also work. (NOTE: currently only works on
-#'   phyloseq objects)
+#'   \code{\link[ape]{phylo}} will also work.
 #' @param h (Optional). Numeric scalar of the height where the tree should be
 #'   cut. This refers to the tree resulting from hierarchical clustering of the
 #'   distance matrix, not the original phylogenetic tree. Default value is
@@ -149,6 +148,8 @@ tax_glom <- function(physeq,
 #' @seealso 
 #'
 #' \code{\link[phyloseq]{tip_glom}}
+#'
+#' \code{\link{tree_glom}} for direct phylogenetic merging
 #' 
 #' \code{\link{merge_taxa_vec}}
 #' 
@@ -186,11 +187,9 @@ tip_glom <- function(physeq,
                      hcfun = cluster::agnes,
                      tax_adjust = 1L,
                      ...) {
-  if (! "phyloseq" %in% class(physeq))
-    stop('Currently only implemented for phyloseq objects. Use `phyloseq::tip_glom()` for phylo (tree) objects.')
   tree <- access(physeq, "phy_tree")
   if (is.null(tree)) {
-    stop("`tip_glom()` requires that `physeq` contain a phylogenetic tree")
+    stop("`tip_glom()` requires that physeq contain a phylogenetic tree")
   }
   d <- castor::get_all_pairwise_distances(
     tree,
@@ -217,7 +216,7 @@ tip_glom <- function(physeq,
 #' tree, reference sequences, and (by default) the taxonomy table reflect these
 #' "archetype" taxa.
 #'
-#' @param physeq \code{\link{phyloseq-class}}.
+#' @param physeq \code{\link{phyloseq-class}} or \code{\link[ape]{phylo}}.
 #' @param resolution Phylogenetic resolution at which to merge taxa. 
 #' @param criterion Criterion for determining whether to collapse taxa. See
 #'   \code{\link[castor]{collapse_tree_at_resolution}} for details.
@@ -234,7 +233,7 @@ tip_glom <- function(physeq,
 #' \code{\link{merge_taxa_vec}} for more about `tax_adjust` and general merging
 #' behavior
 #'
-#' \code{\link{tip_glom}}
+#' \code{\link{tip_glom}} for indirect phylogenetic merging
 #'
 #' \code{\link{tax_glom}}
 #' 
@@ -264,8 +263,6 @@ tree_glom <- function(physeq,
                       resolution, 
                       criterion = "max_tip_depth",
                       tax_adjust = 1L) {
-  if (! "phyloseq" %in% class(physeq))
-    stop('Currently only implemented for phyloseq objects.')
   tree <- access(physeq, "phy_tree")
   if (is.null(tree)) {
     stop("`tree_glom()` requires that `physeq` contain a phylogenetic tree")

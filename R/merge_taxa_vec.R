@@ -4,22 +4,23 @@
 #' 
 #' Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
 #' Taxa whose value in `group` is NA will be dropped. New taxa will be named
-#' either by the most abundant taxon in each group (`name == "max"`).
+#' according to the most abundant taxon in each group (`phyloseq` and
+#' `otu_table` objects) or the first taxon in each group (all other phyloseq
+#' component objects).
 #'
 #' The `tax_adjust` argument controls the handling of taxonomic disagreements
 #' within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
-#' of the new group is set to the archetype taxon (see below). Setting
-#' `tax_adjust == 1` corresponds to the original phyloseq behavior.
-#' Disagreements within a group at any rank cause the values at lower ranks to
-#' be set to `NA`, but ranks where all taxa in the group are already NA are not
-#' treated as disagreements. As a result, taxonomic assignments where e.g. the
-#' family is NA but the genus is not are be propagated to the new table.
-#' Setting `tax_adjust == 2` (the default) goes further, setting all ranks to
-#' NA after the first disagreement or NA.
+#' of the new group is set to the archetype taxon (see below). Otherwise,
+#' disagreements within a group at a given rank cause the values at lower ranks
+#' to be set to `NA`. If `tax_adjust == 1` (the default), then a rank where all
+#' taxa in the group are already NA is not counted as a disagreement, and lower
+#' ranks may be kept if the taxa agree. This corresponds to the original
+#' phyloseq behavior. If `tax_adjust == 2`, then these NAs are treated as a
+#' disagreement; all ranks are set to NA after the first disagreement or NA.
 #' 
 #' @param x A phyloseq object or component object 
-#' @param group A vector with one element for each taxon in `physeq` that
-#'   defines the new groups. See `base::rowsum()`.
+#' @param group a vector with one element for each taxon in `physeq` that
+#'   defines the new groups. see `base::rowsum()`.
 #' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
 #'   conservative adjustment (see Details)
 #' @export
@@ -62,35 +63,25 @@ setMethod("merge_taxa_vec", "phyloseq",
   function(x, group, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
     stopifnot(tax_adjust %in% c(0L, 1L, 2L))
+    # drop taxa with `is.na(group)`
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding taxa will be dropped")
+      x <- prune_taxa(!is.na(group), x)
+      group <- group[!is.na(group)]
+    }
     # Get the merged otu table with new taxa set to the archetype (max) names
     new_otu_table <- merge_taxa_vec(otu_table(x), group)
-    # Create a new taxonomy if requested. Otherwise the archetypes' taxonomies
-    # will be used.
-    if (!is.null(x@tax_table) & tax_adjust != 0L) {
-      if (tax_adjust == 1L)
-        na_bad <- FALSE
-      else if (tax_adjust == 2L)
-        na_bad <- TRUE
-      k <- length(rank_names(x))
-      # need a string not in the tax table to mark bad values
-      bad_string <- paste0("BAD", Sys.time())
-      new_tax_mat <- tax_table(x)@.Data %>% 
-        as.data.frame(stringsAsFactors = FALSE) %>%
-        stats::aggregate(
-          by = list(group = group),
-          bad_or_unique, bad = bad_string
-        ) %>%
-        tibble::column_to_rownames("group") %>%
-        apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>%
-        t
-      rownames(new_tax_mat) <- taxa_names(new_otu_table)
+    if (!is.null(x@tax_table)) {
+      new_tax_table <- merge_taxa_vec(tax_table(x), group, 
+        tax_adjust = tax_adjust)
+      taxa_names(new_tax_table) <- taxa_names(new_otu_table)
     }
     # Create the new phyloseq object. Replacing the original otu_table with
     # the new, smaller table will automatically prune the taxonomy, tree, and
     # refseq to the smaller set of archetypal OTUs
     otu_table(x) <- new_otu_table
-    if (exists("new_tax_mat"))
-      tax_table(x) <- tax_table(new_tax_mat)
+    if (exists("new_tax_table"))
+      tax_table(x) <- new_tax_table
     x
   }
 )
@@ -129,6 +120,78 @@ setMethod("merge_taxa_vec", "otu_table",
     otu
   }
 )
+
+#' @rdname merge_taxa_vec-methods
+setMethod("merge_taxa_vec", "taxonomyTable",
+  function(x, group, tax_adjust = 1L) {
+    stopifnot(ntaxa(x) == length(group))
+    # drop taxa with `is.na(group)`
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding taxa will be dropped")
+      x <- x[!is.na(group), ]
+      group <- group[!is.na(group)]
+    }
+    # New taxa names are the first taxon in each group
+    new_taxa_names <- split(taxa_names(x), group) %>%
+      purrr::map_chr(1)
+    # Adjust taxomy 
+    if (tax_adjust != 0L) {
+      if (tax_adjust == 1L)
+        na_bad <- FALSE
+      else if (tax_adjust == 2L)
+        na_bad <- TRUE
+      k <- length(rank_names(x))
+      # bad_string is used to temporarily mark bad values in the tax table
+      bad_string <- paste0("BAD", Sys.time())
+      new_tax_mat <- x@.Data %>% 
+        as.data.frame(stringsAsFactors = FALSE) %>%
+        stats::aggregate(
+          by = list(group = group),
+          bad_or_unique, bad = bad_string
+        ) %>%
+        tibble::column_to_rownames("group") %>%
+        apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>%
+        t
+      rownames(new_tax_mat) <- unname(new_taxa_names)
+      return(tax_table(new_tax_mat))
+    } else {
+      # Simply prune to archetypes if no adjustment requested
+      return(prune_taxa(new_taxa_names, x))
+    }
+  }
+)
+
+#' @rdname merge_taxa_vec-methods
+setMethod("merge_taxa_vec", "phylo", 
+  function(x, group) {merge_taxa_vec_pseudo(x, group)}
+)
+
+#' @rdname merge_taxa_vec-methods
+setMethod("merge_taxa_vec", "XStringSet",
+  function(x, group) {merge_taxa_vec_pseudo(x, group)}
+)
+
+#' Pseudo taxa merging for phylo and XStringSet objects
+#'
+#' Returns `x` pruned to the first taxon of each group defined in `group`.
+#'
+#' @param x a phylo or XStringSet object
+#' @param group a vector with one element for each taxon in `physeq` that
+#'   defines the new groups
+#' @keywords internal
+merge_taxa_vec_pseudo <- function(x, group) {
+  stopifnot(ntaxa(x) == length(group))
+  # drop taxa with `is.na(group)`
+  if (anyNA(group)) {
+    warning("`group` has missing values; corresponding taxa will be dropped")
+    x <- prune_taxa(!is.na(group), x)
+    group <- group[!is.na(group)]
+  }
+  # Archetypes are the first taxon in each group
+  archetypes <- split(taxa_names(x), group) %>%
+    purrr::map_chr(1)
+  prune_taxa(archetypes, x)
+}
 
 # helper functions ------------------------------------------------------------
 

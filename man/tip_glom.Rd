@@ -9,8 +9,7 @@ tip_glom(physeq, h = 0.2, hcfun = cluster::agnes, tax_adjust = 1L, ...)
 \arguments{
 \item{physeq}{(Required). A \code{\link{phyloseq-class}}, containing a
 phylogenetic tree. Alternatively, a phylogenetic tree
-\code{\link[ape]{phylo}} will also work. (NOTE: currently only works on
-phyloseq objects)}
+\code{\link[ape]{phylo}} will also work.}
 
 \item{h}{(Optional). Numeric scalar of the height where the tree should be
 cut. This refers to the tree resulting from hierarchical clustering of the
@@ -76,6 +75,8 @@ tax_table(ps2)[c(108, 136, 45),]
 }
 \seealso{
 \code{\link[phyloseq]{tip_glom}}
+
+\code{\link{tree_glom}} for direct phylogenetic merging
 
 \code{\link{merge_taxa_vec}}
 
