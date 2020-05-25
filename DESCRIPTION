@@ -31,4 +31,5 @@ Suggests:
     cowplot,
     DECIPHER,
     ggtree,
+    phangorn,
     testthat

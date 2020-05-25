@@ -69,19 +69,21 @@ setMethod("merge_taxa_vec", "phyloseq",
       x <- prune_taxa(!is.na(group), x)
       group <- group[!is.na(group)]
     }
-    # Get the merged otu table with new taxa set to the archetype (max) names
-    new_otu_table <- merge_taxa_vec(otu_table(x), group)
-    if (!is.null(x@tax_table)) {
-      new_tax_table <- merge_taxa_vec(tax_table(x), group, 
-        tax_adjust = tax_adjust)
-      taxa_names(new_tax_table) <- taxa_names(new_otu_table)
+    # Get the merged otu table with new taxa named by most abundant
+    otu <- merge_taxa_vec(otu_table(x), group)
+    # Adjust taxonomy if necessary
+    if (!is.null(x@tax_table) & tax_adjust != 0) {
+      tax <- merge_taxa_vec(tax_table(x), group, tax_adjust = tax_adjust)
+      # Taxa in `tax` are in same order as in `otu` but are named by first in
+      # group and so need to be renamed
+      taxa_names(tax) <- taxa_names(otu)
     }
     # Create the new phyloseq object. Replacing the original otu_table with
     # the new, smaller table will automatically prune the taxonomy, tree, and
-    # refseq to the smaller set of archetypal OTUs
-    otu_table(x) <- new_otu_table
-    if (exists("new_tax_table"))
-      tax_table(x) <- new_tax_table
+    # refseq to the smaller set of archetypal taxa.
+    otu_table(x) <- otu
+    if (exists("tax"))
+      tax_table(x) <- tax
     x
   }
 )
@@ -92,31 +94,34 @@ setMethod("merge_taxa_vec", "otu_table",
     stopifnot(ntaxa(x) == length(group))
     # Work with taxa as rows
     if (!taxa_are_rows(x)) {
-      otu <- t(x)
+      x <- t(x)
       needs_flip <- TRUE
     } else {
-      otu <- x
       needs_flip <- FALSE
     }
     # drop taxa with `is.na(group)`
     if (anyNA(group)) {
       warning("`group` has missing values; corresponding taxa will be dropped")
-      otu <- otu[!is.na(group), ]
+      x <- x[!is.na(group), ]
       group <- group[!is.na(group)]
     }
-    # Get list of new taxa names from the abundant taxon in each group. In
-    # the case of ties, the first taxon is chosen
-    new_taxa_names <- split(taxa_sums(otu), group) %>%
-      vapply(function(y) names(y)[which.max(y)], "a")
+    # New taxa names are the most abundant taxon in each group; in the case of
+    # ties, the first taxon is chosen. Original group order is maintained.
+    new_names <- data.table::data.table(
+      taxon = taxa_names(x), 
+      sum = taxa_sums(x),
+      group = group
+    ) %>%
+      .[, by = group, .(archetype = taxon[which.max(sum)])]
     # Compute new table with base::rowsum(). The call to rowsum() makes the
-    # rownames the group names; reorder = TRUE puts the taxa in the same order
-    # as `new_taxa_names`.
-    otu <- otu_table(rowsum(otu, group, reorder = TRUE), taxa_are_rows = TRUE)
+    # rownames the group names; reorder = FALSE keeps the taxa in the same
+    # order as `new_names`.
+    otu <- otu_table(rowsum(x, group, reorder = FALSE), taxa_are_rows = TRUE)
     if (needs_flip) {
       otu <- t(otu)
     }
-    stopifnot(all.equal(names(new_taxa_names), taxa_names(otu)))
-    taxa_names(otu) <- unname(new_taxa_names)
+    stopifnot(all.equal(as.character(new_names$group), taxa_names(otu)))
+    taxa_names(otu) <- new_names$archetype
     otu
   }
 )
@@ -131,33 +136,35 @@ setMethod("merge_taxa_vec", "taxonomyTable",
       x <- x[!is.na(group), ]
       group <- group[!is.na(group)]
     }
-    # New taxa names are the first taxon in each group
-    new_taxa_names <- split(taxa_names(x), group) %>%
-      purrr::map_chr(1)
-    # Adjust taxomy 
-    if (tax_adjust != 0L) {
-      if (tax_adjust == 1L)
-        na_bad <- FALSE
-      else if (tax_adjust == 2L)
-        na_bad <- TRUE
-      k <- length(rank_names(x))
-      # bad_string is used to temporarily mark bad values in the tax table
-      bad_string <- paste0("BAD", Sys.time())
-      new_tax_mat <- x@.Data %>% 
-        as.data.frame(stringsAsFactors = FALSE) %>%
-        stats::aggregate(
-          by = list(group = group),
-          bad_or_unique, bad = bad_string
-        ) %>%
-        tibble::column_to_rownames("group") %>%
-        apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>%
-        t
-      rownames(new_tax_mat) <- unname(new_taxa_names)
-      return(tax_table(new_tax_mat))
-    } else {
-      # Simply prune to archetypes if no adjustment requested
-      return(prune_taxa(new_taxa_names, x))
-    }
+    if (tax_adjust == 0L)
+      return(merge_taxa_vec_pseudo(x, group))
+    else if (tax_adjust == 1L)
+      na_bad <- FALSE
+    else if (tax_adjust == 2L)
+      na_bad <- TRUE
+    k <- length(rank_names(x))
+    # bad_string is used to temporarily mark bad values in the tax table
+    bad_string <- paste0("BAD", Sys.time())
+    tax <- x %>% 
+      as("matrix") %>%
+      data.table::as.data.table(keep.rownames = "taxon") %>%
+      .[, group := group] %>%
+      .[,
+        # Reduce to one row per group; compute new names and bad ranks
+        by = group, .SDcols = rank_names(x),
+        c(
+          # New taxa names are the first taxon in each group
+          .(taxon = taxon[1]), 
+          lapply(.SD, bad_or_unique, bad = bad_string)
+        )
+      ] %>%
+      .[, !"group"] %>%
+      # Propagate bad ranks downwards and convert to NAs
+      tibble::column_to_rownames("taxon") %>%
+      apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>% 
+      t %>%
+      tax_table
+    return(tax)
   }
 )
 
@@ -188,8 +195,9 @@ merge_taxa_vec_pseudo <- function(x, group) {
     group <- group[!is.na(group)]
   }
   # Archetypes are the first taxon in each group
-  archetypes <- split(taxa_names(x), group) %>%
-    purrr::map_chr(1)
+  archetypes <- data.table::data.table(taxon = taxa_names(x), group = group) %>%
+    .[, by = group, .(taxon = taxon[1])] %>%
+    .$taxon
   prune_taxa(archetypes, x)
 }
 
