@@ -4,8 +4,13 @@
 \alias{tax_glom}
 \title{Agglomerate taxa using taxonomy.}
 \usage{
-tax_glom(physeq, taxrank=rank_names(physeq)[1], NArm=TRUE,
-  bad_empty=c(NA, "", " ", "\t"))
+tax_glom(
+  physeq,
+  taxrank = rank_names(physeq)[1],
+  NArm = TRUE,
+  bad_empty = c(NA, "", " ", "\\t"),
+  reorder = FALSE
+)
 }
 \arguments{
 \item{physeq}{(Required). \code{\link{phyloseq-class}} or
@@ -37,6 +42,10 @@ vector derived from the argument to \code{tax}, and therefore
 agglomeration will not combine taxa according to the presence of these
 values in \code{tax}. Furthermore, the corresponding taxa can be
 optionally pruned from the output if \code{NArm} is set to \code{TRUE}.}
+
+\item{reorder}{Logical specifying whether to reorder the taxa by taxonomy
+strings or keep initial order. Ignored if `physeq` has a phylogenetic
+tree.}
 }
 \value{
 A taxonomically-agglomerated, optionally-pruned, object with class
@@ -53,11 +62,19 @@ be replaced with \code{NA}, because they should be meaningless following
 agglomeration.
 }
 \details{
-This is the speedyseq reimplementation of phyloseq's tax_glom function. It
-is designed to produce identical results but this has not been thoroughly
-tested. Please report any discrepancies.
+This is the speedyseq reimplementation of `phyloseq::tax_glom()`. It should
+produce results that are identical to phyloseq up to taxon order. 
 
-Documentation and general strategy derived from `phyloseq::tax_glom()`.
+If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+be ordered as they are in the tree. Otherwise, the taxa order can be
+controlled by the `reorder` argument, which behaves like the `reorder`
+argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+the original order determined by when the member of each group first appears
+in `taxa_names(x)`; `reorder = TRUE` will order new taxa alphabetically
+according to taxonomy (string of concatenated rank values).
+
+Acknowledgements: Documentation and general strategy derived from
+`phyloseq::tax_glom()`.
 }
 \examples{
 data(GlobalPatterns)

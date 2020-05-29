@@ -1,6 +1,6 @@
 Package: speedyseq
 Title: Faster implementations of phyloseq functions
-Version: 0.1.2.9007
+Version: 0.1.2.9008
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
@@ -16,6 +16,7 @@ Depends:
     phyloseq
 Imports: 
     ape,
+    Biostrings,
     castor,
     data.table,
     dplyr,
@@ -30,6 +31,7 @@ RoxygenNote: 7.1.0
 Suggests: 
     cowplot,
     DECIPHER,
+    forcats,
     ggtree,
     phangorn,
     testthat

@@ -1,7 +1,15 @@
 # speedyseq (development version)
 
+* Fixed bug that applied to taxonomic merge functions when an object named
+  `new_tax_mat` exists outside the function environment; described in [Issue
+  #31](https://github.com/mikemc/speedyseq/issues/31)
+
+* Changed default ordering of new taxa output by taxonomic merging functions
+  and added `reorder` parameter to control this behavior. (Only applies to
+  phylogenetic objects without trees.)
+
 * New `merge_taxa_vec()` function provides a vectorized version of
-  `phyloseq::merge_taxa()` for `phyloseq` and `otu_table` objects.
+  `phyloseq::merge_taxa()`
 
 * New `tip_glom()` function provides a speedy version of
   `phyloseq::tip_glom()` for indirect phylogenetic merging of taxa.
@@ -9,11 +17,16 @@
 * New `tree_glom()` function performs direct phylogenetic merging of taxa. This
   function is much faster and arguably more intuitive than `tip_glom()`.
 
+* Merging / glom functions now work on relevant phyloseq components as well as
+  phyloseq objects
+
 * Adds dependencies
   [castor](https://cran.r-project.org/web/packages/castor/index.html) and
   [purrr](https://purrr.tidyverse.org/)
 
-## New general-purpose vectorized merging function
+## New features
+
+### New general-purpose vectorized merging function
 
 Phyloseq's `merge_taxa()` takes a phyloseq object or component object `x` and a
 set of taxa `eqtaxa` and merges them into a single taxon. In place of the
@@ -68,10 +81,28 @@ ps <- prune_taxa(sample(taxa_names(GlobalPatterns), 2e2), GlobalPatterns)
 ps1 <- tip_glom(ps, 0.1, tax_adjust = 1)
 ps2 <- tip_glom(ps, 0.1, tax_adjust = 2)
 tax_table(ps1)[c(108, 136, 45),]
+#> Taxonomy Table:     [3 taxa by 7 taxonomic ranks]:
+#>        Kingdom    Phylum           Class                 Order               
+#> 578831 "Bacteria" "Bacteroidetes"  "Sphingobacteria"     "Sphingobacteriales"
+#> 2801   "Bacteria" "Planctomycetes" "Planctomycea"        "Pirellulales"      
+#> 185581 "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Oceanospirillales" 
+#>        Family Genus            Species                             
+#> 578831 NA     "Niabella"       NA                                  
+#> 2801   NA     "Rhodopirellula" NA                                  
+#> 185581 "OM60" NA               "marinegammaproteobacteriumHTCC2080"
 tax_table(ps2)[c(108, 136, 45),]
+#> Taxonomy Table:     [3 taxa by 7 taxonomic ranks]:
+#>        Kingdom    Phylum           Class                 Order               
+#> 578831 "Bacteria" "Bacteroidetes"  "Sphingobacteria"     "Sphingobacteriales"
+#> 2801   "Bacteria" "Planctomycetes" "Planctomycea"        "Pirellulales"      
+#> 185581 "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Oceanospirillales" 
+#>        Family Genus Species
+#> 578831 NA     NA    NA     
+#> 2801   NA     NA    NA     
+#> 185581 "OM60" NA    NA     
 ```
 
-## Speedy `tip_glom()` for indirect phylogenetic merging
+### Speedy `tip_glom()` for indirect phylogenetic merging
 
 Phyloseq provides `tip_glom()` to perform a form of indirect phylogenetic
 merging using the phylogenetic tree in `phy_tree(physeq)`. This function uses
@@ -81,12 +112,12 @@ dendrogram produced by the clustering at a user defined height. Phyloseq's
 version can be slow and memory intensive when the number of taxa is large.
 
 Speedyseq's new `tip_glom()` function provides a faster and less
-memory-intensive alternative to `phyloseq::tip_glom() through the use of
+memory-intensive alternative to `phyloseq::tip_glom()` through the use of
 vectorized merging (via `merge_taxa_vec()`) and faster and lower-memory
 phylogenetic-distance computation (via `get_all_pairwise_distances()` from the
 [castor](https://cran.r-project.org/web/packages/castor/index.html) package).
 
-Speedyseq's `tax_glom()` also has the new `tax_adjust` argument, which is
+Speedyseq's `tip_glom()` also has the new `tax_adjust` argument, which is
 passed on to `merge_taxa_vec()`. It is set to `1` by default for phyloseq
 compatibility and should give identical results to phyloseq in this case.
 
@@ -97,7 +128,7 @@ using the `hclust` function from base R with the `method == "average"` option.
 Speedyseq's `tip_glom()` currently only works on phyloseq objects and will give
 an error if used on a phylo (tree) object.
 
-## Direct phylogenetic merging with `tree_glom()`
+### Direct phylogenetic merging with `tree_glom()`
 
 It might be desirable in many cases to perform phylogenetic merging based
 directly on the phylogenetic tree rather than (as in `tip_glom()`) a dendrogram

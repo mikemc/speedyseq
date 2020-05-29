@@ -2,15 +2,15 @@
 % Please edit documentation in R/merge_taxa_vec.R
 \name{merge_taxa_vec_pseudo}
 \alias{merge_taxa_vec_pseudo}
-\title{Pseudo taxa merging for phylo and XStringSet objects}
+\title{Pseudo-merge taxa in groups}
 \usage{
-merge_taxa_vec_pseudo(x, group)
+merge_taxa_vec_pseudo(x, group, reorder = FALSE)
 }
 \arguments{
-\item{x}{a phylo or XStringSet object}
+\item{x}{a phyloseq component-class object}
 
-\item{group}{a vector with one element for each taxon in `physeq` that
-defines the new groups}
+\item{group}{a vector with one element for each taxon in `x` that defines
+the new groups}
 }
 \description{
 Returns `x` pruned to the first taxon of each group defined in `group`.

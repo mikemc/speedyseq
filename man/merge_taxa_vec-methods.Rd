@@ -9,17 +9,17 @@
 \alias{merge_taxa_vec,XStringSet-method}
 \title{Merge taxa in groups (vectorized version)}
 \usage{
-merge_taxa_vec(x, group, tax_adjust = 1L)
+merge_taxa_vec(x, group, reorder = FALSE, tax_adjust = 1L)
 
-\S4method{merge_taxa_vec}{phyloseq}(x, group, tax_adjust = 1L)
+\S4method{merge_taxa_vec}{phyloseq}(x, group, reorder = FALSE, tax_adjust = 1L)
 
-\S4method{merge_taxa_vec}{otu_table}(x, group)
+\S4method{merge_taxa_vec}{otu_table}(x, group, reorder = FALSE)
 
-\S4method{merge_taxa_vec}{taxonomyTable}(x, group, tax_adjust = 1L)
+\S4method{merge_taxa_vec}{taxonomyTable}(x, group, reorder = FALSE, tax_adjust = 1L)
 
 \S4method{merge_taxa_vec}{phylo}(x, group)
 
-\S4method{merge_taxa_vec}{XStringSet}(x, group)
+\S4method{merge_taxa_vec}{XStringSet}(x, group, reorder = FALSE)
 }
 \arguments{
 \item{x}{A phyloseq object or component object}
@@ -27,8 +27,11 @@ merge_taxa_vec(x, group, tax_adjust = 1L)
 \item{group}{a vector with one element for each taxon in `physeq` that
 defines the new groups. see `base::rowsum()`.}
 
+\item{reorder}{Logical specifying whether to reorder the taxa by their
+`group` values. Ignored if `x` has (or is) a phylogenetic tree.}
+
 \item{tax_adjust}{0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see Details)}
+conservative adjustment}
 }
 \description{
 Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
@@ -38,6 +41,14 @@ according to the most abundant taxon in each group (`phyloseq` and
 component objects).
 }
 \details{
+If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+be ordered as they are in the tree. Otherwise, the taxa order can be
+controlled by the `reorder` argument, which behaves like the `reorder`
+argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+the original order determined by when the member of each group first appears
+in `taxa_names(x)`; `reorder = TRUE` will order new taxa according to their
+corresponding value in `group`.
+
 The `tax_adjust` argument controls the handling of taxonomic disagreements
 within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
 of the new group is set to the archetype taxon (see below). Otherwise,
@@ -65,12 +76,13 @@ clusters <- DECIPHER::IdClusters(
 ps0 <- merge_taxa_vec(
   ps, 
   group = clusters$cluster,
-  tax_adjust = 2
 )
 }
 }
 \seealso{
 \code{\link[phyloseq]{merge_taxa}}
-
 \code{\link{tax_glom}}
+\code{\link{tip_glom}}
+\code{\link{tree_glom}}
+\code{\link[base]{rowsum}}
 }

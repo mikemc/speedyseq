@@ -13,14 +13,19 @@
 #' be replaced with \code{NA}, because they should be meaningless following
 #' agglomeration.
 #'
-#' This is the speedyseq reimplementation of phyloseq's tax_glom function. It
-#' is designed to produce identical results but this has not been thoroughly
-#' tested. Please report any discrepancies.
+#' This is the speedyseq reimplementation of `phyloseq::tax_glom()`. It should
+#' produce results that are identical to phyloseq up to taxon order. 
 #'
-#' Documentation and general strategy derived from `phyloseq::tax_glom()`.
+#' If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+#' be ordered as they are in the tree. Otherwise, the taxa order can be
+#' controlled by the `reorder` argument, which behaves like the `reorder`
+#' argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+#' the original order determined by when the member of each group first appears
+#' in `taxa_names(x)`; `reorder = TRUE` will order new taxa alphabetically
+#' according to taxonomy (string of concatenated rank values).
 #'
-#' @usage tax_glom(physeq, taxrank=rank_names(physeq)[1], NArm=TRUE,
-#'   bad_empty=c(NA, "", " ", "\t"))
+#' Acknowledgements: Documentation and general strategy derived from
+#' `phyloseq::tax_glom()`.
 #'
 #' @param physeq (Required). \code{\link{phyloseq-class}} or
 #'   \code{\link{tax_table}}.
@@ -48,6 +53,9 @@
 #'   agglomeration will not combine taxa according to the presence of these
 #'   values in \code{tax}. Furthermore, the corresponding taxa can be
 #'   optionally pruned from the output if \code{NArm} is set to \code{TRUE}.
+#' @param reorder Logical specifying whether to reorder the taxa by taxonomy
+#'   strings or keep initial order. Ignored if `physeq` has a phylogenetic
+#'   tree.
 #' 
 #' @return A taxonomically-agglomerated, optionally-pruned, object with class
 #' matching the class of \code{physeq}.
@@ -74,7 +82,8 @@
 tax_glom <- function(physeq, 
                      taxrank = rank_names(physeq)[1],
                      NArm = TRUE, 
-                     bad_empty = c(NA, "", " ", "\t")) {
+                     bad_empty = c(NA, "", " ", "\t"),
+                     reorder = FALSE) {
   if (is.null(access(physeq, "tax_table"))) {
     stop("`tax_glom()` requires that `physeq` contain a taxonomy table")
   }
@@ -95,7 +104,8 @@ tax_glom <- function(physeq,
     function(x) {paste(x, collapse=";")}
   )
   # Merge taxa with speedyseq's vectorized merging function
-  physeq <- merge_taxa_vec(physeq, tax_strings, tax_adjust = 0L)
+  physeq <- merge_taxa_vec(physeq, tax_strings, tax_adjust = 0L, 
+    reorder = reorder)
   # "Empty" the taxonomy values to the right of the rank, using NA_character_.
   if (rank_idx < length(rank_names(physeq))) {
     bad_ranks <- seq(rank_idx + 1, length(rank_names(physeq)))
@@ -121,10 +131,11 @@ tax_glom <- function(physeq,
 #' most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
 #' tree and refseq objects are pruned to the archetype taxa.
 #'
-#' Documentation and general strategy derived from `phyloseq::tip_glom()`.
-#'
 #' Speedyseq note: \code{\link[stats]{hclust}} is faster than the default
 #' `hcfun`; set `method = "average"` to get equivalent clustering.
+#'
+#' Acknowledgements: Documentation and general strategy derived from
+#' `phyloseq::tip_glom()`.
 #'
 #' @param physeq (Required). A \code{\link{phyloseq-class}}, containing a
 #'   phylogenetic tree. Alternatively, a phylogenetic tree

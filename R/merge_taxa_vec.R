@@ -8,6 +8,14 @@
 #' `otu_table` objects) or the first taxon in each group (all other phyloseq
 #' component objects).
 #'
+#' If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+#' be ordered as they are in the tree. Otherwise, the taxa order can be
+#' controlled by the `reorder` argument, which behaves like the `reorder`
+#' argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+#' the original order determined by when the member of each group first appears
+#' in `taxa_names(x)`; `reorder = TRUE` will order new taxa according to their
+#' corresponding value in `group`.
+#'
 #' The `tax_adjust` argument controls the handling of taxonomic disagreements
 #' within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
 #' of the new group is set to the archetype taxon (see below). Otherwise,
@@ -21,14 +29,18 @@
 #' @param x A phyloseq object or component object 
 #' @param group a vector with one element for each taxon in `physeq` that
 #'   defines the new groups. see `base::rowsum()`.
+#' @param reorder Logical specifying whether to reorder the taxa by their
+#' `group` values. Ignored if `x` has (or is) a phylogenetic tree.
 #' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-#'   conservative adjustment (see Details)
+#'   conservative adjustment
 #' @export
 #'
 #' @seealso
 #' \code{\link[phyloseq]{merge_taxa}}
-#'
 #' \code{\link{tax_glom}}
+#' \code{\link{tip_glom}}
+#' \code{\link{tree_glom}}
+#' \code{\link[base]{rowsum}}
 #'
 #' @rdname merge_taxa_vec-methods
 #' @examples
@@ -48,21 +60,26 @@
 #' ps0 <- merge_taxa_vec(
 #'   ps, 
 #'   group = clusters$cluster,
-#'   tax_adjust = 2
 #' )
 #' }
 setGeneric("merge_taxa_vec", 
   function(x, 
            group, 
+           reorder = FALSE,
            tax_adjust = 1L)
     standardGeneric("merge_taxa_vec")
 )
 
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "phyloseq",
-  function(x, group, tax_adjust = 1L) {
+  function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
     stopifnot(tax_adjust %in% c(0L, 1L, 2L))
+    # Warn the user if an impossible reordering is requested
+    if (!is.null(x@phy_tree) & reorder) {
+      warning("Can't reorder taxa if `x` has a `phy_tree`")
+      reorder <- FALSE
+    }
     # drop taxa with `is.na(group)`
     if (anyNA(group)) {
       warning("`group` has missing values; corresponding taxa will be dropped")
@@ -70,19 +87,22 @@ setMethod("merge_taxa_vec", "phyloseq",
       group <- group[!is.na(group)]
     }
     # Get the merged otu table with new taxa named by most abundant
-    otu <- merge_taxa_vec(otu_table(x), group)
+    otu <- merge_taxa_vec(otu_table(x), group, reorder = reorder)
     # Adjust taxonomy if necessary
     if (!is.null(x@tax_table) & tax_adjust != 0) {
-      tax <- merge_taxa_vec(tax_table(x), group, tax_adjust = tax_adjust)
+      tax <- merge_taxa_vec(tax_table(x), group, tax_adjust = tax_adjust, 
+        reorder = reorder)
       # Taxa in `tax` are in same order as in `otu` but are named by first in
-      # group and so need to be renamed
+      # group instead of max and so need to be renamed
       taxa_names(tax) <- taxa_names(otu)
+    } else {
+      tax <- NULL
     }
     # Create the new phyloseq object. Replacing the original otu_table with
     # the new, smaller table will automatically prune the taxonomy, tree, and
     # refseq to the smaller set of archetypal taxa.
     otu_table(x) <- otu
-    if (exists("tax"))
+    if (!is.null(tax))
       tax_table(x) <- tax
     x
   }
@@ -90,7 +110,7 @@ setMethod("merge_taxa_vec", "phyloseq",
 
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "otu_table",
-  function(x, group) {
+  function(x, group, reorder = FALSE) {
     stopifnot(ntaxa(x) == length(group))
     # Work with taxa as rows
     if (!taxa_are_rows(x)) {
@@ -113,22 +133,22 @@ setMethod("merge_taxa_vec", "otu_table",
       group = group
     ) %>%
       .[, by = group, .(archetype = taxon[which.max(sum)])]
+    if (reorder)
+      data.table::setorder(new_names, group)
     # Compute new table with base::rowsum(). The call to rowsum() makes the
-    # rownames the group names; reorder = FALSE keeps the taxa in the same
-    # order as `new_names`.
-    otu <- otu_table(rowsum(x, group, reorder = FALSE), taxa_are_rows = TRUE)
-    if (needs_flip) {
-      otu <- t(otu)
-    }
+    # rownames the group names.
+    otu <- otu_table(rowsum(x, group, reorder = reorder), taxa_are_rows = TRUE)
     stopifnot(all.equal(as.character(new_names$group), taxa_names(otu)))
     taxa_names(otu) <- new_names$archetype
+    if (needs_flip)
+      otu <- t(otu)
     otu
   }
 )
 
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "taxonomyTable",
-  function(x, group, tax_adjust = 1L) {
+  function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
     # drop taxa with `is.na(group)`
     if (anyNA(group)) {
@@ -137,7 +157,7 @@ setMethod("merge_taxa_vec", "taxonomyTable",
       group <- group[!is.na(group)]
     }
     if (tax_adjust == 0L)
-      return(merge_taxa_vec_pseudo(x, group))
+      return(merge_taxa_vec_pseudo(x, group, reorder = reorder))
     else if (tax_adjust == 1L)
       na_bad <- FALSE
     else if (tax_adjust == 2L)
@@ -145,7 +165,9 @@ setMethod("merge_taxa_vec", "taxonomyTable",
     k <- length(rank_names(x))
     # bad_string is used to temporarily mark bad values in the tax table
     bad_string <- paste0("BAD", Sys.time())
-    tax <- x %>% 
+    # Reduce each group to one row; sort if needed; then finish flushing bad
+    # ranks and making new tax table
+    reduced <- x %>% 
       as("matrix") %>%
       data.table::as.data.table(keep.rownames = "taxon") %>%
       .[, group := group] %>%
@@ -157,14 +179,16 @@ setMethod("merge_taxa_vec", "taxonomyTable",
           .(taxon = taxon[1]), 
           lapply(.SD, bad_or_unique, bad = bad_string)
         )
-      ] %>%
+      ]
+    if (reorder)
+      data.table::setorder(reduced, group)
+    reduced %>%
       .[, !"group"] %>%
       # Propagate bad ranks downwards and convert to NAs
       tibble::column_to_rownames("taxon") %>%
       apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>% 
       t %>%
       tax_table
-    return(tax)
   }
 )
 
@@ -175,18 +199,20 @@ setMethod("merge_taxa_vec", "phylo",
 
 #' @rdname merge_taxa_vec-methods
 setMethod("merge_taxa_vec", "XStringSet",
-  function(x, group) {merge_taxa_vec_pseudo(x, group)}
+  function(x, group, reorder = FALSE) {
+    merge_taxa_vec_pseudo(x, group, reorder = reorder)
+  }
 )
 
-#' Pseudo taxa merging for phylo and XStringSet objects
+#' Pseudo-merge taxa in groups
 #'
 #' Returns `x` pruned to the first taxon of each group defined in `group`.
 #'
-#' @param x a phylo or XStringSet object
-#' @param group a vector with one element for each taxon in `physeq` that
-#'   defines the new groups
+#' @param x a phyloseq component-class object
+#' @param group a vector with one element for each taxon in `x` that defines
+#'   the new groups
 #' @keywords internal
-merge_taxa_vec_pseudo <- function(x, group) {
+merge_taxa_vec_pseudo <- function(x, group, reorder = FALSE) {
   stopifnot(ntaxa(x) == length(group))
   # drop taxa with `is.na(group)`
   if (anyNA(group)) {
@@ -195,10 +221,12 @@ merge_taxa_vec_pseudo <- function(x, group) {
     group <- group[!is.na(group)]
   }
   # Archetypes are the first taxon in each group
-  archetypes <- data.table::data.table(taxon = taxa_names(x), group = group) %>%
-    .[, by = group, .(taxon = taxon[1])] %>%
-    .$taxon
-  prune_taxa(archetypes, x)
+  archetypes <- data.table::data.table(taxon = taxa_names(x), 
+    group = group) %>%
+    .[, by = group, .(taxon = taxon[1])]
+  if (reorder)
+    data.table::setorder(archetypes, group)
+  select_taxa(x, archetypes$taxon, reorder = TRUE)
 }
 
 # helper functions ------------------------------------------------------------

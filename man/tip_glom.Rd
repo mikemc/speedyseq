@@ -49,10 +49,11 @@ The merged taxon is named according to the "archetype" defined as the the
 most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
 tree and refseq objects are pruned to the archetype taxa.
 
-Documentation and general strategy derived from `phyloseq::tip_glom()`.
-
 Speedyseq note: \code{\link[stats]{hclust}} is faster than the default
 `hcfun`; set `method = "average"` to get equivalent clustering.
+
+Acknowledgements: Documentation and general strategy derived from
+`phyloseq::tip_glom()`.
 }
 \examples{
 data("esophagus")
