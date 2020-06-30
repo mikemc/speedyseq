@@ -1,13 +1,13 @@
 Package: speedyseq
 Title: Faster implementations of phyloseq functions
-Version: 0.1.2.9008
+Version: 0.2.0
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
            role = c("aut", "cre"),
            email = "m.mclaren42@gmail.com")
 Description: Faster implementations of phyloseq functions.
-URL: https://github.com/mikemc/speedyseq
+URL: https://mikemc.github.io/speedyseq, https://github.com/mikemc/speedyseq
 BugReports: https://github.com/mikemc/speedyseq/issues
 License: AGPL-3 + file LICENSE
 Encoding: UTF-8
@@ -27,7 +27,7 @@ Imports:
     tidyr,
     scales,
     vegan
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     cowplot,
     DECIPHER,

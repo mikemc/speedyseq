@@ -1,42 +1,28 @@
-# speedyseq (development version)
+# speedyseq 0.2.0
 
-* Fixed bug that applied to taxonomic merge functions when an object named
-  `new_tax_mat` exists outside the function environment; described in [Issue
-  #31](https://github.com/mikemc/speedyseq/issues/31)
+## Breaking changes
 
-* Changed default ordering of new taxa output by taxonomic merging functions
-  and added `reorder` parameter to control this behavior. (Only applies to
-  phylogenetic objects without trees.)
-
-* New `merge_taxa_vec()` function provides a vectorized version of
-  `phyloseq::merge_taxa()`
-
-* New `tip_glom()` function provides a speedy version of
-  `phyloseq::tip_glom()` for indirect phylogenetic merging of taxa.
-
-* New `tree_glom()` function performs direct phylogenetic merging of taxa. This
-  function is much faster and arguably more intuitive than `tip_glom()`.
-
-* Merging / glom functions now work on relevant phyloseq components as well as
-  phyloseq objects
-
-* Adds dependencies
-  [castor](https://cran.r-project.org/web/packages/castor/index.html) and
-  [purrr](https://purrr.tidyverse.org/)
+* The default ordering of new taxa output by `tax_glom()` is different from
+  previous versions and from `phyloseq::tax_glom()` in phyloseq objects that do
+  not have phylogenetic trees. See "Minor improvements and fixes" for more
+  information.
 
 ## New features
 
-### New general-purpose vectorized merging function
+### New general-purpose vectorized taxa-merging function
 
-Phyloseq's `merge_taxa()` takes a phyloseq object or component object `x` and a
-set of taxa `eqtaxa` and merges them into a single taxon. In place of the
-`eqtaxa` argument, speedyseq's `merge_taxa_vec()` takes a vector `group` of
-length `ntaxa(physeq)` that defines how all the taxa in `x` should be merged
-into multiple new groups. Its syntax and behavior is patterned after that of
-`base::rowsum()`, which it uses to do the merging in the OTU table. When aiming
-to merge a large number of taxa into a smaller but still large number of
-groups, it is much faster to do all the merging with one call to
-`merge_taxa_vec()` than to loop through many calls to `merge_taxa()`.
+The new `merge_taxa_vec()` function provides a vectorized version of
+`phyloseq::merge_taxa()` that can quickly merge arbitrary groups of taxa and
+now forms the basis of all other merging functions. `phyloseq::merge_taxa()`
+takes a phyloseq object or component object `x` and a set of taxa `eqtaxa` and
+merges them into a single taxon. In place of the `eqtaxa` argument, speedyseq's
+`merge_taxa_vec()` takes a vector `group` of length `ntaxa(physeq)` that
+defines how all the taxa in `x` should be merged into multiple new groups. Its
+syntax and behavior is patterned after that of `base::rowsum()`, which it uses
+to do the merging in the OTU table. When aiming to merge a large number of taxa
+into a smaller but still large number of groups, it is much faster to do all
+the merging with one call to `merge_taxa_vec()` than to loop through many calls
+to `merge_taxa()`.
 
 A practical example is clustering amplicon sequence variants (ASVs) into OTUs
 defined by a given similarity threshold. Suppose we have a phyloseq object `ps`
@@ -102,19 +88,18 @@ tax_table(ps2)[c(108, 136, 45),]
 #> 185581 "OM60" NA    NA     
 ```
 
-### Speedy `tip_glom()` for indirect phylogenetic merging
+### Faster and lower-memory implementation of `phyloseq::tip_glom()`
 
-Phyloseq provides `tip_glom()` to perform a form of indirect phylogenetic
-merging using the phylogenetic tree in `phy_tree(physeq)`. This function uses
-the tree to create a distance matrix, performs hierarchical clustering on the
-distance matrix, and then defines new taxonomic groups by cutting the
-dendrogram produced by the clustering at a user defined height. Phyloseq's
-version can be slow and memory intensive when the number of taxa is large.
-
-Speedyseq's new `tip_glom()` function provides a faster and less
-memory-intensive alternative to `phyloseq::tip_glom()` through the use of
-vectorized merging (via `merge_taxa_vec()`) and faster and lower-memory
-phylogenetic-distance computation (via `get_all_pairwise_distances()` from the
+The new `tip_glom()` function provides a speedy version of
+`phyloseq::tip_glom()`. This function performs a form of indirect phylogenetic
+merging of taxa using the phylogenetic tree in `phy_tree(physeq)` by 1) using
+the tree to create a distance matrix, 2) performing hierarchical clustering on
+the distance matrix, and 3) defining new taxonomic groups by cutting the
+dendrogram at the height specified by the `h` parameter. Speedyseq's
+`tip_glom()` provides a faster and less memory-intensive alternative to
+`phyloseq::tip_glom()` through the use of vectorized merging (via
+`merge_taxa_vec()`) and faster and lower-memory phylogenetic-distance
+computation (via `get_all_pairwise_distances()` from the
 [castor](https://cran.r-project.org/web/packages/castor/index.html) package).
 
 Speedyseq's `tip_glom()` also has the new `tax_adjust` argument, which is
@@ -122,18 +107,14 @@ passed on to `merge_taxa_vec()`. It is set to `1` by default for phyloseq
 compatibility and should give identical results to phyloseq in this case.
 
 For phyloseq compatibility, the default clustering function is left as
-`cluster::agnes`. However, equivalent but faster results can be obtained by
+`cluster::agnes()`. However, equivalent but faster results can be obtained by
 using the `hclust` function from base R with the `method == "average"` option.
-
-Speedyseq's `tip_glom()` currently only works on phyloseq objects and will give
-an error if used on a phylo (tree) object.
 
 ### Direct phylogenetic merging with `tree_glom()`
 
-It might be desirable in many cases to perform phylogenetic merging based
-directly on the phylogenetic tree rather than (as in `tip_glom()`) a dendrogram
-derived from it. Speedyseq's new `tree_glom()` function performs such direct
-phylogenetic merging, which has several advantages.
+The new `tree_glom()` function performs direct phylogenetic merging of taxa.
+This function is much faster and arguably more intuitive than `tip_glom()`.
+Advantages of direct merging over the indirect merging of `tip_glom()` are
 
 1. A merged group of taxa correspond to a clade in the original tree being
    collapsed to a single taxon.
@@ -171,6 +152,24 @@ plot2 <- phy_tree(ps2) %>%
   geom_label(aes(x = branch, label = round(branch.length, 4)))
 plot_grid(plot1, plot2)
 ```
+
+## Minor improvements and fixes
+
+* Fixed bug that applied to taxonomic merge functions when an object named
+  `new_tax_mat` exists outside the function environment; described in 
+  [Issue #31](https://github.com/mikemc/speedyseq/issues/31)
+
+* Merging functions now maintain the original order of new taxa by default,
+  except in phyloseq objects with phylogenetic trees (for which order is and
+  has always been determined by how archetypes are ordered in
+  `phy_tree(ps)$tip.label`). This behavior can lead to different taxa orders
+  from past speedyseq versions and from `phyloseq::tax_glom()` function.
+  However, it makes the resulting taxa order more predictable. New taxa can be
+  be reordered according to `group` or taxonomy in `merge_taxa_vec()` and
+  `tax_glom()` by setting `reorder = TRUE`.
+
+* Merging/glom functions now work on relevant phyloseq components as well as
+  phyloseq objects
 
 # speedyseq 0.1.2
 
@@ -224,6 +223,6 @@ is `TRUE`.
 
 ### `tax_glom()`
 
-Phyloseq's `tax_glom()` can be applied to `taxonomyTable` objects as well as
+`phyloseq::tax_glom()` can be applied to `taxonomyTable` objects as well as
 `phyloseq` objects, but speedyseq's `tax_glom()` currently only works on
 `phyloseq` objects and gives an error on `taxonomyTable` objects.

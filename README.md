@@ -27,9 +27,7 @@ functions include
 My general aim is for these functions to be drop-in replacements for
 phyloseq’s versions; however, there are small differences that should
 not affect most use cases. In some functions, I have added optional
-arguments to allow modifying the phyloseq behavior. See
-[NEWS.md](./NEWS.md) for information about these differences and
-enhancements.
+arguments to allow modifying the original behavior.
 
 New functions that provide additional types of taxonomic merging include
 
@@ -40,7 +38,7 @@ New functions that provide additional types of taxonomic merging include
     phylogenetic merging done by `tip_glom()` that is much faster and
     arguably more intuitive.
 
-See [NEWS.md](./NEWS.md) for details and examples.
+See the [Changelog](news/index.html) for details and examples.
 
 ## Installation
 

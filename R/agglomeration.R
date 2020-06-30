@@ -256,10 +256,10 @@ tip_glom <- function(physeq,
 #' ntaxa(ps1)
 #' ps2 <- tree_glom(ps1, 0.05)
 #' ntaxa(ps2)
-#'
-#' library(dplyr)
-#' library(ggtree)
-#' library(cowplot)
+#' 
+#' suppressPackageStartupMessages(library(dplyr))
+#' suppressPackageStartupMessages(library(ggtree))
+#' suppressPackageStartupMessages(library(cowplot))
 #'
 #' plot1 <- phy_tree(ps1) %>%
 #'   ggtree +

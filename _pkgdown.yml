@@ -1,0 +1,12 @@
+url: https://mikemc.github.io/speedyseq
+reference:
+- title: "Merging taxa"
+- contents: 
+  - merge_taxa_vec
+  - ends_with("glom")
+- title: "Data manipulation"
+- contents:
+  - psmelt
+- title: "Plotting"
+- contents:
+  - starts_with("plot")
