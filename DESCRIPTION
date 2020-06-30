@@ -35,3 +35,4 @@ Suggests:
     ggtree,
     phangorn,
     testthat
+Roxygen: list(markdown = TRUE)

@@ -24,39 +24,39 @@ merge_taxa_vec(x, group, reorder = FALSE, tax_adjust = 1L)
 \arguments{
 \item{x}{A phyloseq object or component object}
 
-\item{group}{a vector with one element for each taxon in `physeq` that
-defines the new groups. see `base::rowsum()`.}
+\item{group}{a vector with one element for each taxon in \code{physeq} that
+defines the new groups. see \code{base::rowsum()}.}
 
 \item{reorder}{Logical specifying whether to reorder the taxa by their
-`group` values. Ignored if `x` has (or is) a phylogenetic tree.}
+\code{group} values. Ignored if \code{x} has (or is) a phylogenetic tree.}
 
 \item{tax_adjust}{0: no adjustment; 1: phyloseq-compatible adjustment; 2:
 conservative adjustment}
 }
 \description{
-Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
-Taxa whose value in `group` is NA will be dropped. New taxa will be named
-according to the most abundant taxon in each group (`phyloseq` and
-`otu_table` objects) or the first taxon in each group (all other phyloseq
+Merge taxa in \code{x} into a smaller set of taxa defined by the vector \code{group}.
+Taxa whose value in \code{group} is NA will be dropped. New taxa will be named
+according to the most abundant taxon in each group (\code{phyloseq} and
+\code{otu_table} objects) or the first taxon in each group (all other phyloseq
 component objects).
 }
 \details{
-If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+If \code{x} is a phyloseq object with a phylogenetic tree, then the new taxa will
 be ordered as they are in the tree. Otherwise, the taxa order can be
-controlled by the `reorder` argument, which behaves like the `reorder`
-argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+controlled by the \code{reorder} argument, which behaves like the \code{reorder}
+argument in \code{\link[base:rowsum]{base::rowsum()}}. \code{reorder = FALSE} will keep taxa in
 the original order determined by when the member of each group first appears
-in `taxa_names(x)`; `reorder = TRUE` will order new taxa according to their
-corresponding value in `group`.
+in \code{taxa_names(x)}; \code{reorder = TRUE} will order new taxa according to their
+corresponding value in \code{group}.
 
-The `tax_adjust` argument controls the handling of taxonomic disagreements
-within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
+The \code{tax_adjust} argument controls the handling of taxonomic disagreements
+within groups. Setting \code{tax_adjust == 0} causes no adjustment; the taxonomy
 of the new group is set to the archetype taxon (see below). Otherwise,
 disagreements within a group at a given rank cause the values at lower ranks
-to be set to `NA`. If `tax_adjust == 1` (the default), then a rank where all
+to be set to \code{NA}. If \code{tax_adjust == 1} (the default), then a rank where all
 taxa in the group are already NA is not counted as a disagreement, and lower
 ranks may be kept if the taxa agree. This corresponds to the original
-phyloseq behavior. If `tax_adjust == 2`, then these NAs are treated as a
+phyloseq behavior. If \code{tax_adjust == 2}, then these NAs are treated as a
 disagreement; all ranks are set to NA after the first disagreement or NA.
 }
 \examples{
@@ -80,9 +80,10 @@ ps0 <- merge_taxa_vec(
 }
 }
 \seealso{
-\code{\link[phyloseq]{merge_taxa}}
-\code{\link{tax_glom}}
-\code{\link{tip_glom}}
-\code{\link{tree_glom}}
-\code{\link[base]{rowsum}}
+Merging functions that use this function: \code{\link[=tax_glom]{tax_glom()}}, \code{\link[=tip_glom]{tip_glom()}},
+\code{\link[=tree_glom]{tree_glom()}}
+
+\code{\link[base:rowsum]{base::rowsum()}}
+
+\code{\link[phyloseq:merge_taxa-methods]{phyloseq::merge_taxa()}}
 }

@@ -7,29 +7,29 @@
 tree_glom(physeq, resolution, criterion = "max_tip_depth", tax_adjust = 1L)
 }
 \arguments{
-\item{physeq}{\code{\link{phyloseq-class}} or \code{\link[ape]{phylo}}.}
+\item{physeq}{\code{\link[=phyloseq-class]{phyloseq-class()}} or \code{\link[ape:read.tree]{ape::phylo()}}.}
 
 \item{resolution}{Phylogenetic resolution at which to merge taxa.}
 
 \item{criterion}{Criterion for determining whether to collapse taxa. See
-\code{\link[castor]{collapse_tree_at_resolution}} for details.}
+\code{\link[castor:collapse_tree_at_resolution]{castor::collapse_tree_at_resolution()}} for details.}
 
 \item{tax_adjust}{0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see \code{\link{merge_taxa_vec}} for details)}
+conservative adjustment (see \code{\link[=merge_taxa_vec]{merge_taxa_vec()}} for details)}
 }
 \value{
-A \code{physeq} object with new taxa reflecting the
-  phylogenetically merged groups.
+A \code{physeq} object with new taxa reflecting the phylogenetically
+merged groups.
 }
 \description{
 This function merges taxa that are sufficiently closely related in the tree
-in `phy_tree(physeq)`. It is similar to `tip_glom()`, except that it uses
+in \code{phy_tree(physeq)}. It is similar to \code{tip_glom()}, except that it uses
 the tree directly, rather than as the basis for hierarchical clustering.
 }
 \details{
-This function uses \code{\link[castor]{collapse_tree_at_resolution}} from
+This function uses \code{\link[castor:collapse_tree_at_resolution]{castor::collapse_tree_at_resolution()}} from
 the castor package to determine the groups of taxa to be collapsed; see this
-function for details about the `resolution` and `criterion` parameters.
+function for details about the \code{resolution} and \code{criterion} parameters.
 
 New taxa are named according to the most abundant taxon of each group. The
 tree, reference sequences, and (by default) the taxonomy table reflect these
@@ -57,13 +57,12 @@ plot2 <- phy_tree(ps2) \%>\%
 plot_grid(plot1, plot2)
 }
 \seealso{
-\code{\link[castor]{collapse_tree_at_resolution}} for more information about
-  the `resolution` and `criterion` parameters.
+\code{\link[castor:collapse_tree_at_resolution]{castor::collapse_tree_at_resolution()}} for more information about the
+\code{resolution} and \code{criterion} parameters.
 
-\code{\link{merge_taxa_vec}} for more about `tax_adjust` and general merging
-behavior
+\code{\link[=merge_taxa_vec]{merge_taxa_vec()}} for more about \code{tax_adjust} and general merging behavior
 
-\code{\link{tip_glom}} for indirect phylogenetic merging
+\code{\link[=tip_glom]{tip_glom()}} for indirect phylogenetic merging
 
-\code{\link{tax_glom}}
+\code{\link[=tax_glom]{tax_glom()}} for merging using taxonomy
 }

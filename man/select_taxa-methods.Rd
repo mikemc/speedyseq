@@ -29,16 +29,16 @@ select_taxa(x, taxa, reorder = TRUE)
 
 \item{taxa}{Character vector of taxa to select, in requested order}
 
-\item{reorder}{Logical specifying whether to use the order in `taxa` (TRUE)
-or keep the order in `taxa_names(x)` (FALSE)}
+\item{reorder}{Logical specifying whether to use the order in \code{taxa} (TRUE)
+or keep the order in \code{taxa_names(x)} (FALSE)}
 }
 \description{
-Select (a subset of) taxa; if `x` allows taxa to be reordered, then taxa are
+Select (a subset of) taxa; if \code{x} allows taxa to be reordered, then taxa are
 given in the specified order.
 }
 \details{
-This is a simple selector function that is like `prune_taxa(taxa, x)` when
-`taxa` is a character vector but always gives the taxa in the order `taxa`
+This is a simple selector function that is like \code{prune_taxa(taxa, x)} when
+\code{taxa} is a character vector but always gives the taxa in the order \code{taxa}
 if possible (that is, except for phy_tree's and phyloseq objects that
 contain phy_tree's).
 }

@@ -9,10 +9,10 @@ merge_taxa_vec_pseudo(x, group, reorder = FALSE)
 \arguments{
 \item{x}{a phyloseq component-class object}
 
-\item{group}{a vector with one element for each taxon in `x` that defines
+\item{group}{a vector with one element for each taxon in \code{x} that defines
 the new groups}
 }
 \description{
-Returns `x` pruned to the first taxon of each group defined in `group`.
+Returns \code{x} pruned to the first taxon of each group defined in \code{group}.
 }
 \keyword{internal}

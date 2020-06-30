@@ -16,6 +16,6 @@ bad_flush_right(x, bad = "BAD", na_bad = FALSE, k = length(x))
 \item{k}{the index to which values are flushed}
 }
 \description{
-Helper for `merge_taxa_vec()`
+Helper for \code{merge_taxa_vec()}
 }
 \keyword{internal}

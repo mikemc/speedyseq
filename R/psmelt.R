@@ -6,43 +6,35 @@
 #'
 #' The psmelt function is a specialized melt function for melting phyloseq
 #' objects (instances of the phyloseq class), usually for producing graphics
-#' with \code{\link[ggplot2]{ggplot}2}. The naming conventions used in
-#' downstream phyloseq graphics functions have reserved the following variable
-#' names that should not be used as the names of \code{\link{sample_variables}}
-#' or taxonomic \code{\link{rank_names}}. These reserved names are
-#' \code{c("Sample", "Abundance", "OTU")}. Also, you should not have identical
-#' names for sample variables and taxonomic ranks. That is, the intersection
-#' of the output of the following two functions \code{\link{sample_variables}},
-#' \code{\link{rank_names}} should be an empty vector (e.g.
-#' \code{intersect(sample_variables(physeq), rank_names(physeq))}). All of
+#' with [ggplot2::ggplot2]. The naming conventions used in downstream phyloseq
+#' graphics functions have reserved the following variable names that should
+#' not be used as the names of [sample_variables()] or taxonomic
+#' [rank_names()]. These reserved names are `c("Sample", "Abundance", "OTU")`.
+#' Also, you should not have identical names for sample variables and taxonomic
+#' ranks. That is, the intersection of the output of the following two
+#' functions [sample_variables()], [rank_names()] should be an empty vector
+#' (e.g.  `intersect(sample_variables(physeq), rank_names(physeq))`). All of
 #' these potential name collisions are checked-for and renamed automtically
-#' with a warning. However, if you (re)name your variables accordingly ahead
-#' of time, it will reduce confusion and eliminate the warnings.
+#' with a warning. However, if you (re)name your variables accordingly ahead of
+#' time, it will reduce confusion and eliminate the warnings.
 #'
-#' Note that ``melted'' phyloseq data is stored much less efficiently, and so
-#' RAM storage issues could arise with a smaller dataset (smaller number of
+#' Note that "melted" phyloseq data is stored much less efficiently, and so RAM
+#' storage issues could arise with a smaller dataset (smaller number of
 #' samples/OTUs/variables) than one might otherwise expect.  For common sizes
 #' of graphics-ready datasets, however, this should not be a problem.  Because
 #' the number of OTU entries has a large effect on the RAM requirement, methods
 #' to reduce the number of separate OTU entries -- for instance by
-#' agglomerating OTUs based on phylogenetic distance using
-#' \code{\link{tip_glom}} -- can help alleviate RAM usage problems. This
-#' function is made user-accessible for flexibility, but is also used
-#' extensively by plot functions in phyloseq.
+#' agglomerating OTUs based on phylogenetic distance using [tip_glom()] -- can
+#' help alleviate RAM usage problems. This function is made user-accessible for
+#' flexibility, but is also used extensively by plot functions in phyloseq.
 #'
-#' @usage psmelt(physeq)
+#' @param physeq (Required). An [otu_table-class] or [phyloseq-class].
+#' Function most useful for phyloseq-class.
 #'
-#' @param physeq (Required). An \code{\link{otu_table-class}} or 
-#'  \code{\link{phyloseq-class}}. Function most useful for phyloseq-class.
-#'
-#' @return A \code{\link{data.frame}}-class table.
+#' @return A [data.frame-class] table.
 #'
 #' @seealso
-#'  \code{\link{plot_bar}}
-#' 
-#'  \code{\link[reshape2]{melt}}
-#'
-#'  \code{\link{merge}}
+#' [plot_bar()]
 #' 
 #' @export
 #'

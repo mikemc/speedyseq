@@ -7,30 +7,27 @@
 tip_glom(physeq, h = 0.2, hcfun = cluster::agnes, tax_adjust = 1L, ...)
 }
 \arguments{
-\item{physeq}{(Required). A \code{\link{phyloseq-class}}, containing a
-phylogenetic tree. Alternatively, a phylogenetic tree
-\code{\link[ape]{phylo}} will also work.}
+\item{physeq}{(Required). A \code{\link[=phyloseq-class]{phyloseq-class()}}, containing a phylogenetic
+tree. Alternatively, a phylogenetic tree \code{\link[ape:read.tree]{ape::phylo()}} will also work.}
 
 \item{h}{(Optional). Numeric scalar of the height where the tree should be
 cut. This refers to the tree resulting from hierarchical clustering of the
-distance matrix, not the original phylogenetic tree. Default value is
-\code{0.2}.}
+distance matrix, not the original phylogenetic tree. Default value is \code{0.2}.}
 
 \item{hcfun}{(Optional). A function. The (agglomerative, hierarchical)
-clustering function to use. The default is \code{\link[cluster]{agnes}}
-for phyloseq compatiblity.}
+clustering function to use. The default is \code{\link[cluster:agnes]{cluster::agnes()}} for phyloseq
+compatiblity.}
 
 \item{tax_adjust}{0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see \code{\link{merge_taxa_vec}} for details)}
+conservative adjustment (see \code{\link[=merge_taxa_vec]{merge_taxa_vec()}} for details)}
 
 \item{...}{(Optional). Additional named arguments to pass to \code{hcfun}.}
 }
 \value{
-An instance of the \code{\link{phyloseq-class}}.  Or alternatively,
-  a \code{\link{phylo}} object if the \code{physeq} argument was just a
-  tree.  In the expected-use case, the number of OTUs will be fewer (see
-  \code{\link{ntaxa}}), after merging OTUs that are related enough to be
-  called the same OTU.
+An instance of the \code{\link[=phyloseq-class]{phyloseq-class()}}.  Or alternatively, a
+\code{\link[=phylo]{phylo()}} object if the \code{physeq} argument was just a tree.  In the
+expected-use case, the number of OTUs will be fewer (see \code{\link[=ntaxa]{ntaxa()}}), after
+merging OTUs that are related enough to be called the same OTU.
 }
 \description{
 All tips of the tree separated by a phylogenetic cophenetic distance smaller
@@ -40,20 +37,20 @@ than \code{h} will be agglomerated into one taxon.
 Can be used to create a non-trivial OTU Table, if a phylogenetic tree is
 available.
 
-By default, simple ``greedy'' single-linkage clustering is used. It is
-possible to specify different clustering approaches by setting \code{hcfun}
-and its parameters in `...`. In particular, complete-linkage clustering
-appears to be used more commonly for OTU clustering applications.
+By default, simple "greedy" single-linkage clustering is used. It is
+possible to specify different clustering approaches by setting \code{hcfun} and
+its parameters in \code{...}. In particular, complete-linkage clustering appears
+to be used more commonly for OTU clustering applications.
 
 The merged taxon is named according to the "archetype" defined as the the
-most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
+most abundant taxon (having the largest value of \code{taxa_sums(physeq)}. The
 tree and refseq objects are pruned to the archetype taxa.
 
-Speedyseq note: \code{\link[stats]{hclust}} is faster than the default
-`hcfun`; set `method = "average"` to get equivalent clustering.
+Speedyseq note: \code{\link[stats:hclust]{stats::hclust()}} is faster than the default \code{hcfun}; set
+\code{method = "average"} to get equivalent clustering.
 
 Acknowledgements: Documentation and general strategy derived from
-`phyloseq::tip_glom()`.
+\code{phyloseq::tip_glom()}.
 }
 \examples{
 data("esophagus")
@@ -75,17 +72,17 @@ tax_table(ps1)[c(108, 136, 45),]
 tax_table(ps2)[c(108, 136, 45),]
 }
 \seealso{
-\code{\link[phyloseq]{tip_glom}}
+\code{\link[phyloseq:tip_glom]{phyloseq::tip_glom()}}
 
-\code{\link{tree_glom}} for direct phylogenetic merging
+\code{\link[=tree_glom]{tree_glom()}} for direct phylogenetic merging
 
-\code{\link{merge_taxa_vec}}
+\code{\link[=merge_taxa_vec]{merge_taxa_vec()}}
 
-\code{\link[cluster]{agnes}}
+\code{\link[cluster:agnes]{cluster::agnes()}}
 
-\code{\link[stats]{hclust}}
+\code{\link[stats:hclust]{stats::hclust()}}
 
-\code{\link[castor]{get_all_pairwise_distances}}
+\code{\link[castor:get_all_pairwise_distances]{castor::get_all_pairwise_distances()}}
 
-\code{\link[ape]{phylo}}
+\code{\link[ape:read.tree]{ape::phylo()}}
 }

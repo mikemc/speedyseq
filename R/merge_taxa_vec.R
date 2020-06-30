@@ -11,7 +11,7 @@
 #' If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
 #' be ordered as they are in the tree. Otherwise, the taxa order can be
 #' controlled by the `reorder` argument, which behaves like the `reorder`
-#' argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+#' argument in [base::rowsum()]. `reorder = FALSE` will keep taxa in
 #' the original order determined by when the member of each group first appears
 #' in `taxa_names(x)`; `reorder = TRUE` will order new taxa according to their
 #' corresponding value in `group`.
@@ -28,19 +28,20 @@
 #' 
 #' @param x A phyloseq object or component object 
 #' @param group a vector with one element for each taxon in `physeq` that
-#'   defines the new groups. see `base::rowsum()`.
+#' defines the new groups. see `base::rowsum()`.
 #' @param reorder Logical specifying whether to reorder the taxa by their
 #' `group` values. Ignored if `x` has (or is) a phylogenetic tree.
 #' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-#'   conservative adjustment
+#' conservative adjustment
 #' @export
 #'
 #' @seealso
-#' \code{\link[phyloseq]{merge_taxa}}
-#' \code{\link{tax_glom}}
-#' \code{\link{tip_glom}}
-#' \code{\link{tree_glom}}
-#' \code{\link[base]{rowsum}}
+#' Merging functions that use this function: [tax_glom()], [tip_glom()],
+#' [tree_glom()]
+#'
+#' [base::rowsum()]
+#'
+#' [phyloseq::merge_taxa()]
 #'
 #' @rdname merge_taxa_vec-methods
 #' @examples

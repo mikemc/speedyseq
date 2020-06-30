@@ -5,12 +5,12 @@
 #' Agglomerate taxa using taxonomy.
 #'
 #' This method merges species that have the same taxonomy at a certain
-#' taxonomic rank. Its approach is analogous to \code{\link{tip_glom}}, but
+#' taxonomic rank. Its approach is analogous to [tip_glom()], but
 #' uses categorical data instead of a tree. In principal, other categorical
 #' data known for all taxa could also be used in place of taxonomy, but for the
-#' moment, this must be stored in the \code{taxonomyTable} of the data. Also,
+#' moment, this must be stored in the `taxonomyTable` of the data. Also,
 #' columns/ranks to the right of the rank chosen to use for agglomeration will
-#' be replaced with \code{NA}, because they should be meaningless following
+#' be replaced with `NA`, because they should be meaningless following
 #' agglomeration.
 #'
 #' This is the speedyseq reimplementation of `phyloseq::tax_glom()`. It should
@@ -19,7 +19,7 @@
 #' If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
 #' be ordered as they are in the tree. Otherwise, the taxa order can be
 #' controlled by the `reorder` argument, which behaves like the `reorder`
-#' argument in \code{\link[base]{rowsum}}. `reorder = FALSE` will keep taxa in
+#' argument in [base::rowsum()]. `reorder = FALSE` will keep taxa in
 #' the original order determined by when the member of each group first appears
 #' in `taxa_names(x)`; `reorder = TRUE` will order new taxa alphabetically
 #' according to taxonomy (string of concatenated rank values).
@@ -27,47 +27,43 @@
 #' Acknowledgements: Documentation and general strategy derived from
 #' `phyloseq::tax_glom()`.
 #'
-#' @param physeq (Required). \code{\link{phyloseq-class}} or
-#'   \code{\link{tax_table}}.
+#' @param physeq (Required). [phyloseq-class()] or [tax_table()].
 #' @param taxrank A character string specifying the taxonomic level that you
-#'   want to agglomerate over. Should be among the results of
-#'   \code{rank_names(physeq)}. The default value is
-#'   \code{rank_names(physeq)[1]}, which may agglomerate too broadly for a
-#'   given experiment. You are strongly encouraged to try different values for
-#'   this argument.
-#' @param NArm (Optional). Logical, length equal to one. Default is
-#'   \code{TRUE}.  CAUTION. The decision to prune (or not) taxa for which you
-#'   lack categorical data could have a large effect on downstream analysis.
-#'   You may want to re-compute your analysis under both conditions, or at
-#'   least think carefully about what the effect might be and the reasons
-#'   explaining the absence of information for certain taxa. In the case of
-#'   taxonomy, it is often a result of imprecision in taxonomic designation
-#'   based on short phylogenetic sequences and a patchy system of nomenclature.
-#'   If this seems to be an issue for your analysis, think about also trying
-#'   the nomenclature-agnostic \code{\link{tip_glom}} method if you have a
-#'   phylogenetic tree available.
-#' @param bad_empty (Optional). Character vector. Default: \code{c(NA, "", " ",
-#'   "\t")}. Defines the bad/empty values that should be ignored and/or
-#'   considered unknown. They will be removed from the internal agglomeration
-#'   vector derived from the argument to \code{tax}, and therefore
-#'   agglomeration will not combine taxa according to the presence of these
-#'   values in \code{tax}. Furthermore, the corresponding taxa can be
-#'   optionally pruned from the output if \code{NArm} is set to \code{TRUE}.
+#' want to agglomerate over. Should be among the results of
+#' `rank_names(physeq)`. The default value is `rank_names(physeq)[1]`, which
+#' may agglomerate too broadly for a given experiment. You are strongly
+#' encouraged to try different values for this argument.
+#' @param NArm (Optional). Logical, length equal to one. Default is `TRUE`.
+#' CAUTION. The decision to prune (or not) taxa for which you lack categorical
+#' data could have a large effect on downstream analysis.  You may want to
+#' re-compute your analysis under both conditions, or at least think carefully
+#' about what the effect might be and the reasons explaining the absence of
+#' information for certain taxa. In the case of taxonomy, it is often a result
+#' of imprecision in taxonomic designation based on short phylogenetic
+#' sequences and a patchy system of nomenclature.  If this seems to be an issue
+#' for your analysis, think about also trying the nomenclature-agnostic
+#' [tip_glom()] method if you have a phylogenetic tree available.
+#' @param bad_empty (Optional). Character vector. Default: `c(NA, "", " ",
+#' "\t")`. Defines the bad/empty values that should be ignored and/or
+#' considered unknown. They will be removed from the internal agglomeration
+#' vector derived from the argument to `tax`, and therefore agglomeration will
+#' not combine taxa according to the presence of these values in `tax`.
+#' Furthermore, the corresponding taxa can be optionally pruned from the output
+#' if `NArm` is set to `TRUE`.
 #' @param reorder Logical specifying whether to reorder the taxa by taxonomy
-#'   strings or keep initial order. Ignored if `physeq` has a phylogenetic
-#'   tree.
+#' strings or keep initial order. Ignored if `physeq` has a phylogenetic tree.
 #' 
 #' @return A taxonomically-agglomerated, optionally-pruned, object with class
-#' matching the class of \code{physeq}.
+#' matching the class of `physeq`.
 #'
 #' @seealso
-#' \code{\link[phyloseq]{tax_glom}}
+#' [phyloseq::tax_glom()]
 #' 
-#' \code{\link{tip_glom}}
+#' [tip_glom()]
 #' 
-#' \code{\link{prune_taxa}}
+#' [prune_taxa()]
 #' 
-#' \code{\link{merge_taxa_vec}}
+#' [merge_taxa_vec()]
 #' 
 #' @export
 #'
@@ -117,60 +113,58 @@ tax_glom <- function(physeq,
 #' Agglomerate taxa using phylogeny-derived distances.
 #' 
 #' All tips of the tree separated by a phylogenetic cophenetic distance smaller
-#' than \code{h} will be agglomerated into one taxon.
+#' than `h` will be agglomerated into one taxon.
 #' 
 #' Can be used to create a non-trivial OTU Table, if a phylogenetic tree is
 #' available.
 #'
-#' By default, simple ``greedy'' single-linkage clustering is used. It is
-#' possible to specify different clustering approaches by setting \code{hcfun}
-#' and its parameters in `...`. In particular, complete-linkage clustering
-#' appears to be used more commonly for OTU clustering applications.
+#' By default, simple "greedy" single-linkage clustering is used. It is
+#' possible to specify different clustering approaches by setting `hcfun` and
+#' its parameters in `...`. In particular, complete-linkage clustering appears
+#' to be used more commonly for OTU clustering applications.
 #'
 #' The merged taxon is named according to the "archetype" defined as the the
 #' most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
 #' tree and refseq objects are pruned to the archetype taxa.
 #'
-#' Speedyseq note: \code{\link[stats]{hclust}} is faster than the default
-#' `hcfun`; set `method = "average"` to get equivalent clustering.
+#' Speedyseq note: [stats::hclust()] is faster than the default `hcfun`; set
+#' `method = "average"` to get equivalent clustering.
 #'
 #' Acknowledgements: Documentation and general strategy derived from
 #' `phyloseq::tip_glom()`.
 #'
-#' @param physeq (Required). A \code{\link{phyloseq-class}}, containing a
-#'   phylogenetic tree. Alternatively, a phylogenetic tree
-#'   \code{\link[ape]{phylo}} will also work.
+#' @param physeq (Required). A [phyloseq-class()], containing a phylogenetic
+#' tree. Alternatively, a phylogenetic tree [ape::phylo()] will also work.
 #' @param h (Optional). Numeric scalar of the height where the tree should be
-#'   cut. This refers to the tree resulting from hierarchical clustering of the
-#'   distance matrix, not the original phylogenetic tree. Default value is
-#'   \code{0.2}.
+#' cut. This refers to the tree resulting from hierarchical clustering of the
+#' distance matrix, not the original phylogenetic tree. Default value is `0.2`.
 #' @param hcfun (Optional). A function. The (agglomerative, hierarchical)
-#'   clustering function to use. The default is \code{\link[cluster]{agnes}}
-#'   for phyloseq compatiblity.
+#' clustering function to use. The default is [cluster::agnes()] for phyloseq
+#' compatiblity.
 #' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-#'   conservative adjustment (see \code{\link{merge_taxa_vec}} for details)
-#' @param ... (Optional). Additional named arguments to pass to \code{hcfun}. 
-#' @return An instance of the \code{\link{phyloseq-class}}.  Or alternatively,
-#'   a \code{\link{phylo}} object if the \code{physeq} argument was just a
-#'   tree.  In the expected-use case, the number of OTUs will be fewer (see
-#'   \code{\link{ntaxa}}), after merging OTUs that are related enough to be
-#'   called the same OTU. 
+#' conservative adjustment (see [merge_taxa_vec()] for details)
+#' @param ... (Optional). Additional named arguments to pass to `hcfun`. 
+#'
+#' @return An instance of the [phyloseq-class()].  Or alternatively, a
+#' [phylo()] object if the `physeq` argument was just a tree.  In the
+#' expected-use case, the number of OTUs will be fewer (see [ntaxa()]), after
+#' merging OTUs that are related enough to be called the same OTU. 
 #'
 #' @seealso 
 #'
-#' \code{\link[phyloseq]{tip_glom}}
+#' [phyloseq::tip_glom()]
 #'
-#' \code{\link{tree_glom}} for direct phylogenetic merging
+#' [tree_glom()] for direct phylogenetic merging
 #' 
-#' \code{\link{merge_taxa_vec}}
+#' [merge_taxa_vec()]
 #' 
-#' \code{\link[cluster]{agnes}}
+#' [cluster::agnes()]
 #' 
-#' \code{\link[stats]{hclust}}
+#' [stats::hclust()]
 #' 
-#' \code{\link[castor]{get_all_pairwise_distances}}
+#' [castor::get_all_pairwise_distances()]
 #' 
-#' \code{\link[ape]{phylo}}
+#' [ape::phylo()]
 #'
 #' @export
 #'
@@ -219,7 +213,7 @@ tip_glom <- function(physeq,
 #' in `phy_tree(physeq)`. It is similar to `tip_glom()`, except that it uses
 #' the tree directly, rather than as the basis for hierarchical clustering.
 #'
-#' This function uses \code{\link[castor]{collapse_tree_at_resolution}} from
+#' This function uses [castor::collapse_tree_at_resolution()] from
 #' the castor package to determine the groups of taxa to be collapsed; see this
 #' function for details about the `resolution` and `criterion` parameters.
 #'
@@ -227,26 +221,25 @@ tip_glom <- function(physeq,
 #' tree, reference sequences, and (by default) the taxonomy table reflect these
 #' "archetype" taxa.
 #'
-#' @param physeq \code{\link{phyloseq-class}} or \code{\link[ape]{phylo}}.
+#' @param physeq [phyloseq-class()] or [ape::phylo()].
 #' @param resolution Phylogenetic resolution at which to merge taxa. 
 #' @param criterion Criterion for determining whether to collapse taxa. See
-#'   \code{\link[castor]{collapse_tree_at_resolution}} for details.
+#' [castor::collapse_tree_at_resolution()] for details.
 #' @param tax_adjust 0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-#'   conservative adjustment (see \code{\link{merge_taxa_vec}} for details)
+#' conservative adjustment (see [merge_taxa_vec()] for details)
 #'
-#' @return A \code{physeq} object with new taxa reflecting the
-#'   phylogenetically merged groups.
+#' @return A `physeq` object with new taxa reflecting the phylogenetically
+#' merged groups.
 #'
 #' @seealso
-#' \code{\link[castor]{collapse_tree_at_resolution}} for more information about
-#'   the `resolution` and `criterion` parameters.
+#' [castor::collapse_tree_at_resolution()] for more information about the
+#' `resolution` and `criterion` parameters.
 #'
-#' \code{\link{merge_taxa_vec}} for more about `tax_adjust` and general merging
-#' behavior
+#' [merge_taxa_vec()] for more about `tax_adjust` and general merging behavior
 #'
-#' \code{\link{tip_glom}} for indirect phylogenetic merging
+#' [tip_glom()] for indirect phylogenetic merging
 #'
-#' \code{\link{tax_glom}}
+#' [tax_glom()] for merging using taxonomy
 #' 
 #' @export
 #'

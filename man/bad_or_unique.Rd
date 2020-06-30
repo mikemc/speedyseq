@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_taxa_vec.R
 \name{bad_or_unique}
 \alias{bad_or_unique}
-\title{Reduce a vector x to its unique value or the value of `bad`}
+\title{Reduce a vector x to its unique value or the value of \code{bad}}
 \usage{
 bad_or_unique(x, bad = "BAD")
 }
@@ -12,6 +12,6 @@ bad_or_unique(x, bad = "BAD")
 \item{bad}{the string representing a bad value}
 }
 \description{
-Helper for `merge_taxa_vec()`
+Helper for \code{merge_taxa_vec()}
 }
 \keyword{internal}

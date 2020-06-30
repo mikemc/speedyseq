@@ -24,7 +24,7 @@ plot_tree(
 )
 }
 \arguments{
-\item{physeq}{(Required). The data about which you want to 
+\item{physeq}{(Required). The data about which you want to
 plot and annotate a phylogenetic tree, in the form of a single instance of
 the \code{\link{phyloseq-class}}, containing at minimum a phylogenetic
 tree component (try \code{\link{phy_tree}}).  One of the major advantages
@@ -34,7 +34,7 @@ sample variables and taxonomic information. For these uses, the
 \code{physeq} argument should also have a \code{\link{sample_data}} and/or
 \code{\link{tax_table}} component(s).}
 
-\item{method}{(Optional). Character string. Default \code{"sampledodge"}. 
+\item{method}{(Optional). Character string. Default \code{"sampledodge"}.
 The name of the annotation method to use.  This will be expanded in future
 versions.  Currently only \code{"sampledodge"} and \code{"treeonly"} are
 supported.  The \code{"sampledodge"} option results in points drawn next
@@ -79,7 +79,7 @@ if this is one of the rank names (from \code{rank_names(physeq)}), then
 the identity (if any) for that particular taxonomic rank is printed
 instead.}
 
-\item{text.size}{(Optional). Numeric. Should be positive. The 
+\item{text.size}{(Optional). Numeric. Should be positive. The
 size parameter used to control the text size of taxa labels.  Default is
 \code{NULL}. If left \code{NULL}, this function will automatically
 calculate a (hopefully) optimal text size given the vertical constraints
@@ -106,9 +106,7 @@ This parameter specifies whether or not to \code{\link[ape]{ladderize}}
 the tree (i.e., reorder nodes according to the depth of their enclosed
 subtrees) prior to plotting.  This tends to make trees more aesthetically
 pleasing and legible in a graphical display.  When \code{TRUE} or
-\code{"right"}, ``right'' ladderization is used.  When set to
-\code{FALSE}, no ladderization is applied.  When set to \code{"left"}, the
-reverse direction (``left'' ladderization) is applied.  This argument is
+\code{"right"}, \verb{right'' ladderization is used.  When set to \code{FALSE}, no ladderization is applied.  When set to \code{"left"}, the reverse direction (}left'' ladderization) is applied.  This argument is
 passed on to \code{\link{tree_layout}}.}
 
 \item{plot.margin}{(Optional). Numeric. Default is \code{0.2}.  Should be
