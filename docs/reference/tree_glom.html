@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Agglomerate taxa at a given phylogenetic resolution. — tree_glom" />
 <meta property="og:description" content="This function merges taxa that are sufficiently closely related in the tree
-in `phy_tree(physeq)`. It is similar to `tip_glom()`, except that it uses
+in phy_tree(physeq). It is similar to tip_glom(), except that it uses
 the tree directly, rather than as the basis for hierarchical clustering." />
 
 
@@ -74,7 +74,7 @@ the tree directly, rather than as the basis for hierarchical clustering." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -120,7 +120,7 @@ the tree directly, rather than as the basis for hierarchical clustering." />
 
     <div class="ref-description">
     <p>This function merges taxa that are sufficiently closely related in the tree
-in `phy_tree(physeq)`. It is similar to `tip_glom()`, except that it uses
+in <code>phy_tree(physeq)</code>. It is similar to <code><a href='tip_glom.html'>tip_glom()</a></code>, except that it uses
 the tree directly, rather than as the basis for hierarchical clustering.</p>
     </div>
 
@@ -131,7 +131,7 @@ the tree directly, rather than as the basis for hierarchical clustering.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p><code>phyloseq-class</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>phylo</a></code>.</p></td>
+      <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
     </tr>
     <tr>
       <th>resolution</th>
@@ -140,35 +140,34 @@ the tree directly, rather than as the basis for hierarchical clustering.</p>
     <tr>
       <th>criterion</th>
       <td><p>Criterion for determining whether to collapse taxa. See
-<code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>collapse_tree_at_resolution</a></code> for details.</p></td>
+<code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>castor::collapse_tree_at_resolution()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>tax_adjust</th>
       <td><p>0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec</a></code> for details)</p></td>
+conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for details)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>physeq</code> object with new taxa reflecting the
-  phylogenetically merged groups.</p>
+    <p>A <code>physeq</code> object with new taxa reflecting the phylogenetically
+merged groups.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function uses <code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>collapse_tree_at_resolution</a></code> from
+    <p>This function uses <code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>castor::collapse_tree_at_resolution()</a></code> from
 the castor package to determine the groups of taxa to be collapsed; see this
-function for details about the `resolution` and `criterion` parameters.</p>
+function for details about the <code>resolution</code> and <code>criterion</code> parameters.</p>
 <p>New taxa are named according to the most abundant taxon of each group. The
 tree, reference sequences, and (by default) the taxonomy table reflect these
 "archetype" taxa.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>collapse_tree_at_resolution</a></code> for more information about
-  the `resolution` and `criterion` parameters.</p>
-<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec</a></code> for more about `tax_adjust` and general merging
-behavior</p>
-<p><code><a href='tip_glom.html'>tip_glom</a></code> for indirect phylogenetic merging</p>
-<p><code><a href='tax_glom.html'>tax_glom</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>castor::collapse_tree_at_resolution()</a></code> for more information about the
+<code>resolution</code> and <code>criterion</code> parameters.</p>
+<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for more about <code>tax_adjust</code> and general merging behavior</p>
+<p><code><a href='tip_glom.html'>tip_glom()</a></code> for indirect phylogenetic merging</p>
+<p><code><a href='tax_glom.html'>tax_glom()</a></code> for merging using taxonomy</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)

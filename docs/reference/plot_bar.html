@@ -78,7 +78,7 @@ taxa abundance between samples in an experiment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@ taxa abundance between samples in an experiment.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). An <code>otu_table-class</code> or 
+      <td><p>(Required). An <code>otu_table-class</code> or
 <code>phyloseq-class</code>.</p></td>
     </tr>
     <tr>
@@ -156,7 +156,7 @@ and <code>ggplot</code> for more details.</p></td>
       <td><p>(Optional). A character string.
 The variable in the melted-data that should be mapped to the y-axis.
 Typically this will be <code>"Abundance"</code>, in order to
-quantitatively display the abundance values for each OTU/group. 
+quantitatively display the abundance values for each OTU/group.
 However, alternative variables could be used instead,
 producing a very different, though possibly still informative, plot.
 See <code><a href='psmelt.html'>psmelt</a></code>, <code>melt</code>,
@@ -165,7 +165,7 @@ and <code>ggplot</code> for more details.</p></td>
     <tr>
       <th>fill</th>
       <td><p>(Optional). A character string. Indicates which sample variable
-should be used to map to the fill color of the bars. 
+should be used to map to the fill color of the bars.
 The default is <code>NULL</code>, resulting in a gray fill for all bar segments.</p></td>
     </tr>
     <tr>
@@ -176,8 +176,8 @@ The main title for the graphic.</p></td>
     <tr>
       <th>facet_grid</th>
       <td><p>(Optional). A formula object.
-It should describe the faceting you want in exactly the same way as for 
-<code><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></code>, 
+It should describe the faceting you want in exactly the same way as for
+<code><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></code>,
 and is ulitmately provided to <code>ggplot</code>2 graphics.
 The default is: <code>NULL</code>, resulting in no faceting.</p></td>
     </tr>

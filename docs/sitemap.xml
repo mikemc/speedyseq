@@ -10,6 +10,9 @@
     <loc>https://mikemc.github.io/speedyseq/reference/bad_or_unique.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/filter_taxa.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/import_phyloseq_functions.html</loc>
   </url>
   <url>
@@ -41,6 +44,9 @@
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tip_glom.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/transform_sample_counts.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tree_glom.html</loc>

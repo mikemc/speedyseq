@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -114,6 +114,23 @@
       <small>Source: <a href='https://github.com/mikemc/speedyseq/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="speedyseq-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#speedyseq-030" class="anchor"></a>speedyseq 0.3.0</h1>
+<ul>
+<li><p>New <code><a href="../reference/transform_sample_counts.html">transform_sample_counts()</a></code> and <code><a href="../reference/filter_taxa.html">filter_taxa()</a></code> provide wrappers around <code><a href="https://rdrr.io/pkg/phyloseq/man/transformcounts.html">phyloseq::transform_sample_counts()</a></code> and <code><a href="https://rdrr.io/pkg/phyloseq/man/filter_taxa.html">phyloseq::filter_taxa()</a></code> that allow allow <a href="https://purrr.tidyverse.org/">purrr</a>-style anonymous functions.</p></li>
+<li><p>New <code><a href="../reference/filter_taxa.html">filter_taxa2()</a></code> provides a version of <code><a href="../reference/filter_taxa.html">filter_taxa()</a></code> with <code>prune =   TRUE</code>; that is, it always returns a pruned (filtered) phyloseq object. This version is convenient when filtering taxa in a pipe chain,</p></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
+<span class="co"># Filter low prevalence taxa and then convert to proportions</span>
+<span class="no">gp.prop</span> <span class="kw">&lt;-</span> <span class="no">GlobalPatterns</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa2</a></span>(~ <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span> <span class="kw">&gt;</span> <span class="fl">0</span>) <span class="kw">&gt;</span> <span class="fl">5</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/transform_sample_counts.html">transform_sample_counts</a></span>(~ <span class="no">.</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span>))</pre></div>
+<ul>
+<li>The <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="../reference/pipe.html">%&gt;%</a></code>) is now exported so that it can be used without first loading <code>magrittr</code> or <code>dplyr</code>
+</li>
+</ul>
+</div>
     <div id="speedyseq-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#speedyseq-020" class="anchor"></a>speedyseq 0.2.0</h1>
@@ -132,7 +149,7 @@
 <a href="#new-general-purpose-vectorized-taxa-merging-function" class="anchor"></a>New general-purpose vectorized taxa-merging function</h3>
 <p>The new <code><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> function provides a vectorized version of <code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">phyloseq::merge_taxa()</a></code> that can quickly merge arbitrary groups of taxa and now forms the basis of all other merging functions. <code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">phyloseq::merge_taxa()</a></code> takes a phyloseq object or component object <code>x</code> and a set of taxa <code>eqtaxa</code> and merges them into a single taxon. In place of the <code>eqtaxa</code> argument, speedyseq’s <code><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> takes a vector <code>group</code> of length <code>ntaxa(physeq)</code> that defines how all the taxa in <code>x</code> should be merged into multiple new groups. Its syntax and behavior is patterned after that of <code><a href="https://rdrr.io/r/base/rowsum.html">base::rowsum()</a></code>, which it uses to do the merging in the OTU table. When aiming to merge a large number of taxa into a smaller but still large number of groups, it is much faster to do all the merging with one call to <code><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> than to loop through many calls to <code>merge_taxa()</code>.</p>
 <p>A practical example is clustering amplicon sequence variants (ASVs) into OTUs defined by a given similarity threshold. Suppose we have a phyloseq object <code>ps</code> that has the ASV sequences stored in its <code>refseq</code> slot. We can cluster the ASV sequences into 97% OTUs using the DECIPHER package with</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="no">dna</span> <span class="kw">&lt;-</span> <span class="fu">refseq</span>(<span class="no">ps</span>)
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">dna</span> <span class="kw">&lt;-</span> <span class="fu">refseq</span>(<span class="no">ps</span>)
 <span class="no">nproc</span> <span class="kw">&lt;-</span> <span class="fl">1</span> <span class="co"># Increase to use multiple processors</span>
 <span class="no">aln</span> <span class="kw">&lt;-</span> <span class="kw pkg">DECIPHER</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DECIPHER/man/AlignSeqs.html">AlignSeqs</a></span>(<span class="no">dna</span>, <span class="kw">processors</span> <span class="kw">=</span> <span class="no">nproc</span>)
 <span class="no">d</span> <span class="kw">&lt;-</span> <span class="kw pkg">DECIPHER</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DECIPHER/man/DistanceMatrix.html">DistanceMatrix</a></span>(<span class="no">aln</span>, <span class="kw">processors</span> <span class="kw">=</span> <span class="no">nproc</span>)
@@ -143,14 +160,14 @@
   <span class="kw">processors</span> <span class="kw">=</span> <span class="no">nproc</span>
 )</pre></div>
 <p>Next we <code><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> to get the merged phyloseq object,</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">ps0</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec</a></span>(
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">ps0</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/merge_taxa_vec-methods.html">merge_taxa_vec</a></span>(
   <span class="no">ps</span>,
   <span class="kw">group</span> <span class="kw">=</span> <span class="no">clusters</span>$<span class="no">cluster</span>,
   <span class="kw">tax_adjust</span> <span class="kw">=</span> <span class="fl">2</span>
 )</pre></div>
 <p>The names of the new taxa are set to the name of the most abundant taxon within each group (the same behavior as the <code><a href="../reference/tax_glom.html">tax_glom()</a></code> and <code><a href="../reference/tip_glom.html">tip_glom()</a></code> functions). Future versions will likely have a <code>names</code> argument to control the naming behavior.</p>
 <p>The <code>tax_adjust</code> argument controls how NAs and within-group disagreements in taxonomy are handled to determine the taxonomy of the new taxa (see <code><a href="../reference/merge_taxa_vec-methods.html">help(merge_taxa_vec)</a></code> for details). An example of the difference between <code>tax_adjust = 1</code> (<code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">phyloseq::merge_taxa()</a></code> behavior) and <code>tax_adjust = 2</code> can be seen in the following example from the new <code><a href="../reference/tip_glom.html">tip_glom()</a></code> documentation,</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">20190421</span>)
 <span class="no">ps</span> <span class="kw">&lt;-</span> <span class="fu">prune_taxa</span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu">taxa_names</span>(<span class="no">GlobalPatterns</span>), <span class="fl">2e2</span>), <span class="no">GlobalPatterns</span>)
@@ -197,7 +214,7 @@
 <li>The distance-matrix computation and hierarchical clustering in <code><a href="../reference/tip_glom.html">tip_glom()</a></code> can be skipped, making <code><a href="../reference/tree_glom.html">tree_glom()</a></code> much faster and less memory intensive than <code><a href="../reference/tip_glom.html">tip_glom()</a></code> when the number of taxa is large.</li>
 </ol>
 <p><code><a href="../reference/tree_glom.html">tree_glom()</a></code> uses functions from the <a href="https://cran.r-project.org/web/packages/castor/index.html">castor</a> package to determine which clades are to be merged using one of three criteria. The default behavior is to merge a clade if the maximum distance from a node to each of its tips is less than the distance <code>resolution</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
 <span class="no">ps1</span> <span class="kw">&lt;-</span> <span class="fu">subset_taxa</span>(<span class="no">GlobalPatterns</span>, <span class="no">Phylum</span> <span class="kw">==</span> <span class="st">"Chlamydiae"</span>)
 <span class="fu">ntaxa</span>(<span class="no">ps1</span>)
 <span class="no">ps2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/tree_glom.html">tree_glom</a></span>(<span class="no">ps1</span>, <span class="fl">0.05</span>)

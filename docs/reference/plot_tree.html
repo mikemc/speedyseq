@@ -85,7 +85,7 @@ is to make the determination of these features/settings as easy as possible." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@ is to make the determination of these features/settings as easy as possible.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). The data about which you want to 
+      <td><p>(Required). The data about which you want to
 plot and annotate a phylogenetic tree, in the form of a single instance of
 the <code>phyloseq-class</code>, containing at minimum a phylogenetic
 tree component (try <code>phy_tree</code>).  One of the major advantages
@@ -182,7 +182,7 @@ sample variables and taxonomic information. For these uses, the
     </tr>
     <tr>
       <th>method</th>
-      <td><p>(Optional). Character string. Default <code>"sampledodge"</code>. 
+      <td><p>(Optional). Character string. Default <code>"sampledodge"</code>.
 The name of the annotation method to use.  This will be expanded in future
 versions.  Currently only <code>"sampledodge"</code> and <code>"treeonly"</code> are
 supported.  The <code>"sampledodge"</code> option results in points drawn next
@@ -241,7 +241,7 @@ instead.</p></td>
     </tr>
     <tr>
       <th>text.size</th>
-      <td><p>(Optional). Numeric. Should be positive. The 
+      <td><p>(Optional). Numeric. Should be positive. The
 size parameter used to control the text size of taxa labels.  Default is
 <code>NULL</code>. If left <code>NULL</code>, this function will automatically
 calculate a (hopefully) optimal text size given the vertical constraints
@@ -274,9 +274,7 @@ This parameter specifies whether or not to <code><a href='https://rdrr.io/pkg/ap
 the tree (i.e., reorder nodes according to the depth of their enclosed
 subtrees) prior to plotting.  This tends to make trees more aesthetically
 pleasing and legible in a graphical display.  When <code>TRUE</code> or
-<code>"right"</code>, ``right'' ladderization is used.  When set to
-<code>FALSE</code>, no ladderization is applied.  When set to <code>"left"</code>, the
-reverse direction (``left'' ladderization) is applied.  This argument is
+<code>"right"</code>, <code>right'' ladderization is used.  When set to \code{FALSE}, no ladderization is applied.  When set to \code{"left"}, the reverse direction (</code>left'' ladderization) is applied.  This argument is
 passed on to <code>tree_layout</code>.</p></td>
     </tr>
     <tr>

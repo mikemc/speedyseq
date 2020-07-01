@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Agglomerate taxa using taxonomy. — tax_glom" />
 <meta property="og:description" content="This method merges species that have the same taxonomy at a certain
-taxonomic rank. Its approach is analogous to tip_glom, but
+taxonomic rank. Its approach is analogous to tip_glom(), but
 uses categorical data instead of a tree. In principal, other categorical
 data known for all taxa could also be used in place of taxonomy, but for the
 moment, this must be stored in the taxonomyTable of the data. Also,
@@ -79,7 +79,7 @@ agglomeration." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@ agglomeration." />
 
     <div class="ref-description">
     <p>This method merges species that have the same taxonomy at a certain
-taxonomic rank. Its approach is analogous to <code><a href='tip_glom.html'>tip_glom</a></code>, but
+taxonomic rank. Its approach is analogous to <code><a href='tip_glom.html'>tip_glom()</a></code>, but
 uses categorical data instead of a tree. In principal, other categorical
 data known for all taxa could also be used in place of taxonomy, but for the
 moment, this must be stored in the <code>taxonomyTable</code> of the data. Also,
@@ -147,47 +147,42 @@ agglomeration.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). <code>phyloseq-class</code> or
-<code>tax_table</code>.</p></td>
+      <td><p>(Required). <code>phyloseq-class()</code> or <code>tax_table()</code>.</p></td>
     </tr>
     <tr>
       <th>taxrank</th>
       <td><p>A character string specifying the taxonomic level that you
 want to agglomerate over. Should be among the results of
-<code>rank_names(physeq)</code>. The default value is
-<code>rank_names(physeq)[1]</code>, which may agglomerate too broadly for a
-given experiment. You are strongly encouraged to try different values for
-this argument.</p></td>
+<code>rank_names(physeq)</code>. The default value is <code>rank_names(physeq)[1]</code>, which
+may agglomerate too broadly for a given experiment. You are strongly
+encouraged to try different values for this argument.</p></td>
     </tr>
     <tr>
       <th>NArm</th>
-      <td><p>(Optional). Logical, length equal to one. Default is
-<code>TRUE</code>.  CAUTION. The decision to prune (or not) taxa for which you
-lack categorical data could have a large effect on downstream analysis.
-You may want to re-compute your analysis under both conditions, or at
-least think carefully about what the effect might be and the reasons
-explaining the absence of information for certain taxa. In the case of
-taxonomy, it is often a result of imprecision in taxonomic designation
-based on short phylogenetic sequences and a patchy system of nomenclature.
-If this seems to be an issue for your analysis, think about also trying
-the nomenclature-agnostic <code><a href='tip_glom.html'>tip_glom</a></code> method if you have a
-phylogenetic tree available.</p></td>
+      <td><p>(Optional). Logical, length equal to one. Default is <code>TRUE</code>.
+CAUTION. The decision to prune (or not) taxa for which you lack categorical
+data could have a large effect on downstream analysis.  You may want to
+re-compute your analysis under both conditions, or at least think carefully
+about what the effect might be and the reasons explaining the absence of
+information for certain taxa. In the case of taxonomy, it is often a result
+of imprecision in taxonomic designation based on short phylogenetic
+sequences and a patchy system of nomenclature.  If this seems to be an issue
+for your analysis, think about also trying the nomenclature-agnostic
+<code><a href='tip_glom.html'>tip_glom()</a></code> method if you have a phylogenetic tree available.</p></td>
     </tr>
     <tr>
       <th>bad_empty</th>
-      <td><p>(Optional). Character vector. Default: <code><a href='https://rdrr.io/r/base/c.html'>c(NA, "", " ",
-"\t")</a></code>. Defines the bad/empty values that should be ignored and/or
+      <td><p>(Optional). Character vector. Default: <code><a href='https://rdrr.io/r/base/c.html'>c(NA, "", " ", "\t")</a></code>. Defines the bad/empty values that should be ignored and/or
 considered unknown. They will be removed from the internal agglomeration
-vector derived from the argument to <code>tax</code>, and therefore
-agglomeration will not combine taxa according to the presence of these
-values in <code>tax</code>. Furthermore, the corresponding taxa can be
-optionally pruned from the output if <code>NArm</code> is set to <code>TRUE</code>.</p></td>
+vector derived from the argument to <code>tax</code>, and therefore agglomeration will
+not combine taxa according to the presence of these values in <code>tax</code>.
+Furthermore, the corresponding taxa can be optionally pruned from the output
+if <code>NArm</code> is set to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>reorder</th>
       <td><p>Logical specifying whether to reorder the taxa by taxonomy
-strings or keep initial order. Ignored if `physeq` has a phylogenetic
-tree.</p></td>
+strings or keep initial order. Ignored if <code>physeq</code> has a phylogenetic tree.</p></td>
     </tr>
     </table>
 
@@ -197,23 +192,23 @@ tree.</p></td>
 matching the class of <code>physeq</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is the speedyseq reimplementation of `phyloseq::tax_glom()`. It should
+    <p>This is the speedyseq reimplementation of <code><a href='https://rdrr.io/pkg/phyloseq/man/tax_glom.html'>phyloseq::tax_glom()</a></code>. It should
 produce results that are identical to phyloseq up to taxon order.</p>
-<p>If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+<p>If <code>x</code> is a phyloseq object with a phylogenetic tree, then the new taxa will
 be ordered as they are in the tree. Otherwise, the taxa order can be
-controlled by the `reorder` argument, which behaves like the `reorder`
-argument in <code><a href='https://rdrr.io/r/base/rowsum.html'>rowsum</a></code>. `reorder = FALSE` will keep taxa in
+controlled by the <code>reorder</code> argument, which behaves like the <code>reorder</code>
+argument in <code><a href='https://rdrr.io/r/base/rowsum.html'>base::rowsum()</a></code>. <code>reorder = FALSE</code> will keep taxa in
 the original order determined by when the member of each group first appears
-in `taxa_names(x)`; `reorder = TRUE` will order new taxa alphabetically
+in <code>taxa_names(x)</code>; <code>reorder = TRUE</code> will order new taxa alphabetically
 according to taxonomy (string of concatenated rank values).</p>
 <p>Acknowledgements: Documentation and general strategy derived from
-`phyloseq::tax_glom()`.</p>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/tax_glom.html'>phyloseq::tax_glom()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/tax_glom.html'>tax_glom</a></code></p>
-<p><code><a href='tip_glom.html'>tip_glom</a></code></p>
-<p><code>prune_taxa</code></p>
-<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/tax_glom.html'>phyloseq::tax_glom()</a></code></p>
+<p><code><a href='tip_glom.html'>tip_glom()</a></code></p>
+<p><code>prune_taxa()</code></p>
+<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)

@@ -73,7 +73,7 @@ than h will be agglomerated into one taxon." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -129,27 +129,25 @@ than <code>h</code> will be agglomerated into one taxon.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). A <code>phyloseq-class</code>, containing a
-phylogenetic tree. Alternatively, a phylogenetic tree
-<code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>phylo</a></code> will also work.</p></td>
+      <td><p>(Required). A <code>phyloseq-class()</code>, containing a phylogenetic
+tree. Alternatively, a phylogenetic tree <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code> will also work.</p></td>
     </tr>
     <tr>
       <th>h</th>
       <td><p>(Optional). Numeric scalar of the height where the tree should be
 cut. This refers to the tree resulting from hierarchical clustering of the
-distance matrix, not the original phylogenetic tree. Default value is
-<code>0.2</code>.</p></td>
+distance matrix, not the original phylogenetic tree. Default value is <code>0.2</code>.</p></td>
     </tr>
     <tr>
       <th>hcfun</th>
       <td><p>(Optional). A function. The (agglomerative, hierarchical)
-clustering function to use. The default is <code><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>agnes</a></code>
-for phyloseq compatiblity.</p></td>
+clustering function to use. The default is <code><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>cluster::agnes()</a></code> for phyloseq
+compatiblity.</p></td>
     </tr>
     <tr>
       <th>tax_adjust</th>
       <td><p>0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec</a></code> for details)</p></td>
+conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for details)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -159,35 +157,34 @@ conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_t
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An instance of the <code>phyloseq-class</code>.  Or alternatively,
-  a <code>phylo</code> object if the <code>physeq</code> argument was just a
-  tree.  In the expected-use case, the number of OTUs will be fewer (see
-  <code>ntaxa</code>), after merging OTUs that are related enough to be
-  called the same OTU.</p>
+    <p>An instance of the <code>phyloseq-class()</code>.  Or alternatively, a
+<code>phylo()</code> object if the <code>physeq</code> argument was just a tree.  In the
+expected-use case, the number of OTUs will be fewer (see <code>ntaxa()</code>), after
+merging OTUs that are related enough to be called the same OTU.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Can be used to create a non-trivial OTU Table, if a phylogenetic tree is
 available.</p>
-<p>By default, simple ``greedy'' single-linkage clustering is used. It is
-possible to specify different clustering approaches by setting <code>hcfun</code>
-and its parameters in `...`. In particular, complete-linkage clustering
-appears to be used more commonly for OTU clustering applications.</p>
+<p>By default, simple "greedy" single-linkage clustering is used. It is
+possible to specify different clustering approaches by setting <code>hcfun</code> and
+its parameters in <code>...</code>. In particular, complete-linkage clustering appears
+to be used more commonly for OTU clustering applications.</p>
 <p>The merged taxon is named according to the "archetype" defined as the the
-most abundant taxon (having the largest value of `taxa_sums(physeq)`. The
+most abundant taxon (having the largest value of <code>taxa_sums(physeq)</code>. The
 tree and refseq objects are pruned to the archetype taxa.</p>
-<p>Speedyseq note: <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code> is faster than the default
-`hcfun`; set `method = "average"` to get equivalent clustering.</p>
+<p>Speedyseq note: <code><a href='https://rdrr.io/r/stats/hclust.html'>stats::hclust()</a></code> is faster than the default <code>hcfun</code>; set
+<code>method = "average"</code> to get equivalent clustering.</p>
 <p>Acknowledgements: Documentation and general strategy derived from
-`phyloseq::tip_glom()`.</p>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/tip_glom.html'>phyloseq::tip_glom()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/tip_glom.html'>tip_glom</a></code></p>
-<p><code><a href='tree_glom.html'>tree_glom</a></code> for direct phylogenetic merging</p>
-<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec</a></code></p>
-<p><code><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>agnes</a></code></p>
-<p><code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code></p>
-<p><code><a href='https://rdrr.io/pkg/castor/man/get_all_pairwise_distances.html'>get_all_pairwise_distances</a></code></p>
-<p><code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>phylo</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/tip_glom.html'>phyloseq::tip_glom()</a></code></p>
+<p><code><a href='tree_glom.html'>tree_glom()</a></code> for direct phylogenetic merging</p>
+<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>cluster::agnes()</a></code></p>
+<p><code><a href='https://rdrr.io/r/stats/hclust.html'>stats::hclust()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/castor/man/get_all_pairwise_distances.html'>castor::get_all_pairwise_distances()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"esophagus"</span>)

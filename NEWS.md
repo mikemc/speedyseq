@@ -1,3 +1,24 @@
+# speedyseq 0.3.0
+
+* New `transform_sample_counts()` and `filter_taxa()` provide wrappers around
+  `phyloseq::transform_sample_counts()` and `phyloseq::filter_taxa()` that
+  allow allow [purrr](https://purrr.tidyverse.org/)-style anonymous functions.
+
+* New `filter_taxa2()` provides a version of `filter_taxa()` with `prune =
+  TRUE`; that is, it always returns a pruned (filtered) phyloseq object. This
+  version is convenient when filtering taxa in a pipe chain,
+
+``` r
+data(GlobalPatterns)
+# Filter low prevalence taxa and then convert to proportions
+gp.prop <- GlobalPatterns %>%
+  filter_taxa2(~ sum(. > 0) > 5) %>%
+  transform_sample_counts(~ . / sum(.))
+```
+
+* The [magrittr](https://magrittr.tidyverse.org/) pipe (`%>%`) is now exported
+  so that it can be used without first loading `magrittr` or `dplyr`
+
 # speedyseq 0.2.0
 
 ## Breaking changes

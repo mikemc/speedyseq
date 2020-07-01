@@ -42,13 +42,13 @@
 <meta property="og:title" content="Create an ecologically-organized heatmap using ggplot2 graphics — plot_heatmap" />
 <meta property="og:description" content="There are many useful examples of phyloseq heatmap graphics in the
 phyloseq online tutorials.
-In a 2010 article in BMC Genomics, Rajaram and Oono show describe an 
-approach to creating a heatmap using ordination methods to organize the 
+In a 2010 article in BMC Genomics, Rajaram and Oono show describe an
+approach to creating a heatmap using ordination methods to organize the
 rows and columns instead of (hierarchical) cluster analysis. In many cases
-the ordination-based ordering does a much better job than h-clustering. 
+the ordination-based ordering does a much better job than h-clustering.
 An immediately useful example of their approach is provided in the NeatMap
-package for R. The NeatMap package can be used directly on the abundance 
-table (otu_table-class) of phylogenetic-sequencing data, but 
+package for R. The NeatMap package can be used directly on the abundance
+table (otu_table-class) of phylogenetic-sequencing data, but
 the NMDS or PCA ordination options that it supports are not based on ecological
 distances. To fill this void, phyloseq provides the plot_heatmap()
 function as an ecology-oriented variant of the NeatMap approach to organizing
@@ -57,14 +57,14 @@ The distance and method arguments are the same as for the
 plot_ordination function, and support large number of
 distances and ordination methods, respectively, with a strong leaning toward
 ecology.
-This function also provides the options to re-label the OTU and sample 
-axis-ticks with a taxonomic name and/or sample variable, respectively, 
+This function also provides the options to re-label the OTU and sample
+axis-ticks with a taxonomic name and/or sample variable, respectively,
 in the hope that this might hasten your interpretation of the patterns
-(See the sample.label and taxa.label documentation, below). 
-Note that this function makes no attempt to overlay hierarchical 
-clustering trees on the axes, as hierarchical clustering is not used to 
+(See the sample.label and taxa.label documentation, below).
+Note that this function makes no attempt to overlay hierarchical
+clustering trees on the axes, as hierarchical clustering is not used to
 organize the plot. Also note that each re-ordered axis repeats at the edge,
-and so apparent clusters at the far right/left or top/bottom of the 
+and so apparent clusters at the far right/left or top/bottom of the
 heat-map may actually be the same. For now, the placement of this edge
 can be considered arbitrary, so beware of this artifact of this graphical
 representation. If you benefit from this phyloseq-specific implementation
@@ -100,7 +100,7 @@ of the NeatMap approach, please cite both our packages/articles." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -147,13 +147,13 @@ of the NeatMap approach, please cite both our packages/articles." />
     <div class="ref-description">
     <p>There are many useful examples of phyloseq heatmap graphics in the
 <a href='http://joey711.github.io/phyloseq/plot_heatmap-examples'>phyloseq online tutorials</a>.
-In a 2010 article in BMC Genomics, Rajaram and Oono show describe an 
-approach to creating a heatmap using ordination methods to organize the 
+In a 2010 article in BMC Genomics, Rajaram and Oono show describe an
+approach to creating a heatmap using ordination methods to organize the
 rows and columns instead of (hierarchical) cluster analysis. In many cases
-the ordination-based ordering does a much better job than h-clustering. 
+the ordination-based ordering does a much better job than h-clustering.
 An immediately useful example of their approach is provided in the NeatMap
-package for R. The NeatMap package can be used directly on the abundance 
-table (<code>otu_table-class</code>) of phylogenetic-sequencing data, but 
+package for R. The NeatMap package can be used directly on the abundance
+table (<code>otu_table-class</code>) of phylogenetic-sequencing data, but
 the NMDS or PCA ordination options that it supports are not based on ecological
 distances. To fill this void, phyloseq provides the <code>plot_heatmap()</code>
 function as an ecology-oriented variant of the NeatMap approach to organizing
@@ -162,14 +162,14 @@ The <code>distance</code> and <code>method</code> arguments are the same as for 
 <code>plot_ordination</code> function, and support large number of
 distances and ordination methods, respectively, with a strong leaning toward
 ecology.
-This function also provides the options to re-label the OTU and sample 
-axis-ticks with a taxonomic name and/or sample variable, respectively, 
+This function also provides the options to re-label the OTU and sample
+axis-ticks with a taxonomic name and/or sample variable, respectively,
 in the hope that this might hasten your interpretation of the patterns
-(See the <code>sample.label</code> and <code>taxa.label</code> documentation, below). 
-Note that this function makes no attempt to overlay hierarchical 
-clustering trees on the axes, as hierarchical clustering is not used to 
+(See the <code>sample.label</code> and <code>taxa.label</code> documentation, below).
+Note that this function makes no attempt to overlay hierarchical
+clustering trees on the axes, as hierarchical clustering is not used to
 organize the plot. Also note that each re-ordered axis repeats at the edge,
-and so apparent clusters at the far right/left or top/bottom of the 
+and so apparent clusters at the far right/left or top/bottom of the
 heat-map may actually be the same. For now, the placement of this edge
 can be considered arbitrary, so beware of this artifact of this graphical
 representation. If you benefit from this phyloseq-specific implementation
@@ -204,8 +204,8 @@ of the NeatMap approach, please cite both our packages/articles.</p>
 <code>phyloseq-class</code>. This should be what you get as a result
 from one of the
 <code>import</code> functions, or any of the processing downstream.
-No data components beyond the <code>otu_table</code> are strictly 
-necessary, though they may be useful if you want to re-label the 
+No data components beyond the <code>otu_table</code> are strictly
+necessary, though they may be useful if you want to re-label the
 axis ticks according to some observable or taxonomic rank, for instance,
 or if you want to use a <code>UniFrac</code>-based distance
 (in which case your <code>physeq</code> data would need to have a tree included).</p></td>
@@ -213,13 +213,13 @@ or if you want to use a <code>UniFrac</code>-based distance
     <tr>
       <th>method</th>
       <td><p>(Optional).
-The ordination method to use for organizing the 
-heatmap. A great deal of the usefulness of a heatmap graphic depends upon 
+The ordination method to use for organizing the
+heatmap. A great deal of the usefulness of a heatmap graphic depends upon
 the way in which the rows and columns are ordered.</p></td>
     </tr>
     <tr>
       <th>distance</th>
-      <td><p>(Optional). A character string. 
+      <td><p>(Optional). A character string.
 The ecological distance method to use in the ordination.
 See <code>distance</code>.</p></td>
     </tr>
@@ -247,7 +247,7 @@ in the heatmap. Default is a dark blue color, <code>"#000033"</code>.</p></td>
       <th>high</th>
       <td><p>(Optional). A character string. An R color.
 See <code><a href='https://rdrr.io/r/grDevices/colors.html'>colors</a></code> for options support in R (there are lots).
-The color that will represent the highest 
+The color that will represent the highest
 value in the heatmap. The default is <code>"#66CCFF"</code>.
 Zero-values are treated as <code>NA</code>, and set to <code>"black"</code>, to represent
 a background color.</p></td>
@@ -258,7 +258,7 @@ a background color.</p></td>
 See <code><a href='https://rdrr.io/r/grDevices/colors.html'>colors</a></code> for options support in R (there are lots).
 The color to represent what is essentially the background of the plot,
 the non-observations that occur as <code>NA</code> or
-<code>0</code> values in the abundance table. The default is <code>"black"</code>, which 
+<code>0</code> values in the abundance table. The default is <code>"black"</code>, which
 works well on computer-screen graphics devices, but may be a poor choice for
 printers, in which case you might want this value to be <code>"white"</code>, and
 reverse the values of <code>high</code> and <code>low</code>, above.</p></td>
@@ -266,21 +266,21 @@ reverse the values of <code>high</code> and <code>low</code>, above.</p></td>
     <tr>
       <th>trans</th>
       <td><p>(Optional). <code>"trans"</code>-class transformer-definition object.
-A numerical transformer to use in 
+A numerical transformer to use in
 the continuous color scale. See <code><a href='https://scales.r-lib.org//reference/trans_new.html'>trans_new</a></code> for details.
 The default is <code>log_trans(4)</code>.</p></td>
     </tr>
     <tr>
       <th>max.label</th>
       <td><p>(Optional). Integer. Default is 250.
- The maximum number of labeles to fit on a given axis (either x or y). 
- If number of taxa or samples exceeds this value, 
- the corresponding axis will be stripped of any labels.</p>
+The maximum number of labeles to fit on a given axis (either x or y).
+If number of taxa or samples exceeds this value,
+the corresponding axis will be stripped of any labels.</p>
 <p>This supercedes any arguments provided to
- <code>sample.label</code> or <code>taxa.label</code>.
- Make sure to increase this value if, for example,
- you want a special label
- for an axis that has 300 indices.</p></td>
+<code>sample.label</code> or <code>taxa.label</code>.
+Make sure to increase this value if, for example,
+you want a special label
+for an axis that has 300 indices.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -289,8 +289,8 @@ The main title for the graphic.</p></td>
     </tr>
     <tr>
       <th>sample.order</th>
-      <td><p>(Optional). Default <code>NULL</code>. 
-Either a single character string matching 
+      <td><p>(Optional). Default <code>NULL</code>.
+Either a single character string matching
 one of the <code>sample_variables</code> in your data,
 or a character vector of <code>sample_names</code>
 in the precise order that you want them displayed in the heatmap.
@@ -299,8 +299,8 @@ with the <code>method</code>/<code>distance</code> arguments.</p></td>
     </tr>
     <tr>
       <th>taxa.order</th>
-      <td><p>(Optional). Default <code>NULL</code>. 
-Either a single character string matching 
+      <td><p>(Optional). Default <code>NULL</code>.
+Either a single character string matching
 one of the <code>rank_names</code> in your data,
 or a character vector of <code>taxa_names</code>
 in the precise order that you want them displayed in the heatmap.
@@ -311,12 +311,12 @@ with the <code>method</code>/<code>distance</code> arguments.</p></td>
       <th>first.sample</th>
       <td><p>(Optional). Default <code>NULL</code>.
 A character string matching one of the <code>sample_names</code>
-of your input data (<code>physeq</code>). 
+of your input data (<code>physeq</code>).
 It will become the left-most sample in the plot.
 For the ordination-based ordering (recommended),
-the left and right edges of the axes are adjaacent in a continuous ordering. 
+the left and right edges of the axes are adjaacent in a continuous ordering.
 Therefore, the choice of starting sample is meaningless and arbitrary,
-but it is aesthetically poor to have the left and right edge split 
+but it is aesthetically poor to have the left and right edge split
 a natural cluster in the data.
 This argument allows you to specify the left edge
 and thereby avoid cluster-splitting, emphasize a gradient, etc.</p></td>
@@ -325,7 +325,7 @@ and thereby avoid cluster-splitting, emphasize a gradient, etc.</p></td>
       <th>first.taxa</th>
       <td><p>(Optional). Default <code>NULL</code>.
 A character string matching one of the <code>taxa_names</code>
-of your input data (<code>physeq</code>). 
+of your input data (<code>physeq</code>).
 This is equivalent to <code>first.sample</code> (above),
 but for the taxa/OTU indices, usually the vertical axis.</p></td>
     </tr>
@@ -338,7 +338,7 @@ but for the taxa/OTU indices, usually the vertical axis.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A heatmap plot, in the form of a <code>ggplot2</code> plot object,
- which can be further saved and modified.</p>
+which can be further saved and modified.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This approach borrows heavily from the <code>heatmap1</code> function in the
@@ -353,11 +353,11 @@ both NeatMap and rgl!).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Because this function relies so heavily in principle, and in code, on some of the
- functionality in NeatMap, please site their article if you use this function
- in your work.</p>
+functionality in NeatMap, please site their article if you use this function
+in your work.</p>
 <p>Rajaram, S., &amp; Oono, Y. (2010).
- NeatMap--non-clustering heat map alternatives in R. BMC Bioinformatics, 11, 45.</p>
-<p>Please see further examples in the 
+NeatMap--non-clustering heat map alternatives in R. BMC Bioinformatics, 11, 45.</p>
+<p>Please see further examples in the
 <a href='http://joey711.github.io/phyloseq/plot_heatmap-examples'>phyloseq online tutorials</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

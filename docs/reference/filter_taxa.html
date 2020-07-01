@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • speedyseq</title>
+<title>Filter taxa based on across-sample OTU abundance criteria — filter_taxa • speedyseq</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Filter taxa based on across-sample OTU abundance criteria — filter_taxa" />
+<meta property="og:description" content="Variations of phyloseq::filter_taxa() that allows a purrr-style
+anonymous function." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,122 +110,66 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Filter taxa based on across-sample OTU abundance criteria</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/transform-filter.R'><code>R/transform-filter.R</code></a></small>
+    <div class="hidden name"><code>filter_taxa.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Variations of <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code> that allows a purrr-style
+anonymous function.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>filter_taxa</span>(<span class='no'>physeq</span>, <span class='no'>.f</span>, <span class='kw'>prune</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-merging-taxa" class="hasAnchor"><a href="#section-merging-taxa" class="anchor"></a>Merging taxa</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> </p>
-        </td>
-        <td><p>Merge taxa in groups (vectorized version)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tax_glom.html">tax_glom()</a></code> </p>
-        </td>
-        <td><p>Agglomerate taxa using taxonomy.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tip_glom.html">tip_glom()</a></code> </p>
-        </td>
-        <td><p>Agglomerate taxa using phylogeny-derived distances.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tree_glom.html">tree_glom()</a></code> </p>
-        </td>
-        <td><p>Agglomerate taxa at a given phylogenetic resolution.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plotting" class="hasAnchor"><a href="#section-plotting" class="anchor"></a>Plotting</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_bar.html">plot_bar()</a></code> </p>
-        </td>
-        <td><p>A flexible, informative barplot phyloseq data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_heatmap.html">plot_heatmap()</a></code> </p>
-        </td>
-        <td><p>Create an ecologically-organized heatmap using ggplot2 graphics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_tree.html">plot_tree()</a></code> </p>
-        </td>
-        <td><p>Plot a phylogenetic tree with optional annotations</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="transform_sample_counts.html">transform_sample_counts()</a></code> </p>
-        </td>
-        <td><p>Transform abundance data in an <code>otu_table</code>, sample-by-sample</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_taxa.html">filter_taxa()</a></code> <code><a href="filter_taxa.html">filter_taxa2()</a></code> </p>
-        </td>
-        <td><p>Filter taxa based on across-sample OTU abundance criteria</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="psmelt.html">psmelt()</a></code> </p>
-        </td>
-        <td><p>Melt phyloseq data object into large data.frame</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>filter_taxa2</span>(<span class='no'>physeq</span>, <span class='no'>.f</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>physeq</th>
+      <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.f</th>
+      <td><p>A function or formula that can be converted to a function by
+<code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>prune</th>
+      <td><p>A logical. If <code>FALSE</code>, then this function returns a logical
+vector specifying the taxa that passed the filter; if <code>TRUE</code>, then this
+function returns the pruned phyloseq object.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>filter_taxa()</code> simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>.f</code> and
+passes the resulting function on to <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code>.
+<code>filter_taxa2()</code> also sets <code>prune = TRUE</code>, which is convenient when passing
+a phyloseq object in a pipe chain (see example).</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>filter_taxa2</code>: Sets <code>prune = TRUE</code></p></li>
+</ul>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code>
+<code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)
+<span class='co'># Filter low prevalence taxa and then convert to proportions</span>
+<span class='no'>gp.prop</span> <span class='kw'>&lt;-</span> <span class='no'>GlobalPatterns</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>filter_taxa2</span>(~ <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>) <span class='kw'>&gt;</span> <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='transform_sample_counts.html'>transform_sample_counts</a></span>(~ <span class='no'>.</span> / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span>))</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

@@ -40,10 +40,10 @@
 
 
 <meta property="og:title" content="Merge taxa in groups (vectorized version) — merge_taxa_vec" />
-<meta property="og:description" content="Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
-Taxa whose value in `group` is NA will be dropped. New taxa will be named
-according to the most abundant taxon in each group (`phyloseq` and
-`otu_table` objects) or the first taxon in each group (all other phyloseq
+<meta property="og:description" content="Merge taxa in x into a smaller set of taxa defined by the vector group.
+Taxa whose value in group is NA will be dropped. New taxa will be named
+according to the most abundant taxon in each group (phyloseq and
+otu_table objects) or the first taxon in each group (all other phyloseq
 component objects)." />
 
 
@@ -76,7 +76,7 @@ component objects)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -121,10 +121,10 @@ component objects)." />
     </div>
 
     <div class="ref-description">
-    <p>Merge taxa in `x` into a smaller set of taxa defined by the vector `group`.
-Taxa whose value in `group` is NA will be dropped. New taxa will be named
-according to the most abundant taxon in each group (`phyloseq` and
-`otu_table` objects) or the first taxon in each group (all other phyloseq
+    <p>Merge taxa in <code>x</code> into a smaller set of taxa defined by the vector <code>group</code>.
+Taxa whose value in <code>group</code> is NA will be dropped. New taxa will be named
+according to the most abundant taxon in each group (<code>phyloseq</code> and
+<code>otu_table</code> objects) or the first taxon in each group (all other phyloseq
 component objects).</p>
     </div>
 
@@ -154,13 +154,13 @@ component objects).</p>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>a vector with one element for each taxon in `physeq` that
-defines the new groups. see `base::rowsum()`.</p></td>
+      <td><p>a vector with one element for each taxon in <code>physeq</code> that
+defines the new groups. see <code><a href='https://rdrr.io/r/base/rowsum.html'>base::rowsum()</a></code>.</p></td>
     </tr>
     <tr>
       <th>reorder</th>
       <td><p>Logical specifying whether to reorder the taxa by their
-`group` values. Ignored if `x` has (or is) a phylogenetic tree.</p></td>
+<code>group</code> values. Ignored if <code>x</code> has (or is) a phylogenetic tree.</p></td>
     </tr>
     <tr>
       <th>tax_adjust</th>
@@ -171,29 +171,28 @@ conservative adjustment</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If `x` is a phyloseq object with a phylogenetic tree, then the new taxa will
+    <p>If <code>x</code> is a phyloseq object with a phylogenetic tree, then the new taxa will
 be ordered as they are in the tree. Otherwise, the taxa order can be
-controlled by the `reorder` argument, which behaves like the `reorder`
-argument in <code><a href='https://rdrr.io/r/base/rowsum.html'>rowsum</a></code>. `reorder = FALSE` will keep taxa in
+controlled by the <code>reorder</code> argument, which behaves like the <code>reorder</code>
+argument in <code><a href='https://rdrr.io/r/base/rowsum.html'>base::rowsum()</a></code>. <code>reorder = FALSE</code> will keep taxa in
 the original order determined by when the member of each group first appears
-in `taxa_names(x)`; `reorder = TRUE` will order new taxa according to their
-corresponding value in `group`.</p>
-<p>The `tax_adjust` argument controls the handling of taxonomic disagreements
-within groups. Setting `tax_adjust == 0` causes no adjustment; the taxonomy
+in <code>taxa_names(x)</code>; <code>reorder = TRUE</code> will order new taxa according to their
+corresponding value in <code>group</code>.</p>
+<p>The <code>tax_adjust</code> argument controls the handling of taxonomic disagreements
+within groups. Setting <code>tax_adjust == 0</code> causes no adjustment; the taxonomy
 of the new group is set to the archetype taxon (see below). Otherwise,
 disagreements within a group at a given rank cause the values at lower ranks
-to be set to `NA`. If `tax_adjust == 1` (the default), then a rank where all
+to be set to <code>NA</code>. If <code>tax_adjust == 1</code> (the default), then a rank where all
 taxa in the group are already NA is not counted as a disagreement, and lower
 ranks may be kept if the taxa agree. This corresponds to the original
-phyloseq behavior. If `tax_adjust == 2`, then these NAs are treated as a
+phyloseq behavior. If <code>tax_adjust == 2</code>, then these NAs are treated as a
 disagreement; all ranks are set to NA after the first disagreement or NA.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html'>merge_taxa</a></code>
-<code><a href='tax_glom.html'>tax_glom</a></code>
-<code><a href='tip_glom.html'>tip_glom</a></code>
-<code><a href='tree_glom.html'>tree_glom</a></code>
-<code><a href='https://rdrr.io/r/base/rowsum.html'>rowsum</a></code></p></div>
+    <div class='dont-index'><p>Merging functions that use this function: <code><a href='tax_glom.html'>tax_glom()</a></code>, <code><a href='tip_glom.html'>tip_glom()</a></code>,
+<code><a href='tree_glom.html'>tree_glom()</a></code></p>
+<p><code><a href='https://rdrr.io/r/base/rowsum.html'>base::rowsum()</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html'>phyloseq::merge_taxa()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

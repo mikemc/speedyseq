@@ -4,9 +4,11 @@ reference:
 - contents: 
   - merge_taxa_vec
   - ends_with("glom")
-- title: "Data manipulation"
-- contents:
-  - psmelt
 - title: "Plotting"
 - contents:
   - starts_with("plot")
+- title: "Other"
+- contents: 
+  - starts_with("transform")
+  - starts_with("filter")
+  - psmelt
