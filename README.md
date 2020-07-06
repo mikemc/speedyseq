@@ -12,33 +12,12 @@ status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travi
 coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=master)
 <!-- badges: end -->
 
-Speedyseq aims to accelerate
-[phyloseq](https://joey711.github.io/phyloseq/) operations that can be
-very slow on large datasets. Current reimplementations of phyloseq
-functions include
-
-  - A faster version of phyloseq’s `psmelt()` and the plotting functions
-    that make use of it (`plot_bar()`, `plot_heatmap()`, and
-    `plot_tree()`).
-  - Faster versions of phyloseq’s taxonomic merging functions
-    `tax_glom()` and `tip_glom()`. Speedyseq’s `tip_glom()` also has
-    significantly lower memory usage.
-
-My general aim is for these functions to be drop-in replacements for
-phyloseq’s versions; however, there are small differences that should
-not affect most use cases. In some functions, I have added optional
-arguments to allow modifying the original behavior.
-
-New functions that provide additional types of taxonomic merging include
-
-  - A general-purpose merging function `merge_taxa_vec()` that provides
-    a vectorized version of phyloseq’s `merge_taxa()` function.
-  - A function `tree_glom()` that performs direct phylogenetic merging
-    of taxa. This function provides an alternative to the indirect
-    phylogenetic merging done by `tip_glom()` that is much faster and
-    arguably more intuitive.
-
-See the [Changelog](news/index.html) for details and examples.
+Speedyseq is an R package for microbiome data analysis that builds off
+the popular [phyloseq](https://joey711.github.io/phyloseq/) package.
+Speedyseq began with the limited goal of providing faster versions of
+phyloseq’s plotting and taxonomic merging functions, but now also
+contains a growing number of additions and enhancements to phyloseq that
+I have found useful in my work as a microbiome data analyst.
 
 ## Installation
 
@@ -52,7 +31,8 @@ remotes::install_github("mikemc/speedyseq")
 ## Usage
 
 Method 1: Call speedyseq functions explicitly when you want to use
-speedyseq’s version instead of phyloseq:
+speedyseq’s version instead of phyloseq. This method ensures that you do
+not unintentionally call speedyseq’s version of a phyloseq function.
 
 ``` r
 library(phyloseq)
@@ -62,19 +42,20 @@ system.time(
   df1 <- psmelt(GlobalPatterns) # slow
 )
 #>    user  system elapsed 
-#>  93.662   0.127  94.037
+#>   6.995   0.083   7.093
 system.time(
   df2 <- speedyseq::psmelt(GlobalPatterns) # fast
 )
 #>    user  system elapsed 
-#>   0.299   0.000   0.177
+#>   0.351   0.003   0.212
 dplyr::all_equal(df1, df2, ignore_row_order = TRUE)
 #> [1] TRUE
 detach(package:phyloseq)
 ```
 
-Method 2: Load speedyseq, which will load phyloseq and cause calls to
-the overlapping function names to go to speedyseq by default:
+Method 2: Load speedyseq, which will load phyloseq and all speedyseq
+functions and cause calls to the overlapping function names to go to
+speedyseq by default.
 
 ``` r
 library(speedyseq)
@@ -83,21 +64,65 @@ library(speedyseq)
 #> Attaching package: 'speedyseq'
 #> The following objects are masked from 'package:phyloseq':
 #> 
-#>     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom
+#>     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom, transform_sample_counts
 data(GlobalPatterns)
 system.time(
   ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
 )
 #>    user  system elapsed 
-#>  35.961   0.140  36.231
+#>  36.616   0.166  36.884
 system.time(
   # Calls speedyseq's tax_glom
   ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
 #>    user  system elapsed 
-#>   0.232   0.006   0.240
-all.equal(otu_table(ps1), otu_table(ps2))
-#> [1] TRUE
-all.equal(tax_table(ps1), tax_table(ps2))
-#> [1] TRUE
+#>   0.259   0.000   0.246
+identical(ps1, ps2)
+#> [1] FALSE
 ```
+
+Loading speedyseq will also load the
+[magrittr](https://magrittr.tidyverse.org/) pipe (`%>%`) to allow pipe
+chains with phyloseq objects,
+
+``` r
+gp.filt.prop <- GlobalPatterns %>%
+  filter_taxa2(~ sum(. > 0) > 5) %>%
+  transform_sample_counts(~ . / sum(.))
+```
+
+## Features
+
+### Faster implementations of phyloseq functions
+
+  - `psmelt()` and the plotting functions that use it: `plot_bar()`,
+    `plot_heatmap()`, and `plot_tree()`.
+  - The taxonomic merging functions `tax_glom()` and `tip_glom()`.
+    Speedyseq’s `tip_glom()` also has significantly lower memory usage.
+
+These functions should generally function as drop-in replacements for
+phyloseq’s versions, with additional arguments allowing for modified
+behavior. Differences in row order (for `psmelt()`) and taxon order (for
+`tax_glom()`) can occur; see
+[Changelog](https://mikemc.github.io/speedyseq/news/index.html) for
+details.
+
+### New taxonomic merging functions
+
+  - A general-purpose merging function `merge_taxa_vec()` that provides
+    a vectorized version of phyloseq’s `merge_taxa()` function.
+  - A function `tree_glom()` that performs direct phylogenetic merging
+    of taxa. This function provides an alternative to the indirect
+    phylogenetic merging done by `tip_glom()` that is much faster and
+    arguably more intuitive.
+
+See the [Changelog](https://mikemc.github.io/speedyseq/news/index.html)
+for details and examples.
+
+### Enhancements to other phyloseq functions
+
+See the [online
+documentation](https://mikemc.github.io/speedyseq/reference/index.html)
+for an up-to-date list and usage information and the
+[Changelog](https://mikemc.github.io/speedyseq/news/index.html) for
+further information.
