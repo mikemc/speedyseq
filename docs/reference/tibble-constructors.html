@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transform abundance data in an <code>otu_table</code>, sample-by-sample — transform_sample_counts • speedyseq</title>
+<title>Construct phyloseq objects from tibbles — tibble-constructors • speedyseq</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Transform abundance data in an <code>otu_table</code>, sample-by-sample — transform_sample_counts" />
-<meta property="og:description" content="Version of phyloseq::transform_sample_counts() that allows a
-purrr-style anonymous function." />
+<meta property="og:title" content="Construct phyloseq objects from tibbles — tibble-constructors" />
+<meta property="og:description" content="These methods extend phyloseq's constructor functions to construct phyloseq
+components from tibbles (objects with class &quot;tbl_df&quot;)." />
 
 
 
@@ -112,51 +112,73 @@ purrr-style anonymous function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Transform abundance data in an <code>otu_table</code>, sample-by-sample</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/transform-filter.R'><code>R/transform-filter.R</code></a></small>
-    <div class="hidden name"><code>transform_sample_counts.Rd</code></div>
+    <h1>Construct phyloseq objects from tibbles</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/phyloseq-constructors.R'><code>R/phyloseq-constructors.R</code></a></small>
+    <div class="hidden name"><code>tibble-constructors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Version of <code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code> that allows a
-purrr-style anonymous function.</p>
+    <p>These methods extend phyloseq's constructor functions to construct phyloseq
+components from tibbles (objects with class "tbl_df").</p>
     </div>
 
-    <pre class="usage"><span class='fu'>transform_sample_counts</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S4 method for tbl_df</span>
+<span class='fu'>otu_table</span>(<span class='no'>object</span>, <span class='no'>taxa_are_rows</span>)
+
+<span class='co'># S4 method for tbl_df</span>
+<span class='fu'>sample_data</span>(<span class='no'>object</span>)
+
+<span class='co'># S4 method for tbl_df</span>
+<span class='fu'>tax_table</span>(<span class='no'>object</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>physeq</th>
-      <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
+      <th>object</th>
+      <td><p>A tibble whose first column contains the sample or taxa ids</p></td>
     </tr>
     <tr>
-      <th>fun</th>
-      <td><p>A function or formula that can be converted to a function by
-<code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed on to <code>fun</code></p></td>
+      <th>taxa_are_rows</th>
+      <td><p>Logical; <code>TRUE</code> if rows correspond to taxa and <code>FALSE</code>
+if rows correspond to samples</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>fun</code> and passes the
-resulting function on to <code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code>.</p>
+    <p>Since tibbles cannot have row names, the sample or taxon identifiers must be
+contained in a regular column. Speedyseq currently always uses the first
+column for the identifiers that would normally be taken from the row names
+by phyloseq's built-in constructors. Thus the first column is assumed to
+contain the sample names for <code>sample_data()</code> and the OTU/taxa names for
+<code>tax_table()</code>; for <code>otu_table()</code>, the first column is assumed to contain the
+sample names if <code>taxa_are_rows = TRUE</code> and the taxa names if <code>taxa_are_rows = FALSE</code>, with the other identifier being taken from the remaining column
+names.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code>
-<code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://tibble.tidyverse.org/reference/tbl_df-class.html'>tibble::tbl_df</a></code>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html'>phyloseq::otu_table()</a></code>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>phyloseq::sample_data()</a></code>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>phyloseq::tax_table()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)
-<span class='co'># Filter low prevalence taxa, then convert to proportions</span>
-<span class='no'>gp.prop</span> <span class='kw'>&lt;-</span> <span class='no'>GlobalPatterns</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter_taxa.html'>filter_taxa2</a></span>(~ <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>) <span class='kw'>&gt;</span> <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>transform_sample_counts</span>(~ <span class='no'>.</span> / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span>))</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Read a .csv file with readr, which creates an object of class `tbl_df`</span>
+<span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span>(<span class='st'>"path/to/otu_table.csv"</span>)
+<span class='co'># Inspect and check if taxa are rows and that the first column contains the</span>
+<span class='co'># sample names or the taxa/OTU names</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>tbl</span>)
+<span class='co'># Create a phyloseq `otu_table` object</span>
+<span class='no'>otu</span> <span class='kw'>&lt;-</span> <span class='fu'>otu_table</span>(<span class='no'>tbl</span>, <span class='kw'>taxa_are_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># Read a .csv file with readr, which creates an object of class `tbl_df`</span>
+<span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span>(<span class='st'>"path/to/sample_data.csv"</span>)
+<span class='co'># Inspect and check that the first column contains the sample names</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>tbl</span>)
+<span class='co'># Create a phyloseq `sample_data` object</span>
+<span class='no'>sam</span> <span class='kw'>&lt;-</span> <span class='fu'>sample_data</span>(<span class='no'>tbl</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,7 +1,12 @@
+# speedyseq 0.3.2
+
+* Extend the constructor functions `otu_table()`, `sample_data()`, and
+  `tax_table()` to work on [tibbles](https://r4ds.had.co.nz/tibbles.html).
+
 # speedyseq 0.3.1
 
 * Rename the function argument in `transform_sample_counts()` and
-  `filter_taxa()` from `.f` to `fun` to match phyloseq
+  `filter_taxa()` from `.f` to `fun` to match phyloseq.
 
 # speedyseq 0.3.0
 
