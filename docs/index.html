@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -74,18 +74,7 @@
 <a href="#speedyseq" class="anchor"></a>speedyseq</h1></div>
 <!-- badges: start -->
 
-<p>Speedyseq aims to accelerate <a href="https://joey711.github.io/phyloseq/">phyloseq</a> operations that can be very slow on large datasets. Current reimplementations of phyloseq functions include</p>
-<ul>
-<li>A faster version of phyloseq’s <code><a href="reference/psmelt.html">psmelt()</a></code> and the plotting functions that make use of it (<code><a href="reference/plot_bar.html">plot_bar()</a></code>, <code><a href="reference/plot_heatmap.html">plot_heatmap()</a></code>, and <code><a href="reference/plot_tree.html">plot_tree()</a></code>).</li>
-<li>Faster versions of phyloseq’s taxonomic merging functions <code><a href="reference/tax_glom.html">tax_glom()</a></code> and <code><a href="reference/tip_glom.html">tip_glom()</a></code>. Speedyseq’s <code><a href="reference/tip_glom.html">tip_glom()</a></code> also has significantly lower memory usage.</li>
-</ul>
-<p>My general aim is for these functions to be drop-in replacements for phyloseq’s versions; however, there are small differences that should not affect most use cases. In some functions, I have added optional arguments to allow modifying the original behavior.</p>
-<p>New functions that provide additional types of taxonomic merging include</p>
-<ul>
-<li>A general-purpose merging function <code><a href="reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> that provides a vectorized version of phyloseq’s <code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">merge_taxa()</a></code> function.</li>
-<li>A function <code><a href="reference/tree_glom.html">tree_glom()</a></code> that performs direct phylogenetic merging of taxa. This function provides an alternative to the indirect phylogenetic merging done by <code><a href="reference/tip_glom.html">tip_glom()</a></code> that is much faster and arguably more intuitive.</li>
-</ul>
-<p>See the <a href="news/index.html">Changelog</a> for details and examples.</p>
+<p>Speedyseq is an R package for microbiome data analysis that builds off the popular <a href="https://joey711.github.io/phyloseq/">phyloseq</a> package. Speedyseq began with the limited goal of providing faster versions of phyloseq’s plotting and taxonomic merging functions, but now also contains a growing number of additions and enhancements to phyloseq that I have found useful in my work as a microbiome data analyst.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -96,7 +85,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Method 1: Call speedyseq functions explicitly when you want to use speedyseq’s version instead of phyloseq:</p>
+<p>Method 1: Call speedyseq functions explicitly when you want to use speedyseq’s version instead of phyloseq. This method ensures that you do not unintentionally call speedyseq’s version of a phyloseq function.</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">phyloseq</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(
@@ -104,39 +93,69 @@
   <span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/psmelt.html">psmelt</a></span>(<span class="no">GlobalPatterns</span>) <span class="co"># slow</span>
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;  93.662   0.127  94.037</span>
+<span class="co">#&gt;   6.995   0.083   7.093</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(
   <span class="no">df2</span> <span class="kw">&lt;-</span> <span class="kw pkg">speedyseq</span><span class="kw ns">::</span><span class="fu"><a href="reference/psmelt.html">psmelt</a></span>(<span class="no">GlobalPatterns</span>) <span class="co"># fast</span>
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.299   0.000   0.177</span>
+<span class="co">#&gt;   0.351   0.003   0.212</span>
 <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/all_equal.html">all_equal</a></span>(<span class="no">df1</span>, <span class="no">df2</span>, <span class="kw">ignore_row_order</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; [1] TRUE</span>
 <span class="fu"><a href="https://rdrr.io/r/base/detach.html">detach</a></span>(<span class="no">package</span>:<span class="no">phyloseq</span>)</pre></div>
-<p>Method 2: Load speedyseq, which will load phyloseq and cause calls to the overlapping function names to go to speedyseq by default:</p>
+<p>Method 2: Load speedyseq, which will load phyloseq and all speedyseq functions and cause calls to the overlapping function names to go to speedyseq by default.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">speedyseq</span>)
 <span class="co">#&gt; Loading required package: phyloseq</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'speedyseq'</span>
 <span class="co">#&gt; The following objects are masked from 'package:phyloseq':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom</span>
+<span class="co">#&gt;     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom, transform_sample_counts</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">GlobalPatterns</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(
   <span class="no">ps1</span> <span class="kw">&lt;-</span> <span class="kw pkg">phyloseq</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_glom.html">tax_glom</a></span>(<span class="no">GlobalPatterns</span>, <span class="st">"Genus"</span>) <span class="co"># slow</span>
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;  35.961   0.140  36.231</span>
+<span class="co">#&gt;  36.616   0.166  36.884</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(
   <span class="co"># Calls speedyseq's tax_glom</span>
   <span class="no">ps2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tax_glom.html">tax_glom</a></span>(<span class="no">GlobalPatterns</span>, <span class="st">"Genus"</span>) <span class="co"># fast</span>
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.232   0.006   0.240</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span>(<span class="no">ps1</span>), <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span>(<span class="no">ps2</span>))
-<span class="co">#&gt; [1] TRUE</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span>(<span class="no">ps1</span>), <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span>(<span class="no">ps2</span>))
-<span class="co">#&gt; [1] TRUE</span></pre></div>
+<span class="co">#&gt;   0.259   0.000   0.246</span>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="no">ps1</span>, <span class="no">ps2</span>)
+<span class="co">#&gt; [1] FALSE</span></pre></div>
+<p>Loading speedyseq will also load the <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="reference/pipe.html">%&gt;%</a></code>) to allow pipe chains with phyloseq objects,</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">gp.filt.prop</span> <span class="kw">&lt;-</span> <span class="no">GlobalPatterns</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/filter_taxa.html">filter_taxa2</a></span>(~ <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span> <span class="kw">&gt;</span> <span class="fl">0</span>) <span class="kw">&gt;</span> <span class="fl">5</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/transform_sample_counts.html">transform_sample_counts</a></span>(~ <span class="no">.</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span>))</pre></div>
+</div>
+<div id="features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#features" class="anchor"></a>Features</h2>
+<div id="faster-implementations-of-phyloseq-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#faster-implementations-of-phyloseq-functions" class="anchor"></a>Faster implementations of phyloseq functions</h3>
+<ul>
+<li>
+<code><a href="reference/psmelt.html">psmelt()</a></code> and the plotting functions that use it: <code><a href="reference/plot_bar.html">plot_bar()</a></code>, <code><a href="reference/plot_heatmap.html">plot_heatmap()</a></code>, and <code><a href="reference/plot_tree.html">plot_tree()</a></code>.</li>
+<li>The taxonomic merging functions <code><a href="reference/tax_glom.html">tax_glom()</a></code> and <code><a href="reference/tip_glom.html">tip_glom()</a></code>. Speedyseq’s <code><a href="reference/tip_glom.html">tip_glom()</a></code> also has significantly lower memory usage.</li>
+</ul>
+<p>These functions should generally function as drop-in replacements for phyloseq’s versions, with additional arguments allowing for modified behavior. Differences in row order (for <code><a href="reference/psmelt.html">psmelt()</a></code>) and taxon order (for <code><a href="reference/tax_glom.html">tax_glom()</a></code>) can occur; see <a href="https://mikemc.github.io/speedyseq/news/index.html">Changelog</a> for details.</p>
+</div>
+<div id="new-taxonomic-merging-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-taxonomic-merging-functions" class="anchor"></a>New taxonomic merging functions</h3>
+<ul>
+<li>A general-purpose merging function <code><a href="reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> that provides a vectorized version of phyloseq’s <code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">merge_taxa()</a></code> function.</li>
+<li>A function <code><a href="reference/tree_glom.html">tree_glom()</a></code> that performs direct phylogenetic merging of taxa. This function provides an alternative to the indirect phylogenetic merging done by <code><a href="reference/tip_glom.html">tip_glom()</a></code> that is much faster and arguably more intuitive.</li>
+</ul>
+<p>See the <a href="https://mikemc.github.io/speedyseq/news/index.html">Changelog</a> for details and examples.</p>
+</div>
+<div id="enhancements-to-other-phyloseq-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#enhancements-to-other-phyloseq-functions" class="anchor"></a>Enhancements to other phyloseq functions</h3>
+<p>See the <a href="https://mikemc.github.io/speedyseq/reference/index.html">online documentation</a> for an up-to-date list and usage information and the <a href="https://mikemc.github.io/speedyseq/news/index.html">Changelog</a> for further information.</p>
+</div>
 </div>
 </div>
   </div>

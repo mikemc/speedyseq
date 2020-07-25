@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Filter taxa based on across-sample OTU abundance criteria — filter_taxa" />
-<meta property="og:description" content="Variations of phyloseq::filter_taxa() that allows a purrr-style
-anonymous function." />
+<meta property="og:description" content="Variations of phyloseq::filter_taxa() that allows a purrr-style anonymous
+function." />
 
 
 
@@ -73,7 +73,7 @@ anonymous function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -118,13 +118,13 @@ anonymous function." />
     </div>
 
     <div class="ref-description">
-    <p>Variations of <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code> that allows a purrr-style
-anonymous function.</p>
+    <p>Variations of <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code> that allows a purrr-style anonymous
+function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_taxa</span>(<span class='no'>physeq</span>, <span class='no'>.f</span>, <span class='kw'>prune</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>filter_taxa</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>, <span class='kw'>prune</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>filter_taxa2</span>(<span class='no'>physeq</span>, <span class='no'>.f</span>)</pre>
+<span class='fu'>filter_taxa2</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,7 +134,7 @@ anonymous function.</p>
       <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>.f</th>
+      <th>fun</th>
       <td><p>A function or formula that can be converted to a function by
 <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></td>
     </tr>
@@ -148,10 +148,10 @@ function returns the pruned phyloseq object.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>filter_taxa()</code> simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>.f</code> and
-passes the resulting function on to <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code>.
-<code>filter_taxa2()</code> also sets <code>prune = TRUE</code>, which is convenient when passing
-a phyloseq object in a pipe chain (see example).</p>
+    <p><code>filter_taxa()</code> simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>fun</code> and passes the
+resulting function on to <code><a href='https://rdrr.io/pkg/phyloseq/man/filter_taxa.html'>phyloseq::filter_taxa()</a></code>. <code>filter_taxa2()</code> also
+sets <code>prune = TRUE</code>, which is convenient when passing a phyloseq object in a
+pipe chain (see example).</p>
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     

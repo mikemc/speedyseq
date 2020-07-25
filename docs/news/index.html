@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -114,6 +114,13 @@
       <small>Source: <a href='https://github.com/mikemc/speedyseq/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="speedyseq-031" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#speedyseq-031" class="anchor"></a>speedyseq 0.3.1</h1>
+<ul>
+<li>Rename the function argument in <code><a href="../reference/transform_sample_counts.html">transform_sample_counts()</a></code> and <code><a href="../reference/filter_taxa.html">filter_taxa()</a></code> from <code>.f</code> to <code>fun</code> to match phyloseq</li>
+</ul>
+</div>
     <div id="speedyseq-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#speedyseq-030" class="anchor"></a>speedyseq 0.3.0</h1>
@@ -127,8 +134,7 @@
   <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa2</a></span>(~ <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span> <span class="kw">&gt;</span> <span class="fl">0</span>) <span class="kw">&gt;</span> <span class="fl">5</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/transform_sample_counts.html">transform_sample_counts</a></span>(~ <span class="no">.</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">.</span>))</pre></div>
 <ul>
-<li>The <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="../reference/pipe.html">%&gt;%</a></code>) is now exported so that it can be used without first loading <code>magrittr</code> or <code>dplyr</code>
-</li>
+<li>The <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="../reference/pipe.html">%&gt;%</a></code>) is now exported so that it can be used without first loading magrittr or dplyr</li>
 </ul>
 </div>
     <div id="speedyseq-020" class="section level1">

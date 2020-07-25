@@ -73,7 +73,7 @@ purrr-style anonymous function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -122,7 +122,7 @@ purrr-style anonymous function." />
 purrr-style anonymous function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>transform_sample_counts</span>(<span class='no'>physeq</span>, <span class='no'>.f</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>transform_sample_counts</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,21 +132,20 @@ purrr-style anonymous function.</p>
       <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>.f</th>
+      <th>fun</th>
       <td><p>A function or formula that can be converted to a function by
 <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed on to <code>.f</code></p></td>
+      <td><p>Additional arguments passed on to <code>fun</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>.f</code> and passes
-the resulting function on to
-<code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code>.</p>
+    <p>This function simply calls <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code> on <code>fun</code> and passes the
+resulting function on to <code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/transformcounts.html'>phyloseq::transform_sample_counts()</a></code>
