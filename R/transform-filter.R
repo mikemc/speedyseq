@@ -7,14 +7,13 @@
 #' Version of [phyloseq::transform_sample_counts()] that allows a
 #' purrr-style anonymous function.
 #'
-#' This function simply calls [purrr::as_mapper()] on `.f` and passes
-#' the resulting function on to
-#' [phyloseq::transform_sample_counts()].
+#' This function simply calls [purrr::as_mapper()] on `fun` and passes the
+#' resulting function on to [phyloseq::transform_sample_counts()].
 #'
 #' @param physeq [phyloseq-class()] or [ape::phylo()].
-#' @param .f A function or formula that can be converted to a function by
+#' @param fun A function or formula that can be converted to a function by
 #'   [purrr::as_mapper()]
-#' @param ... Additional arguments passed on to `.f`
+#' @param ... Additional arguments passed on to `fun`
 #' 
 #' @seealso 
 #' [phyloseq::transform_sample_counts()]
@@ -27,25 +26,24 @@
 #' gp.prop <- GlobalPatterns %>%
 #'   filter_taxa2(~ sum(. > 0) > 5) %>%
 #'   transform_sample_counts(~ . / sum(.))
-transform_sample_counts <- function(physeq, .f, ...) {
-  fun <- purrr::as_mapper(.f)
-  phyloseq::transform_sample_counts(physeq, fun, ...)
+transform_sample_counts <- function(physeq, fun, ...) {
+  phyloseq::transform_sample_counts(physeq, purrr::as_mapper(fun), ...)
 }
 
 # Filter taxa -----------------------------------------------------------------
 
 #' Filter taxa based on across-sample OTU abundance criteria
 #' 
-#' Variations of [phyloseq::filter_taxa()] that allows a purrr-style
-#' anonymous function.
+#' Variations of [phyloseq::filter_taxa()] that allows a purrr-style anonymous
+#' function.
 #'
-#' `filter_taxa()` simply calls [purrr::as_mapper()] on `.f` and
-#' passes the resulting function on to [phyloseq::filter_taxa()].
-#' `filter_taxa2()` also sets `prune = TRUE`, which is convenient when passing
-#' a phyloseq object in a pipe chain (see example).
+#' `filter_taxa()` simply calls [purrr::as_mapper()] on `fun` and passes the
+#' resulting function on to [phyloseq::filter_taxa()]. `filter_taxa2()` also
+#' sets `prune = TRUE`, which is convenient when passing a phyloseq object in a
+#' pipe chain (see example).
 #'
 #' @param physeq [phyloseq-class()] or [ape::phylo()].
-#' @param .f A function or formula that can be converted to a function by
+#' @param fun A function or formula that can be converted to a function by
 #'   [purrr::as_mapper()]
 #' @param prune A logical. If `FALSE`, then this function returns a logical
 #'   vector specifying the taxa that passed the filter; if `TRUE`, then this
@@ -62,15 +60,13 @@ transform_sample_counts <- function(physeq, .f, ...) {
 #' gp.prop <- GlobalPatterns %>%
 #'   filter_taxa2(~ sum(. > 0) > 5) %>%
 #'   transform_sample_counts(~ . / sum(.))
-filter_taxa <- function(physeq, .f, prune = FALSE) {
-  fun <- purrr::as_mapper(.f)
-  phyloseq::filter_taxa(physeq, fun, prune = prune)
+filter_taxa <- function(physeq, fun, prune = FALSE) {
+  phyloseq::filter_taxa(physeq, purrr::as_mapper(fun), prune = prune)
 }
 
 #' @export
 #' @describeIn filter_taxa Sets `prune = TRUE`
-filter_taxa2 <- function(physeq, .f) {
-  fun <- purrr::as_mapper(.f)
-  phyloseq::filter_taxa(physeq, fun, prune = TRUE)
+filter_taxa2 <- function(physeq, fun) {
+  phyloseq::filter_taxa(physeq, purrr::as_mapper(fun), prune = TRUE)
 }
 

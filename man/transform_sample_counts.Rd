@@ -4,24 +4,23 @@
 \alias{transform_sample_counts}
 \title{Transform abundance data in an \code{otu_table}, sample-by-sample}
 \usage{
-transform_sample_counts(physeq, .f, ...)
+transform_sample_counts(physeq, fun, ...)
 }
 \arguments{
 \item{physeq}{\code{\link[=phyloseq-class]{phyloseq-class()}} or \code{\link[ape:read.tree]{ape::phylo()}}.}
 
-\item{.f}{A function or formula that can be converted to a function by
+\item{fun}{A function or formula that can be converted to a function by
 \code{\link[purrr:as_mapper]{purrr::as_mapper()}}}
 
-\item{...}{Additional arguments passed on to \code{.f}}
+\item{...}{Additional arguments passed on to \code{fun}}
 }
 \description{
 Version of \code{\link[phyloseq:transformcounts]{phyloseq::transform_sample_counts()}} that allows a
 purrr-style anonymous function.
 }
 \details{
-This function simply calls \code{\link[purrr:as_mapper]{purrr::as_mapper()}} on \code{.f} and passes
-the resulting function on to
-\code{\link[phyloseq:transformcounts]{phyloseq::transform_sample_counts()}}.
+This function simply calls \code{\link[purrr:as_mapper]{purrr::as_mapper()}} on \code{fun} and passes the
+resulting function on to \code{\link[phyloseq:transformcounts]{phyloseq::transform_sample_counts()}}.
 }
 \examples{
 data(GlobalPatterns)

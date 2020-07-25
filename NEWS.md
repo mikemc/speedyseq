@@ -1,3 +1,8 @@
+# speedyseq 0.3.1
+
+* Rename the function argument in `transform_sample_counts()` and
+  `filter_taxa()` from `.f` to `fun` to match phyloseq
+
 # speedyseq 0.3.0
 
 * New `transform_sample_counts()` and `filter_taxa()` provide wrappers around
@@ -17,7 +22,7 @@ gp.prop <- GlobalPatterns %>%
 ```
 
 * The [magrittr](https://magrittr.tidyverse.org/) pipe (`%>%`) is now exported
-  so that it can be used without first loading `magrittr` or `dplyr`
+  so that it can be used without first loading magrittr or dplyr
 
 # speedyseq 0.2.0
 

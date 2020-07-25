@@ -5,14 +5,14 @@
 \alias{filter_taxa2}
 \title{Filter taxa based on across-sample OTU abundance criteria}
 \usage{
-filter_taxa(physeq, .f, prune = FALSE)
+filter_taxa(physeq, fun, prune = FALSE)
 
-filter_taxa2(physeq, .f)
+filter_taxa2(physeq, fun)
 }
 \arguments{
 \item{physeq}{\code{\link[=phyloseq-class]{phyloseq-class()}} or \code{\link[ape:read.tree]{ape::phylo()}}.}
 
-\item{.f}{A function or formula that can be converted to a function by
+\item{fun}{A function or formula that can be converted to a function by
 \code{\link[purrr:as_mapper]{purrr::as_mapper()}}}
 
 \item{prune}{A logical. If \code{FALSE}, then this function returns a logical
@@ -20,14 +20,14 @@ vector specifying the taxa that passed the filter; if \code{TRUE}, then this
 function returns the pruned phyloseq object.}
 }
 \description{
-Variations of \code{\link[phyloseq:filter_taxa]{phyloseq::filter_taxa()}} that allows a purrr-style
-anonymous function.
+Variations of \code{\link[phyloseq:filter_taxa]{phyloseq::filter_taxa()}} that allows a purrr-style anonymous
+function.
 }
 \details{
-\code{filter_taxa()} simply calls \code{\link[purrr:as_mapper]{purrr::as_mapper()}} on \code{.f} and
-passes the resulting function on to \code{\link[phyloseq:filter_taxa]{phyloseq::filter_taxa()}}.
-\code{filter_taxa2()} also sets \code{prune = TRUE}, which is convenient when passing
-a phyloseq object in a pipe chain (see example).
+\code{filter_taxa()} simply calls \code{\link[purrr:as_mapper]{purrr::as_mapper()}} on \code{fun} and passes the
+resulting function on to \code{\link[phyloseq:filter_taxa]{phyloseq::filter_taxa()}}. \code{filter_taxa2()} also
+sets \code{prune = TRUE}, which is convenient when passing a phyloseq object in a
+pipe chain (see example).
 }
 \section{Functions}{
 \itemize{
