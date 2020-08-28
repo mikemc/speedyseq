@@ -24,7 +24,7 @@ merge_taxa_vec(x, group, reorder = FALSE, tax_adjust = 1L)
 \arguments{
 \item{x}{A phyloseq object or component object}
 
-\item{group}{a vector with one element for each taxon in \code{physeq} that
+\item{group}{A vector with one element for each taxon in \code{physeq} that
 defines the new groups. see \code{base::rowsum()}.}
 
 \item{reorder}{Logical specifying whether to reorder the taxa by their

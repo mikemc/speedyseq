@@ -27,7 +27,7 @@
 #' disagreement; all ranks are set to NA after the first disagreement or NA.
 #' 
 #' @param x A phyloseq object or component object 
-#' @param group a vector with one element for each taxon in `physeq` that
+#' @param group A vector with one element for each taxon in `physeq` that
 #' defines the new groups. see `base::rowsum()`.
 #' @param reorder Logical specifying whether to reorder the taxa by their
 #' `group` values. Ignored if `x` has (or is) a phylogenetic tree.
@@ -113,14 +113,11 @@ setMethod("merge_taxa_vec", "phyloseq",
 setMethod("merge_taxa_vec", "otu_table",
   function(x, group, reorder = FALSE) {
     stopifnot(ntaxa(x) == length(group))
-    # Work with taxa as rows
-    if (!taxa_are_rows(x)) {
+    # Work with taxa as rows, and remember to flip back at end if needed
+    needs_flip <- !taxa_are_rows(x)
+    if (needs_flip)
       x <- t(x)
-      needs_flip <- TRUE
-    } else {
-      needs_flip <- FALSE
-    }
-    # drop taxa with `is.na(group)`
+    # Drop taxa with `is.na(group)`
     if (anyNA(group)) {
       warning("`group` has missing values; corresponding taxa will be dropped")
       x <- x[!is.na(group), ]

@@ -1,0 +1,195 @@
+#' Merge samples by sample variables 
+#' 
+#' Alternative to `phyloseq::merge_samples()` that better handles categorical
+#' sample variables. Using the `funs` argument, users can specify the function
+#' that should be used to merge sample variables within groups. The default is
+#' use the new `unique_or_na()` function, which collapses the values to a
+#' single unique value if it exists and otherwise returns NA.
+#' 
+#' @param x A `sample_data` object
+#' @param group A sample variable or a vector of length `nsamples(x)` defining
+#'   the sample grouping. A vector must be supplied if x is an otu_table
+#' @param funs Named list of merge functions for each numeric variable
+#' @param reorder Logical specifying whether to reorder the new (merged)
+#'   samples by name
+#' 
+#' @export
+#'
+#' @examples
+#' data(enterotype)
+#' 
+#'  # Merge samples with the same project and clinical status
+#' ps <- enterotype 
+#' sample_data(ps) <- sample_data(ps) %>%
+#'   transform(Project.ClinicalStatus = Project:ClinicalStatus)
+#' sample_data(ps) %>% head
+#' ps0 <- merge_samples2(ps, "Project.ClinicalStatus", funs = list(Age = mean))
+#' sample_data(ps0) %>% head
+setGeneric("merge_samples2", 
+  function(x, 
+           group,
+           funs = list(),
+           reorder = FALSE)
+    standardGeneric("merge_samples2")
+)
+
+#' @rdname merge_samples2
+setMethod(
+  "merge_samples2", 
+  signature("phyloseq"), 
+  function(x, group, funs = list(), reorder = FALSE) {
+    if (length(group) == 1) {
+      stopifnot(group %in% sample_variables(x))
+      group <- sample_data(x)[[group]]
+    } else {
+      stopifnot(identical(length(group), nsamples(x)))
+    }
+    # Drop samples with `is.na(group)`
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding samples will be dropped")
+      x <- prune_samples(!is.na(group), x)
+      group <- group[!is.na(group)]
+    }
+    # Merge
+    otu.merged <- merge_samples2(otu_table(x), group, reorder = reorder)
+    if (!is.null(access(x, "sam_data")))
+      sam.merged <- merge_samples2(sample_data(x), group, funs = funs)
+    else 
+      sam.merged <- NULL
+    phyloseq(
+      otu.merged, 
+      sam.merged,
+      access(x, "tax_table"),
+      access(x, "phy_tree"),
+      access(x, "refseq")
+    )
+})
+
+#' @rdname merge_samples2
+setMethod(
+  "merge_samples2", 
+  signature("otu_table"), 
+  function(x, group, reorder = FALSE) {
+    stopifnot(identical(length(group), nsamples(x)))
+    # Work with samples as rows, and remember to flip back at end if needed
+    needs_flip <- taxa_are_rows(x)
+    if (needs_flip)
+      x <- t(x)
+    # Drop samples with `is.na(group)`
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding samples will be dropped")
+      x <- x[!is.na(group), ]
+      group <- group[!is.na(group)]
+    }
+    x.merged <- rowsum(x, group, reorder = reorder) %>%
+      otu_table(taxa_are_rows = FALSE)
+    if (needs_flip)
+      x.merged <- t(x.merged)
+    x.merged
+})
+
+#' @rdname merge_samples2
+setMethod(
+  "merge_samples2", 
+  signature("sample_data"), 
+  function(x, group, funs = list(), reorder = FALSE) {
+    if (length(group) == 1) {
+      stopifnot(group %in% sample_variables(x))
+      group <- x[[group]]
+    } else {
+      stopifnot(identical(length(group), nsamples(x)))
+    }
+    # Drop samples with `is.na(group)`
+    if (anyNA(group)) {
+      warning("`group` has missing values; corresponding samples will be dropped")
+      x <- x[!is.na(group), ]
+      group <- group[!is.na(group)]
+    }
+    ## Set the functions f used to merge each sample variable.
+    # Named logical vector indicating whether each variable is in the funs
+    var_in_funs <- names(x) %>% 
+      rlang::set_names(. %in% names(funs), .)
+    # For vars in the funs, run f through as_mapper; else, use the default f
+    funs <- purrr::map2(var_in_funs, names(var_in_funs),
+      ~if (.x) purrr::as_mapper(funs[[.y]]) else unique_or_na
+    )
+    ## Merge variable values, creating a new sample_data object with one row
+    ## per group.
+    # A "sample_data" object is a list of data variables (columns); strategy is
+    # to reduce each variable with `merge_groups()`, and then recombine into a
+    # data.frame. The call to `merge_groups()` will sort by `group` values,
+    # which we need to account for when setting the new sample names.
+    new_sample_names <- group %>% unique %>% sort %>% as.character
+    x.merged <- purrr::map2(x, funs, 
+      ~merge_groups(.x, group = group, f = .y)
+    ) %>%
+      data.frame %>%
+      vctrs::vec_set_names(new_sample_names) %>%
+      sample_data
+    ## Put back in initial order
+    if (!reorder) {
+      initial_order <- group %>% unique %>% as.character
+      x.merged <- x.merged[initial_order, ]
+    }
+    x.merged
+})
+
+# Helpers ---------------------------------------------------------------------
+
+#' Get the unique value in x or NA if there is
+#'
+#' If `unique(x)` is a single value, return it; otherwise, return an NA of the
+#' same type as `x`. If `x` is a factor, then the levels and ordered status
+#' will be kept in either case. If `x` is a non-atomic vector (i.e. a list),
+#' then the logical `NA` will be used.
+#'
+#' @param x A vector
+#' @export
+#' 
+#' @examples
+#' f <- factor(c("a", "a", "b", "c"), ordered = TRUE)
+#' unique_or_na(f)
+#' unique_or_na(f[1:2])
+#' 
+#' x <- c("a", "b", "a")
+#' unique_or_na(x[c(1, 3)])
+#' unique_or_na(x)
+#' unique_or_na(x) %>% typeof
+unique_or_na <- function(x) {
+  UseMethod("unique_or_na")
+}
+
+#' @export
+unique_or_na.default <- function(x) {
+  if (length(unique(x)) == 1)
+    x[[1]]
+  else if (is.atomic(x))
+    as(NA, typeof(x))
+  else
+    NA
+}
+
+#' @export
+unique_or_na.factor <- function(x) {
+  if (length(unique(x)) == 1)
+    x[[1]]
+  else
+    factor(NA, levels = levels(x), ordered = is.ordered(x))
+}
+
+#' Merge groups of elements within a vector by a function
+#'
+#' Internal function used in `merge_samples2()` to merge variables. Note, owing
+#' to the use of `split()`, the merged elements in the new vector will be
+#' reordered according to `group`.
+#'
+#' @param x A vector whose elements will be merged.
+#' @param group A vector such that `as.factor(group)` defines the grouping.
+#' @param f A function that, when applied to a subvector of x, returns a single
+#'   value. Can also be a formula as interpretted by `purrr::as_mapper()`.
+merge_groups <- function(x, group, f = unique_or_na) {
+  f <- purrr::as_mapper(f)
+  split(x, group) %>% 
+    purrr::map(f) %>%
+    {vctrs::vec_c(!!!., .name_spec = rlang::zap())}
+}

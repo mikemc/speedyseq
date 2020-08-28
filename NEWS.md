@@ -1,3 +1,23 @@
+# speedyseq (development version)
+
+* Add `merge_samples2()` as an alternative to `phyloseq::merge_samples()` that
+  better handles categorical sample variables. Using the `funs` argument, users
+  can specify the function that should be used to merge sample variables within
+  groups. The default is use the new `unique_or_na()` function, which collapses
+  the values to a single unique value if it exists and otherwise returns NA.
+
+```r
+data(enterotype)
+
+# Merge samples with the same project and clinical status
+ps <- enterotype 
+sample_data(ps) <- sample_data(ps) %>%
+  transform(Project.ClinicalStatus = Project:ClinicalStatus)
+sample_data(ps) %>% head
+ps0 <- merge_samples2(ps, "Project.ClinicalStatus", funs = list(Age = mean))
+sample_data(ps0) %>% head
+```
+
 # speedyseq 0.3.2
 
 * Extend the constructor functions `otu_table()`, `sample_data()`, and
