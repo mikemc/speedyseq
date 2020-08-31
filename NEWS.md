@@ -18,6 +18,10 @@ ps0 <- merge_samples2(ps, "Project.ClinicalStatus", funs = list(Age = mean))
 sample_data(ps0) %>% head
 ```
 
+* Add whether taxa are rows to `show()` method for `phyloseq` objects
+
+* Add `tibble::glimpse()` methods for `sample_data` and `phyloseq` objects
+
 # speedyseq 0.3.2
 
 * Extend the constructor functions `otu_table()`, `sample_data()`, and
