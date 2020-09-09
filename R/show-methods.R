@@ -40,10 +40,11 @@ setMethod("show", "phyloseq", function(object){
 
 # glimpse ---------------------------------------------------------------------
 
-# Fix output of tibble::glimpse() on sample_data and taxonomyTabl eobjects by
+# Fix output of tibble::glimpse() on sample_data and taxonomyTable objects by
 # first converting to a data.frame. Note, currently the sample and taxa names
 # will not be shown.
 
+#' @importFrom tibble glimpse
 #' @export
 glimpse.sample_data <- function(x, width = NULL, ...) {
   x %>% 
@@ -51,6 +52,7 @@ glimpse.sample_data <- function(x, width = NULL, ...) {
     tibble::glimpse(width = width, ...)
 }
 
+#' @importFrom tibble glimpse
 #' @export
 glimpse.taxonomyTable <- function(x, width = NULL, ...) {
   x %>% 

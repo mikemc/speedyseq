@@ -1,7 +1,5 @@
 # devtools::test_file(here::here("tests", "testthat", "test-merge_taxa_vec.R"))
 
-library(magrittr)
-
 data(GlobalPatterns)
 # ps <- subset_taxa(GlobalPatterns, Phylum == "Chlamydiae")
 # # Prune to just the bigger clade
@@ -33,6 +31,10 @@ test_that("merge_taxa_vec() passes basic checks", {
   expect_warning(ps1 <- merge_taxa_vec(ps, rep(1, ntaxa(ps))))
   expect_identical(ntaxa(ps1), 1L)
   expect_null(access(ps1, "phy_tree"))
+  # Issue #50: should work on a dataset with just one tax rank 
+  data(enterotype)
+  grp <- tax_table(enterotype)[,1] %>% c
+  expect_warning(merge_taxa_vec(enterotype, grp))
 })
 
 test_that("merge_taxa_vec() agrees with merge_taxa", {

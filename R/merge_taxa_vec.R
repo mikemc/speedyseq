@@ -148,6 +148,11 @@ setMethod("merge_taxa_vec", "otu_table",
 setMethod("merge_taxa_vec", "taxonomyTable",
   function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
+    # Temporary stopgap to avoid hidden  errors if "taxon" or "group" are in
+    # the tax table
+    if (any(c("taxon", "group") %in% rank_names(x))) {
+      stop("Currently requires that 'taxon' and 'group' are not in `rank_names(x)`")
+    }
     # drop taxa with `is.na(group)`
     if (anyNA(group)) {
       warning("`group` has missing values; corresponding taxa will be dropped")
@@ -180,13 +185,24 @@ setMethod("merge_taxa_vec", "taxonomyTable",
       ]
     if (reorder)
       data.table::setorder(reduced, group)
-    reduced %>%
-      .[, !"group"] %>%
-      # Propagate bad ranks downwards and convert to NAs
-      tibble::column_to_rownames("taxon") %>%
-      apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>% 
-      t %>%
-      tax_table
+    # For last step, convert to data frame with rownames as taxon names; but
+    # must be a matrix before final call to tax_table
+    reduced <- reduced[, !"group"] %>%
+        tibble::column_to_rownames("taxon")
+    # If only one tax rank, just convert bad_string -> NA; else, need to
+    # propagate bad ranks downwards and convert to NAs
+    if (identical(length(rank_names(x)), 1L)) {
+      reduced[[1]] <- reduced[[1]] %>% 
+        {ifelse(. == bad_string, NA_character_, .)}
+      reduced %>%
+        as("matrix") %>%
+        tax_table
+    } else {
+      reduced %>%
+        apply(1, bad_flush_right, bad = bad_string, na_bad = na_bad, k = k) %>% 
+        t %>%
+        tax_table
+    }
   }
 )
 
