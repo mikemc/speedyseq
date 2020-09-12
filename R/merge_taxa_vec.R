@@ -148,10 +148,10 @@ setMethod("merge_taxa_vec", "otu_table",
 setMethod("merge_taxa_vec", "taxonomyTable",
   function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
-    # Temporary stopgap to avoid hidden  errors if "taxon" or "group" are in
-    # the tax table
-    if (any(c("taxon", "group") %in% rank_names(x))) {
-      stop("Currently requires that 'taxon' and 'group' are not in `rank_names(x)`")
+    # Temporary stopgap to avoid hidden errors if internal variable names are
+    # in the tax table
+    if (any(c(".taxon", ".group") %in% rank_names(x))) {
+      stop("Currently requires that '.taxon' and '.group' are not in `rank_names(x)`")
     }
     # drop taxa with `is.na(group)`
     if (anyNA(group)) {
@@ -172,23 +172,23 @@ setMethod("merge_taxa_vec", "taxonomyTable",
     # ranks and making new tax table
     reduced <- x %>% 
       as("matrix") %>%
-      data.table::as.data.table(keep.rownames = "taxon") %>%
-      .[, group := group] %>%
+      data.table::as.data.table(keep.rownames = ".taxon") %>%
+      .[, .group := group] %>%
       .[,
         # Reduce to one row per group; compute new names and bad ranks
-        by = group, .SDcols = rank_names(x),
+        by = .group, .SDcols = rank_names(x),
         c(
           # New taxa names are the first taxon in each group
-          .(taxon = taxon[1]), 
+          .(.taxon = .taxon[1]), 
           lapply(.SD, bad_or_unique, bad = bad_string)
         )
       ]
     if (reorder)
-      data.table::setorder(reduced, group)
+      data.table::setorder(reduced, .group)
     # For last step, convert to data frame with rownames as taxon names; but
     # must be a matrix before final call to tax_table
-    reduced <- reduced[, !"group"] %>%
-        tibble::column_to_rownames("taxon")
+    reduced <- reduced[, !".group"] %>%
+        tibble::column_to_rownames(".taxon")
     # If only one tax rank, just convert bad_string -> NA; else, need to
     # propagate bad ranks downwards and convert to NAs
     if (identical(length(rank_names(x)), 1L)) {

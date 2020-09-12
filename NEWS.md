@@ -1,6 +1,6 @@
-# speedyseq 0.3.3
+# speedyseq 0.4.0
 
-* Add `merge_samples2()` and the helper `unique_or_na()` as an alternative to
+* New `merge_samples2()` and helper `unique_or_na()` provides an alternative to
   `phyloseq::merge_samples()` that better handles categorical sample variables.
   The `funs` argument specifies which summary is used to merge each sample
   variable within groups. The default is `unique_or_na()`, which collapses the
@@ -22,7 +22,7 @@ sample_data(ps0) %>% head
 
 * Add `tibble::glimpse()` methods for `sample_data` and `phyloseq` objects
 
-* Fixed bug in `merge_taxa_vec()` when only one tax rank
+* Minor bug fixes to `merge_taxa_vec()`
 
 # speedyseq 0.3.2
 
