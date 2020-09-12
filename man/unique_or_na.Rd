@@ -2,7 +2,7 @@
 % Please edit documentation in R/merge_samples.R
 \name{unique_or_na}
 \alias{unique_or_na}
-\title{Get the unique value in x or NA if there is}
+\title{Get the unique value in x or NA if none}
 \usage{
 unique_or_na(x)
 }

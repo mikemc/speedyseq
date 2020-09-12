@@ -22,7 +22,7 @@ status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travi
 coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=master)
 <!-- badges: end -->
 
-Speedyseq is an R package for microbiome data analysis that builds off the popular [phyloseq](https://joey711.github.io/phyloseq/) package. Speedyseq began with the limited goal of providing faster versions of phyloseq's plotting and taxonomic merging functions, but now also contains a growing number of additions and enhancements to phyloseq that I have found useful in my work as a microbiome data analyst.
+Speedyseq is an R package for microbiome data analysis that extends the popular [phyloseq](https://joey711.github.io/phyloseq/) package. Speedyseq began with the limited goal of providing faster versions of phyloseq's plotting and taxonomic merging functions, but now contains a growing number of enhancements to phyloseq which I have found useful.
 
 ## Installation
 
@@ -60,7 +60,6 @@ system.time(
   # Calls speedyseq's tax_glom
   ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
 )
-identical(ps1, ps2)
 ```
 Loading speedyseq will also load the [magrittr](https://magrittr.tidyverse.org/) pipe (`%>%`) to allow pipe chains with phyloseq objects,
 ```{r}
@@ -85,6 +84,6 @@ These functions should generally function as drop-in replacements for phyloseq's
 
 See the [Changelog](https://mikemc.github.io/speedyseq/news/index.html) for details and examples.
 
-### Enhancements to other phyloseq functions
+### Enhancements and additions to other phyloseq functions
 
 See the [online documentation](https://mikemc.github.io/speedyseq/reference/index.html) for an up-to-date list and usage information and the [Changelog](https://mikemc.github.io/speedyseq/news/index.html) for further information. 

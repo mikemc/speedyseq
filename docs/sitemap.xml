@@ -16,6 +16,12 @@
     <loc>https://mikemc.github.io/speedyseq/reference/import_phyloseq_functions.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/merge_groups.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/merge_samples2.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/merge_taxa_vec-methods.html</loc>
   </url>
   <url>
@@ -37,10 +43,16 @@
     <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/sample_data_stable.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/select_taxa-methods.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tax_glom.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/tibble-constructors.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tip_glom.html</loc>
@@ -50,5 +62,8 @@
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tree_glom.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/unique_or_na.html</loc>
   </url>
 </urlset>

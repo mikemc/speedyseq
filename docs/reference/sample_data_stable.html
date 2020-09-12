@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pseudo-merge taxa in groups — merge_taxa_vec_pseudo • speedyseq</title>
+<title>Create sample data without adjusting row/sample names — sample_data_stable • speedyseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Pseudo-merge taxa in groups — merge_taxa_vec_pseudo" />
-<meta property="og:description" content="Returns x pruned to the first taxon of each group defined in group." />
+<meta property="og:title" content="Create sample data without adjusting row/sample names — sample_data_stable" />
+<meta property="og:description" content="phyloseq::sample_data() will change the sample names from the row names if
+they are as.character(1:nrow(object)). This function instead keeps the
+names as is." />
 
 
 
@@ -111,32 +113,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pseudo-merge taxa in groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/merge_taxa_vec.R'><code>R/merge_taxa_vec.R</code></a></small>
-    <div class="hidden name"><code>merge_taxa_vec_pseudo.Rd</code></div>
+    <h1>Create sample data without adjusting row/sample names</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/merge_samples.R'><code>R/merge_samples.R</code></a></small>
+    <div class="hidden name"><code>sample_data_stable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns <code>x</code> pruned to the first taxon of each group defined in <code>group</code>.</p>
+    <p><code><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>phyloseq::sample_data()</a></code> will change the sample names from the row names if
+they are <code><a href='https://rdrr.io/r/base/character.html'>as.character(1:nrow(object))</a></code>. This function instead keeps the
+names as is.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>merge_taxa_vec_pseudo</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>sample_data_stable</span>(<span class='no'>object</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a phyloseq component-class object</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>a vector with one element for each taxon in <code>x</code> that defines
-the new groups</p></td>
+      <th>object</th>
+      <td><p>A "data.frame"-class object</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='kw'>var2</span> <span class='kw'>=</span> <span class='fl'>7</span>:<span class='fl'>9</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'><span class='fu'>sample_data</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; Sample Data:        [3 samples by 2 sample variables]:
+#&gt;     var1 var2
+#&gt; sa1    a    7
+#&gt; sa2    b    8
+#&gt; sa3    c    9</div><div class='input'><span class='kw pkg'>speedyseq</span><span class='kw ns'>:::</span><span class='fu'>sample_data_stable</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; Sample Data:        [3 samples by 2 sample variables]:
+#&gt;   var1 var2
+#&gt; 1    a    7
+#&gt; 2    b    8
+#&gt; 3    c    9</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,7 +1,8 @@
 url: https://mikemc.github.io/speedyseq
 reference:
-- title: "Merging taxa"
+- title: "Merging"
 - contents: 
+  - merge_samples2
   - merge_taxa_vec
   - ends_with("glom")
 - title: "Plotting"
@@ -13,3 +14,4 @@ reference:
   - starts_with("filter")
   - psmelt
   - tibble-constructors
+  - unique_or_na

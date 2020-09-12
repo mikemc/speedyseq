@@ -1,8 +1,8 @@
-pandoc: 2.9.2.1
+pandoc: 2.10.1
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2020-07-25T17:04Z
+last_built: 2020-09-12T20:01Z
 urls:
   reference: https://mikemc.github.io/speedyseq/reference
   article: https://mikemc.github.io/speedyseq/articles
