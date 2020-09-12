@@ -5,7 +5,7 @@
 \alias{merge_samples2,phyloseq-method}
 \alias{merge_samples2,otu_table-method}
 \alias{merge_samples2,sample_data-method}
-\title{Merge samples by sample variables}
+\title{Merge samples by a sample variable or factor}
 \usage{
 merge_samples2(x, group, funs = list(), reorder = FALSE)
 
@@ -27,16 +27,19 @@ the sample grouping. A vector must be supplied if x is an otu_table}
 samples by name}
 }
 \description{
-Alternative to \code{phyloseq::merge_samples()} that better handles categorical
-sample variables. Using the \code{funs} argument, users can specify the function
-that should be used to merge sample variables within groups. The default is
-use the new \code{unique_or_na()} function, which collapses the values to a
-single unique value if it exists and otherwise returns NA.
+This function provides an alternative to \code{phyloseq::merge_samples()} that
+better handles sample variables of different types, especially categorical
+sample variables. It combines the samples in \code{x} defined by the sample
+variable or factor \code{group} by summing the abundances in \code{otu_table(x)} and
+combines sample variables by the summary functions in \code{funs}. The default
+summary function, \code{unique_or_na()}, collapses the values within a group to a
+single unique value if it exists and otherwise returns NA. The new (merged)
+samples are named by the values in \code{group}.
 }
 \examples{
 data(enterotype)
 
- # Merge samples with the same project and clinical status
+# Merge samples with the same project and clinical status
 ps <- enterotype 
 sample_data(ps) <- sample_data(ps) \%>\%
   transform(Project.ClinicalStatus = Project:ClinicalStatus)

@@ -1,10 +1,13 @@
-#' Merge samples by sample variables 
-#' 
-#' Alternative to `phyloseq::merge_samples()` that better handles categorical
-#' sample variables. Using the `funs` argument, users can specify the function
-#' that should be used to merge sample variables within groups. The default is
-#' use the new `unique_or_na()` function, which collapses the values to a
-#' single unique value if it exists and otherwise returns NA.
+#' Merge samples by a sample variable or factor
+#'
+#' This function provides an alternative to `phyloseq::merge_samples()` that
+#' better handles sample variables of different types, especially categorical
+#' sample variables. It combines the samples in `x` defined by the sample
+#' variable or factor `group` by summing the abundances in `otu_table(x)` and
+#' combines sample variables by the summary functions in `funs`. The default
+#' summary function, `unique_or_na()`, collapses the values within a group to a
+#' single unique value if it exists and otherwise returns NA. The new (merged)
+#' samples are named by the values in `group`.
 #' 
 #' @param x A `sample_data` object
 #' @param group A sample variable or a vector of length `nsamples(x)` defining
@@ -18,7 +21,7 @@
 #' @examples
 #' data(enterotype)
 #' 
-#'  # Merge samples with the same project and clinical status
+#' # Merge samples with the same project and clinical status
 #' ps <- enterotype 
 #' sample_data(ps) <- sample_data(ps) %>%
 #'   transform(Project.ClinicalStatus = Project:ClinicalStatus)
@@ -208,7 +211,7 @@ merge_groups <- function(x, group, f = unique_or_na) {
 #' x <- data.frame(var1 = letters[1:3], var2 = 7:9)
 #' rownames(x)
 #' sample_data(x)
-#' sample_data_stable(x)
+#' speedyseq:::sample_data_stable(x)
 sample_data_stable <- function(object) {
   # Modified from phyloseq's sample_data data.frame method; see
   # https://github.com/joey711/phyloseq/blob/master/R/sampleData-class.R
