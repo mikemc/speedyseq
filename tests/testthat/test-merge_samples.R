@@ -1,7 +1,7 @@
 # run just this file:
 # devtools::test_file(here::here("tests", "testthat", "test-merge_samples.R"))
 
-# unique_or_na ----------------------------------------------------------------
+# helpers ---------------------------------------------------------------------
 
 test_that("unique_or_na() returns expected results", {
   ## Atomic vectors
@@ -48,6 +48,13 @@ test_that("unique_or_na() returns expected results", {
   expect_identical(unique_or_na(list(1,1)), 1)
 })
 
+test_that("`sample_data_stable()` maintains names", {
+  x <- data.frame(var1 = letters[1:3], var2 = 7:9)
+  expect_identical(sample_data_stable(x) %>% sample_names, as.character(1:3))
+  rownames(x) <- c("3", "two", "1")
+  expect_identical(sample_data_stable(x) %>% sample_names, c("3", "two", "1"))
+})
+
 # merge_samples2 --------------------------------------------------------------
 
 test_that("Test `merge_samples2()` on `enterotype` dataset", {
@@ -78,4 +85,11 @@ test_that("Test `merge_samples2()` on `enterotype` dataset", {
   expect_identical(ps0, ps1)
   # Remaining components should be the same as original
   expect_identical(tax_table(ps0), tax_table(ps))
+  # Should also work on columns that are numbers, or factors whose levels are
+  # numbers, even if the values are of the form 1:n. (Issue #52)
+  expect_warning(ps2 <- merge_samples2(ps, "Enterotype"))
+  sample_data(ps)$Enterotype <- sample_data(ps)$Enterotype %>% as.integer
+  expect_warning(ps3 <- merge_samples2(ps, "Enterotype"))
+  sample_data(ps3)$Enterotype <- sample_data(ps3)$Enterotype %>% as.factor
+  expect_identical(ps2, ps3)
 })

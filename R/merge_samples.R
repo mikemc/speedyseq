@@ -125,7 +125,7 @@ setMethod(
     ) %>%
       data.frame %>%
       vctrs::vec_set_names(new_sample_names) %>%
-      sample_data
+      sample_data_stable
     ## Put back in initial order
     if (!reorder) {
       initial_order <- group %>% unique %>% as.character
@@ -192,4 +192,30 @@ merge_groups <- function(x, group, f = unique_or_na) {
   split(x, group) %>% 
     purrr::map(f) %>%
     {vctrs::vec_c(!!!., .name_spec = rlang::zap())}
+}
+
+#' Create sample data without adjusting row/sample names
+#'
+#' `phyloseq::sample_data()` will change the sample names from the row names if
+#' they are `as.character(1:nrow(object))`. This function instead keeps the
+#' names as is.
+#' 
+#' @param object A "data.frame"-class object
+#'
+#' @keywords internal
+#'
+#' @examples 
+#' x <- data.frame(var1 = letters[1:3], var2 = 7:9)
+#' rownames(x)
+#' sample_data(x)
+#' sample_data_stable(x)
+sample_data_stable <- function(object) {
+  # Modified from phyloseq's sample_data data.frame method; see
+  # https://github.com/joey711/phyloseq/blob/master/R/sampleData-class.R
+  stopifnot(identical(class(object), "data.frame"))
+	# Make sure there are no phantom levels in categorical variables
+	object <- phyloseq:::reconcile_categories(object)
+	# instantiate first to check validity
+	SM <- new("sample_data", object)
+	SM
 }
