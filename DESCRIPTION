@@ -1,6 +1,6 @@
 Package: speedyseq
 Title: Faster implementations of phyloseq functions
-Version: 0.4.1
+Version: 0.5.0
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
@@ -22,11 +22,13 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    methods,
     purrr,
     rlang,
     tibble,
     tidyr,
     scales,
+    stringr,
     vctrs (>= 0.3.0),
     vegan
 RoxygenNote: 7.1.1

@@ -2,6 +2,9 @@
 
 S3method(glimpse,sample_data)
 S3method(glimpse,taxonomyTable)
+S3method(print,otu_table)
+S3method(print,sample_data)
+S3method(print,taxonomyTable)
 S3method(unique_or_na,default)
 S3method(unique_or_na,factor)
 export("%>%")

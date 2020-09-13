@@ -1,3 +1,13 @@
+# speedyseq 0.5.0
+
+* New "tibble-like" `show()` and `print()` methods for otu tables, sample-data
+  tables, and taxonomy tables.
+
+# speedyseq 0.4.1
+
+* Fixed bug in `merge_samples2()` when the new sample names are the numerical
+  sequence `1:n_groups`.
+
 # speedyseq 0.4.0
 
 * New `merge_samples2()` and helper `unique_or_na()` provides an alternative to
