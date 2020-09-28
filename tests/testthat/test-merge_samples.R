@@ -93,3 +93,11 @@ test_that("Test `merge_samples2()` on `enterotype` dataset", {
   sample_data(ps3)$Enterotype <- sample_data(ps3)$Enterotype %>% as.factor
   expect_identical(ps2, ps3)
 })
+
+test_that("Test that group names are preserved", {
+  # For Issue #52
+  sam <- tibble::tibble(sample_id = letters[1:3], group_var = 1:3) %>%
+    sample_data
+  x <- merge_samples2(sam, "group_var")
+  expect_identical(sample_names(x), as.character(sam$group_var))
+})

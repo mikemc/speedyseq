@@ -127,14 +127,14 @@ setMethod(
       ~merge_groups(.x, group = group, f = .y)
     ) %>%
       data.frame %>%
-      vctrs::vec_set_names(new_sample_names) %>%
-      sample_data_stable
+      vctrs::vec_set_names(new_sample_names)
     ## Put back in initial order
     if (!reorder) {
       initial_order <- group %>% unique %>% as.character
-      x.merged <- x.merged[initial_order, ]
+      x.merged <- x.merged[initial_order, , drop = FALSE]
     }
-    x.merged
+    ## Return as sample data with group names preserved
+    x.merged %>% sample_data_stable
 })
 
 # Helpers ---------------------------------------------------------------------
