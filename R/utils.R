@@ -86,3 +86,43 @@ setMethod("select_taxa", signature("phyloseq", "character"),
     phyloseq:::index_reorder(x, index_type = "taxa")
   }
 )
+
+# orient_taxa -----------------------------------------------------------------
+
+#' Orient a phyloseq object or otu table to have taxa as rows or as columns
+#'
+#' Puts the phyloseq or otu-table object `x` in the orientation (taxa as rows
+#' or as columns) specified by `as`. This is useful when passing the otu table
+#' on to functions that require the abundance matrix to have a specific
+#' orientation and are unaware of the `taxa_are_rows(x)` property.
+#'
+#' @param x A phyloseq or otu-table object
+#' @param as The matrix dimension that is desired for taxa. Must be
+#'   "rows" for rows and "columns" or "cols" for columns.
+#'
+#' @export
+#'
+#' @examples
+#' data(soilrep)
+#' taxa_are_rows(soilrep)
+#' x <- soilrep %>% orient_taxa(as = "columns")
+#' taxa_are_rows(x)
+setGeneric("orient_taxa", 
+  function(x, as) standardGeneric("orient_taxa")
+)
+
+orient_taxa_default <- function(x, as) {
+  stopifnot(as %in% c("rows", "columns", "cols"))
+  if (identical(as, "rows")) {
+    if (!taxa_are_rows(x))
+      x <- t(x)
+  } else {
+    if (taxa_are_rows(x))
+      x <- t(x)
+  }
+  x
+}
+
+setMethod("orient_taxa", "otu_table", orient_taxa_default)
+
+setMethod("orient_taxa", "phyloseq", orient_taxa_default)

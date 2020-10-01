@@ -1,3 +1,11 @@
+# speedyseq 0.5.1
+
+* New function `orient_taxa()` to facilitate putting a phyloseq or otu-table
+  object in a specific orientation (taxa as rows or as columns). This is useful
+  when passing the otu table on to functions that require the abundance matrix
+  to have a specific orientation and are unaware of the `taxa_are_rows(x)`
+  property.
+
 # speedyseq 0.5.0
 
 * New "tibble-like" `show()` and `print()` methods for otu tables, sample-data

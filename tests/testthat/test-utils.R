@@ -1,7 +1,7 @@
 # run just this file:
-# devtools::test_file(here::here("tests", "testthat", "test-select.R"))
+# devtools::test_file(here::here("tests", "testthat", "test-utils.R"))
 
-library(magrittr)
+# select_taxa -----------------------------------------------------------------
 
 # Get a phyloseq object with all slots filled for testing
 data(GlobalPatterns)
@@ -114,3 +114,15 @@ test_that("select_taxa() throws an error on duplicates or taxa not in x", {
   )
 })
 
+# orient_taxa -----------------------------------------------------------------
+#
+test_that("orient_taxa() produces expected output on phyloseq and otu-table objects", {
+  otu <- otu_table(ps)
+  ps_t <- t(ps)
+  expect_identical(ps %>% orient_taxa("rows"), ps)
+  expect_identical(ps %>% orient_taxa("columns"), ps %>% t)
+  expect_identical(ps_t %>% orient_taxa("rows"), ps)
+  expect_identical(ps_t %>% orient_taxa("columns"), ps_t)
+  expect_identical(otu %>% orient_taxa("rows"), otu)
+  expect_identical(otu %>% orient_taxa("columns"), otu %>% t)
+})
