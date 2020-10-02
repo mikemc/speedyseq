@@ -270,7 +270,7 @@ oneline.phylo <- function(x) {
 
 oneline.XStringSet <- function(x) {
   stringr::str_glue(
-    "{class(x)}     :      [ {ntaxa(x)} reference sequences ]"
+    "{class(x)}:       [ {ntaxa(x)} reference sequences ]"
   )
 }
 
