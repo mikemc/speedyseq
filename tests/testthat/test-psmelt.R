@@ -1,4 +1,4 @@
-context("Equivalence of psmelt() with phyloseq::psmelt()")
+# devtools::test_file(here::here("tests", "testthat", "test-psmelt.R"))
 
 library(dplyr)
 
@@ -6,7 +6,7 @@ library(dplyr)
 data(GlobalPatterns)
 set.seed(20190421)
 ps <- GlobalPatterns %>%
-  {prune_taxa(sample(taxa_names(.), 200), .)} %>%
+  {prune_taxa(sample(taxa_names(.), 40), .)} %>%
   tax_glom("Genus")
 
 test_that("psmelt() functionally matches phyloseq::psmelt()", {
@@ -16,22 +16,27 @@ test_that("psmelt() functionally matches phyloseq::psmelt()", {
   # differences: phyloseq's output has rownames (which seem not meaningful);
   # speedyseq's output does not; both data frames are sorted by Abundance,
   # but the row order differs in cases where Abundance and OTU names differ.
-  options(stringsAsFactors = TRUE)
-  tb1 <- phyloseq::psmelt(ps)
-  tb2 <- psmelt(ps)
-  expect_true(is.factor(tb1$Kingdom))
-  expect_true(all_equal(tb1, select(tb2, -Species),
-    ignore_col_order = FALSE, ignore_row_order = TRUE))
-  expect_equal(tb1$Abundance, tb2$Abundance)
-  expect_equal(tb1$OTU, tb2$OTU)
   options(stringsAsFactors = FALSE)
   tb1 <- phyloseq::psmelt(ps)
   tb2 <- psmelt(ps)
-  expect_false(is.factor(tb1$Kingdom))
+  expect_is(tb2$Kingdom, "character")
   expect_true(all_equal(tb1, select(tb2, -Species),
     ignore_col_order = FALSE, ignore_row_order = TRUE))
   expect_equal(tb1$Abundance, tb2$Abundance)
-  expect_equal(tb1$OTU, tb2$OTU)
+  expect_identical(tb1$OTU, tb2$OTU)
+})
+
+test_that("psmelt() provides the requested class", {
+  dt <- psmelt(ps, as = "data.table")
+  df <- psmelt(ps, as = "data.frame")
+  tb <- psmelt(ps, as = "tibble")
+  expect_is(dt, "data.table")
+  expect_is(df, "data.frame")
+  expect_is(tb, "tbl_df")
+  expect_identical(df, dt %>% as("data.frame"))
+  expect_identical(tb, df %>% as_tibble)
+  # The dt -> tibble direct conversion has the ".internal.selfref" attribute
+  expect_equivalent(tb, dt %>% as_tibble)
 })
 
 # Test code taken from phyloseq -----------------------------------------------
@@ -132,10 +137,11 @@ test_that("psmelt correctly handles phyloseq data with NULL components, and OTU 
   expect_is(pT <- plot_tree(GPT, shape="Kingdom"), "ggplot")
   expect_is(pTr <- plot_tree(GPTr), "ggplot")
   expect_is(pN <- plot_bar(GPN), "ggplot")
-  expect_is((prPS<-print(pS)), "gg")
-  expect_is((prPT<-print(pT)), "gg")
-  expect_is((prPTr<-print(pTr)), "gg")
-  expect_is((prPN<-print(pN)), "gg")
+  # Note, these calls produce graphical output
+  expect_is((prPS <- print(pS)), "gg")
+  expect_is((prPT <- print(pT)), "gg")
+  expect_is((prPTr <- print(pTr)), "gg")
+  expect_is((prPN <- print(pN)), "gg")
 })
 
 test_that("psmelt doesn't break when the number of taxa is 1", {

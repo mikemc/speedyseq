@@ -1,3 +1,12 @@
+# speedyseq 0.5.2
+
+* New `as` argument in `psmelt()` allows specifying whether the result should
+  be given as a "data.table", "data.frame", or "tbl_df" (tibble).
+
+* In addition, `psmelt()` now ignores `options("stringsAsFactors")` and should
+  never convert taxonomy to factors, in line with the phasing out of the
+  `stringsAsFactors` behavior starting in R 4.0.0.
+
 # speedyseq 0.5.1
 
 * New function `orient_taxa()` to facilitate putting a phyloseq or otu-table

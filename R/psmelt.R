@@ -18,6 +18,12 @@
 #' with a warning. However, if you (re)name your variables accordingly ahead of
 #' time, it will reduce confusion and eliminate the warnings.
 #'
+#' The `as` argument allows choosing between three classes for tabular data:
+#'
+#' - [data.frame-class] is chosen by "data.frame" or "df" and is the default
+#' - [data.table-class] is chosen by "data.table" or "dt"
+#' - [tbl_df-class] is chosen by "tbl_df", "tbl", or "tibble"
+#'
 #' Note that "melted" phyloseq data is stored much less efficiently, and so RAM
 #' storage issues could arise with a smaller dataset (smaller number of
 #' samples/OTUs/variables) than one might otherwise expect.  For common sizes
@@ -28,10 +34,11 @@
 #' help alleviate RAM usage problems. This function is made user-accessible for
 #' flexibility, but is also used extensively by plot functions in phyloseq.
 #'
-#' @param physeq (Required). An [otu_table-class] or [phyloseq-class].
-#' Function most useful for phyloseq-class.
+#' @param physeq An [otu_table-class] or [phyloseq-class]; most useful for
+#'   phyloseq-class.
+#' @param as Class of the output table; see Details.
 #'
-#' @return A [data.frame-class] table.
+#' @return A table of the specified class
 #'
 #' @seealso
 #' [plot_bar()]
@@ -51,7 +58,9 @@
 #' p = ggplot(mdf, aes(x=SampleType, y=Abundance, fill=Genus))
 #' p = p + geom_bar(color="black", stat="identity", position="stack")
 #' print(p)
-psmelt <- function(physeq){
+psmelt <- function(physeq, as = "data.frame") {
+  stopifnot(as %in% c("data.frame", "df", "data.table", "dt", "tbl_df", "tbl",
+      "tibble"))
   # Access covariate names from object, if present
   if(!inherits(physeq, "phyloseq")){
     rankNames = NULL
@@ -127,18 +136,25 @@ psmelt <- function(physeq){
     dtb <- dtb[sam, on = .(Sample = Sample)]
   }
   # Add the tax table if it exists
-  # NOTE: Only purpose of as.data.frame step is to convert taxonomy strings
-  # to factors if stringsAsFactors = TRUE, for phyloseq compatibility.
   if (!is.null(rankNames)) {
     tax <- tax_table(physeq) %>%
       as("matrix") %>%
-      as.data.frame %>%
       data.table::as.data.table(keep.rownames = "OTU")
     dtb <- dtb[tax, on = .(OTU = OTU)]
   }
   # Arrange by Abundance, then OTU names (to approx. phyloseq behavior)
   dtb <- dtb %>%
     data.table::setorder(-Abundance, OTU)
-  # Return as a data.frame for phyloseq compatibility
-  dtb %>% as.data.frame
+  # Return as requested class
+  if (as %in% c("data.table", "dt")) {
+    dtb
+  } else if (as %in% c("data.frame", "df")) {
+    dtb %>% as("data.frame")
+  } else if (as %in% c("tbl_df", "tbl", "tibble")) {
+    dtb <- dtb %>% as_tibble
+    attr(dtb, ".internal.selfref") <- NULL
+    dtb
+  } else {
+    stop("Invalid output class specified by `as`.")
+  }
 }

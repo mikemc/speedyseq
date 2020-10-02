@@ -4,14 +4,16 @@
 \alias{psmelt}
 \title{Melt phyloseq data object into large data.frame}
 \usage{
-psmelt(physeq)
+psmelt(physeq, as = "data.frame")
 }
 \arguments{
-\item{physeq}{(Required). An \linkS4class{otu_table} or \linkS4class{phyloseq}.
-Function most useful for phyloseq-class.}
+\item{physeq}{An \linkS4class{otu_table} or \linkS4class{phyloseq}; most useful for
+phyloseq-class.}
+
+\item{as}{Class of the output table; see Details.}
 }
 \value{
-A \linkS4class{data.frame} table.
+A table of the specified class
 }
 \description{
 The psmelt function is a specialized melt function for melting phyloseq
@@ -29,6 +31,13 @@ with a warning. However, if you (re)name your variables accordingly ahead of
 time, it will reduce confusion and eliminate the warnings.
 }
 \details{
+The \code{as} argument allows choosing between three classes for tabular data:
+\itemize{
+\item \linkS4class{data.frame} is chosen by "data.frame" or "df" and is the default
+\item \linkS4class{data.table} is chosen by "data.table" or "dt"
+\item \linkS4class{tbl_df} is chosen by "tbl_df", "tbl", or "tibble"
+}
+
 Note that "melted" phyloseq data is stored much less efficiently, and so RAM
 storage issues could arise with a smaller dataset (smaller number of
 samples/OTUs/variables) than one might otherwise expect.  For common sizes
