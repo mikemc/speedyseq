@@ -1,3 +1,15 @@
+# speedyseq (development version)
+
+* `psmelt()` now uses `getOption(speedyseq.psmelt_class)` as the default value
+  for the `as` argument. Users can set their preferred tabular class to 
+  "speedyseq.psmelt_class" (among "data.table", "data.frame", or "tbl_df") in
+  their ".Rprofile" file. The default option is set to "data.frame" for
+  backwards compatibility.
+
+# speedyseq 0.5.3
+
+* `print(physeq)` now aligns the `refseq(physeq)` summary properly
+
 # speedyseq 0.5.2
 
 * New `as` argument in `psmelt()` allows specifying whether the result should

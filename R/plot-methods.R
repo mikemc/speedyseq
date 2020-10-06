@@ -84,7 +84,7 @@ plot_bar = function(physeq, x="Sample", y="Abundance", fill=NULL,
 	title=NULL, facet_grid=NULL){
 		
 	# Start by melting the data in the "standard" way using psmelt.
-	mdf = psmelt(physeq)
+	mdf = psmelt(physeq, as = "data.frame")
 	
 	# Build the plot data structure
 	p = ggplot(mdf, aes_string(x=x, y=y, fill=fill))
@@ -385,7 +385,11 @@ plot_tree = function(physeq, method="sampledodge", nodelabf=NULL,
   # Initialize the species/taxa/OTU data.table
   dodgeDT = treeSegs$edgeDT[!is.na(OTU), ]
   # Merge with psmelt() result, to make all co-variables available
-  dodgeDT = merge(x=dodgeDT, y=data.table(psmelt(physeq), key="OTU"), by="OTU")
+  dodgeDT = merge(
+    x=dodgeDT, 
+    y=data.table(psmelt(physeq, as = "data.table"), key="OTU"), 
+    by="OTU"
+  )
   if(justify=="jagged"){
     # Remove 0 Abundance value entries now, not later, for jagged.
     dodgeDT <- dodgeDT[Abundance > 0, ]    
@@ -756,7 +760,7 @@ plot_heatmap <- function(physeq, method="NMDS", distance="bray",
 	# melt physeq with the standard user-accessible data melting function
 	# for creating plot-ready data.frames, psmelt.
 	# This is also used inside some of the other plot_* functions.
-	adf = psmelt(physeq)	
+	adf = psmelt(physeq, as = "data.frame")
 	# Coerce the main axis variables to character. 
 	# Will reset them to factor if re-ordering is needed.
 	adf$OTU = as(adf$OTU, "character")

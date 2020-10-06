@@ -4,7 +4,7 @@
 \alias{psmelt}
 \title{Melt phyloseq data object into large data.frame}
 \usage{
-psmelt(physeq, as = "data.frame")
+psmelt(physeq, as = getOption("speedyseq.psmelt_class"))
 }
 \arguments{
 \item{physeq}{An \linkS4class{otu_table} or \linkS4class{phyloseq}; most useful for
@@ -26,17 +26,20 @@ Also, you should not have identical names for sample variables and taxonomic
 ranks. That is, the intersection of the output of the following two
 functions \code{\link[=sample_variables]{sample_variables()}}, \code{\link[=rank_names]{rank_names()}} should be an empty vector
 (e.g.  \code{intersect(sample_variables(physeq), rank_names(physeq))}). All of
-these potential name collisions are checked-for and renamed automtically
+these potential name collisions are checked-for and renamed automatically
 with a warning. However, if you (re)name your variables accordingly ahead of
 time, it will reduce confusion and eliminate the warnings.
 }
 \details{
 The \code{as} argument allows choosing between three classes for tabular data:
 \itemize{
-\item \linkS4class{data.frame} is chosen by "data.frame" or "df" and is the default
+\item \linkS4class{data.frame} is chosen by "data.frame" or "df"
 \item \linkS4class{data.table} is chosen by "data.table" or "dt"
 \item \linkS4class{tbl_df} is chosen by "tbl_df", "tbl", or "tibble"
 }
+
+The default is "data.frame" and can be overridden by setting the
+"speedyseq.psmelt_class" option.
 
 Note that "melted" phyloseq data is stored much less efficiently, and so RAM
 storage issues could arise with a smaller dataset (smaller number of

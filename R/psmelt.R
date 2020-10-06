@@ -14,15 +14,18 @@
 #' ranks. That is, the intersection of the output of the following two
 #' functions [sample_variables()], [rank_names()] should be an empty vector
 #' (e.g.  `intersect(sample_variables(physeq), rank_names(physeq))`). All of
-#' these potential name collisions are checked-for and renamed automtically
+#' these potential name collisions are checked-for and renamed automatically
 #' with a warning. However, if you (re)name your variables accordingly ahead of
 #' time, it will reduce confusion and eliminate the warnings.
 #'
 #' The `as` argument allows choosing between three classes for tabular data:
 #'
-#' - [data.frame-class] is chosen by "data.frame" or "df" and is the default
+#' - [data.frame-class] is chosen by "data.frame" or "df"
 #' - [data.table-class] is chosen by "data.table" or "dt"
 #' - [tbl_df-class] is chosen by "tbl_df", "tbl", or "tibble"
+#'
+#' The default is "data.frame" and can be overridden by setting the
+#' "speedyseq.psmelt_class" option.
 #'
 #' Note that "melted" phyloseq data is stored much less efficiently, and so RAM
 #' storage issues could arise with a smaller dataset (smaller number of
@@ -58,7 +61,7 @@
 #' p = ggplot(mdf, aes(x=SampleType, y=Abundance, fill=Genus))
 #' p = p + geom_bar(color="black", stat="identity", position="stack")
 #' print(p)
-psmelt <- function(physeq, as = "data.frame") {
+psmelt <- function(physeq, as = getOption("speedyseq.psmelt_class")) {
   stopifnot(as %in% c("data.frame", "df", "data.table", "dt", "tbl_df", "tbl",
       "tibble"))
   # Access covariate names from object, if present

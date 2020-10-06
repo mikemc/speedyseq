@@ -37,6 +37,12 @@ test_that("psmelt() provides the requested class", {
   expect_identical(tb, df %>% as_tibble)
   # The dt -> tibble direct conversion has the ".internal.selfref" attribute
   expect_equivalent(tb, dt %>% as_tibble)
+  # By default, gets `as` from "speedyseq.psmelt_class" option
+  dt <- withr::with_options(
+    list(speedyseq.psmelt_class = "data.table"), 
+    psmelt(ps)
+  )
+  expect_is(dt, "data.table")
 })
 
 # Test code taken from phyloseq -----------------------------------------------

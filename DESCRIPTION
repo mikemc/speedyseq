@@ -1,6 +1,6 @@
 Package: speedyseq
 Title: Faster implementations of phyloseq functions
-Version: 0.5.3
+Version: 0.5.3.9000
 Authors@R: 
     person(given = "Michael",
            family = "McLaren",
@@ -38,5 +38,6 @@ Suggests:
     forcats,
     ggtree,
     phangorn,
-    testthat
+    testthat,
+    withr
 Roxygen: list(markdown = TRUE)
