@@ -6,6 +6,9 @@
   their ".Rprofile" file. The default option is set to "data.frame" for
   backwards compatibility.
 
+* Fixed Namespace bug that caused `psmelt(as="tibble")` to throw an error if
+  tibble wasn't loaded
+
 # speedyseq 0.5.3
 
 * `print(physeq)` now aligns the `refseq(physeq)` summary properly

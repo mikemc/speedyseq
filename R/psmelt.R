@@ -154,7 +154,7 @@ psmelt <- function(physeq, as = getOption("speedyseq.psmelt_class")) {
   } else if (as %in% c("data.frame", "df")) {
     dtb %>% as("data.frame")
   } else if (as %in% c("tbl_df", "tbl", "tibble")) {
-    dtb <- dtb %>% as_tibble
+    dtb <- dtb %>% tibble::as_tibble()
     attr(dtb, ".internal.selfref") <- NULL
     dtb
   } else {

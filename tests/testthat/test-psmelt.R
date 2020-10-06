@@ -1,7 +1,5 @@
 # devtools::test_file(here::here("tests", "testthat", "test-psmelt.R"))
 
-library(dplyr)
-
 # Test on a subset of GlobalPatterns
 data(GlobalPatterns)
 set.seed(20190421)
@@ -20,7 +18,7 @@ test_that("psmelt() functionally matches phyloseq::psmelt()", {
   tb1 <- phyloseq::psmelt(ps)
   tb2 <- psmelt(ps)
   expect_is(tb2$Kingdom, "character")
-  expect_true(all_equal(tb1, select(tb2, -Species),
+  expect_true(dplyr::all_equal(tb1, dplyr::select(tb2, -Species),
     ignore_col_order = FALSE, ignore_row_order = TRUE))
   expect_equal(tb1$Abundance, tb2$Abundance)
   expect_identical(tb1$OTU, tb2$OTU)
@@ -34,9 +32,9 @@ test_that("psmelt() provides the requested class", {
   expect_is(df, "data.frame")
   expect_is(tb, "tbl_df")
   expect_identical(df, dt %>% as("data.frame"))
-  expect_identical(tb, df %>% as_tibble)
+  expect_identical(tb, df %>% tibble::as_tibble())
   # The dt -> tibble direct conversion has the ".internal.selfref" attribute
-  expect_equivalent(tb, dt %>% as_tibble)
+  expect_equivalent(tb, dt %>% tibble::as_tibble())
   # By default, gets `as` from "speedyseq.psmelt_class" option
   dt <- withr::with_options(
     list(speedyseq.psmelt_class = "data.table"), 
