@@ -6,8 +6,10 @@
   their ".Rprofile" file. The default option is set to "data.frame" for
   backwards compatibility.
 
-* Fixed Namespace bug that caused `psmelt(as="tibble")` to throw an error if
+* Fixed namespace bug that caused `psmelt(as="tibble")` to throw an error if
   tibble wasn't loaded
+
+* Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see [#60](https://github.com/mikemc/speedyseq/issues/60).
 
 # speedyseq 0.5.3
 

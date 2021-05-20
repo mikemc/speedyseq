@@ -186,9 +186,7 @@ tibble_print <- function(x,
   nchar_num <- nchar(as.character(n)) + 1
   if (is.null(width))
     width <- getOption("width")
-  # Add a few chars to account for the row numbers that will be cut
-  width <- width + nchar_num
-  # Also increase the `width` setting to avoid wrapping
+  # Increase the `width` setting to avoid wrapping
   rlang::scoped_options(width = getOption("width") + nchar_num)
   # the first n rownames will be printed in place of the row numbers
   rns <- rownames(x) %>% utils::head(n)
@@ -221,15 +219,15 @@ tibble_print <- function(x,
       ncol_more_actual) %>%
     stringr::str_replace("rows", rows) %>%
     stringr::str_replace("variables", cols)
-  # Remove the row numbers. To keep, comment out and add nchar_num nchar_rn + 1
-  # in the next two str_sub commands
-  s <- purrr::map_chr(s, stringr::str_sub, nchar_num + 1)
   # Remove the col name and type in the first col
   w <- nchar(s[1])
-  s[1] <- stringr::str_sub(s[1], nchar_rn + 1) %>% stringr::str_pad(w, "left")
-  s[2] <- stringr::str_sub(s[2], nchar_rn + 1) %>% stringr::str_pad(w, "left")
-  if (!types)
+  s[1] <- stringr::str_sub(s[1], nchar_num + nchar_rn + 1) %>% 
+    stringr::str_pad(w, "left")
+  if (!types) {
     s <- s[-2]
+  } else {
+    s[2] <- stringr::str_replace(s[2], "<chr>", "     ")
+  }
   cat(s, sep = "\n")
   cat(last_section, sep = "\n")
 }
