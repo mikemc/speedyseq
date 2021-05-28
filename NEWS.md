@@ -11,7 +11,7 @@
 
 * Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see [#60](https://github.com/mikemc/speedyseq/issues/60).
 
-* Add  `as_tibble()` methods for phyloseq objects
+* Add  `ps_tibble()` S4 generic to provide `tibble::as_tibble()` functionality for phyloseq objects
 
 # speedyseq 0.5.3
 
