@@ -2,9 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{orient_taxa}
 \alias{orient_taxa}
+\alias{orient_taxa,otu_table-method}
+\alias{orient_taxa,phyloseq-method}
 \title{Orient a phyloseq object or otu table to have taxa as rows or as columns}
 \usage{
 orient_taxa(x, as)
+
+\S4method{orient_taxa}{otu_table}(x, as)
+
+\S4method{orient_taxa}{phyloseq}(x, as)
 }
 \arguments{
 \item{x}{A phyloseq or otu-table object}

@@ -43,7 +43,6 @@
 #'
 #' [phyloseq::merge_taxa()]
 #'
-#' @rdname merge_taxa_vec-methods
 #' @examples
 #' \dontrun{
 #' # Create 97% OTUs from a phyloseq object with reference sequences
@@ -71,7 +70,7 @@ setGeneric("merge_taxa_vec",
     standardGeneric("merge_taxa_vec")
 )
 
-#' @rdname merge_taxa_vec-methods
+#' @rdname merge_taxa_vec
 setMethod("merge_taxa_vec", "phyloseq",
   function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
@@ -109,7 +108,7 @@ setMethod("merge_taxa_vec", "phyloseq",
   }
 )
 
-#' @rdname merge_taxa_vec-methods
+#' @rdname merge_taxa_vec
 setMethod("merge_taxa_vec", "otu_table",
   function(x, group, reorder = FALSE) {
     stopifnot(ntaxa(x) == length(group))
@@ -144,7 +143,7 @@ setMethod("merge_taxa_vec", "otu_table",
   }
 )
 
-#' @rdname merge_taxa_vec-methods
+#' @rdname merge_taxa_vec
 setMethod("merge_taxa_vec", "taxonomyTable",
   function(x, group, reorder = FALSE, tax_adjust = 1L) {
     stopifnot(ntaxa(x) == length(group))
@@ -206,12 +205,12 @@ setMethod("merge_taxa_vec", "taxonomyTable",
   }
 )
 
-#' @rdname merge_taxa_vec-methods
+#' @rdname merge_taxa_vec
 setMethod("merge_taxa_vec", "phylo", 
   function(x, group) {merge_taxa_vec_pseudo(x, group)}
 )
 
-#' @rdname merge_taxa_vec-methods
+#' @rdname merge_taxa_vec
 setMethod("merge_taxa_vec", "XStringSet",
   function(x, group, reorder = FALSE) {
     merge_taxa_vec_pseudo(x, group, reorder = reorder)

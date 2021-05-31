@@ -123,6 +123,8 @@ orient_taxa_default <- function(x, as) {
   x
 }
 
+#' @rdname orient_taxa
 setMethod("orient_taxa", "otu_table", orient_taxa_default)
 
+#' @rdname orient_taxa
 setMethod("orient_taxa", "phyloseq", orient_taxa_default)

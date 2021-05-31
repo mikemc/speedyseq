@@ -2,6 +2,7 @@
 % Please edit documentation in R/phyloseq-constructors.R
 \name{tibble-constructors}
 \alias{tibble-constructors}
+\alias{otu_table,tbl_df-method}
 \alias{sample_data,tbl_df-method}
 \alias{tax_table,tbl_df-method}
 \title{Construct phyloseq objects from tibbles}

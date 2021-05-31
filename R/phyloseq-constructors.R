@@ -42,6 +42,7 @@
 #' # Create a phyloseq `sample_data` object
 #' sam <- sample_data(tbl)
 #' }
+NULL
 
 #' @rdname tibble-constructors
 #' @export
