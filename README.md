@@ -1,16 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-speedyseq
-=========
+# speedyseq
 
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/179732395.svg)](https://zenodo.org/badge/latestdoi/179732395)
 [![Travis build
-status](https://travis-ci.org/mikemc/speedyseq.svg?branch=master)](https://travis-ci.org/mikemc/speedyseq)
+status](https://travis-ci.com/mikemc/speedyseq.svg?branch=main)](https://travis-ci.com/mikemc/speedyseq)
 [![Codecov test
-coverage](https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=master)
+coverage](https://codecov.io/gh/mikemc/speedyseq/branch/main/graph/badge.svg)](https://codecov.io/gh/mikemc/speedyseq?branch=main)
 <!-- badges: end -->
 
 Speedyseq is an R package for microbiome data analysis that extends the
@@ -19,73 +18,78 @@ Speedyseq began with the limited goal of providing faster versions of
 phyloseq’s plotting and taxonomic merging functions, but now contains a
 growing number of enhancements to phyloseq which I have found useful.
 
-Installation
-------------
+## Installation
 
 Install the current development version with the remotes package,
 
-    # install.packages("remotes")
-    remotes::install_github("mikemc/speedyseq")
+``` r
+# install.packages("remotes")
+remotes::install_github("mikemc/speedyseq")
+```
 
-Usage
------
+## Usage
 
 Method 1: Call speedyseq functions explicitly when you want to use
 speedyseq’s version instead of phyloseq. This method ensures that you do
 not unintentionally call speedyseq’s version of a phyloseq function.
 
-    library(phyloseq)
-    data(GlobalPatterns)
-    system.time(
-      # Calls phyloseq's psmelt
-      df1 <- psmelt(GlobalPatterns) # slow
-    )
-    #>    user  system elapsed 
-    #>   6.623   0.076   6.711
-    system.time(
-      df2 <- speedyseq::psmelt(GlobalPatterns) # fast
-    )
-    #>    user  system elapsed 
-    #>   0.339   0.000   0.216
-    dplyr::all_equal(df1, df2, ignore_row_order = TRUE)
-    #> [1] TRUE
-    detach(package:phyloseq)
+``` r
+library(phyloseq)
+data(GlobalPatterns)
+system.time(
+  # Calls phyloseq's psmelt
+  df1 <- psmelt(GlobalPatterns) # slow
+)
+#>    user  system elapsed 
+#>   6.320   0.063   6.390
+system.time(
+  df2 <- speedyseq::psmelt(GlobalPatterns) # fast
+)
+#>    user  system elapsed 
+#>   0.344   0.004   0.245
+dplyr::all_equal(df1, df2, ignore_row_order = TRUE)
+#> [1] TRUE
+detach(package:phyloseq)
+```
 
 Method 2: Load speedyseq, which will load phyloseq and all speedyseq
 functions and cause calls to the overlapping function names to go to
 speedyseq by default.
 
-    library(speedyseq)
-    #> Loading required package: phyloseq
-    #> 
-    #> Attaching package: 'speedyseq'
-    #> The following objects are masked from 'package:phyloseq':
-    #> 
-    #>     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom,
-    #>     tip_glom, transform_sample_counts
-    data(GlobalPatterns)
-    system.time(
-      ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
-    )
-    #>    user  system elapsed 
-    #>  35.266   0.143  35.538
-    system.time(
-      # Calls speedyseq's tax_glom
-      ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
-    )
-    #>    user  system elapsed 
-    #>   0.259   0.000   0.247
+``` r
+library(speedyseq)
+#> Loading required package: phyloseq
+#> 
+#> Attaching package: 'speedyseq'
+#> The following objects are masked from 'package:phyloseq':
+#> 
+#>     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom,
+#>     transform_sample_counts
+data(GlobalPatterns)
+system.time(
+  ps1 <- phyloseq::tax_glom(GlobalPatterns, "Genus") # slow
+)
+#>    user  system elapsed 
+#>  31.856   0.106  32.031
+system.time(
+  # Calls speedyseq's tax_glom
+  ps2 <- tax_glom(GlobalPatterns, "Genus") # fast
+)
+#>    user  system elapsed 
+#>   0.241   0.000   0.230
+```
 
 Loading speedyseq will also load the
 [magrittr](https://magrittr.tidyverse.org/) pipe (`%>%`) to allow pipe
 chains with phyloseq objects,
 
-    gp.filt.prop <- GlobalPatterns %>%
-      filter_taxa2(~ sum(. > 0) > 5) %>%
-      transform_sample_counts(~ . / sum(.))
+``` r
+gp.filt.prop <- GlobalPatterns %>%
+  filter_taxa2(~ sum(. > 0) > 5) %>%
+  transform_sample_counts(~ . / sum(.))
+```
 
-Features
---------
+## Features
 
 ### Faster implementations of phyloseq functions
 
