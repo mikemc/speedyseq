@@ -11,6 +11,7 @@
 #' @param ... Unused; for methods.
 #'
 #' @name ps_tibble
+#' @export
 setGeneric("ps_tibble", 
   function(x, ...) standardGeneric("ps_tibble")
 )
