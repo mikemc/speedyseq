@@ -1,5 +1,5 @@
 # run just this file:
-# devtools::test_file(here::here("tests", "testthat", "test-merge_samples.R"))
+# devtools::test_active_file(here::here("tests", "testthat", "test-merge_samples.R"))
 
 # helpers ---------------------------------------------------------------------
 
@@ -57,11 +57,12 @@ test_that("`sample_data_stable()` maintains names", {
 
 # merge_samples2 --------------------------------------------------------------
 
-test_that("Test `merge_samples2()` on `enterotype` dataset", {
+test_that("Test `merge_samples2()` on the `enterotype` dataset", {
   data(enterotype)
-  ps <- enterotype 
+  ps <- enterotype %>% prune_taxa(head(taxa_names(.), 10), .)
   sample_data(ps) <- sample_data(ps) %>%
     transform(Project.ClinicalStatus = Project:ClinicalStatus)
+  # Will get a warning since `group` has NAs
   expect_warning(
     ps0 <- merge_samples2(ps, "Project.ClinicalStatus", 
       funs = list(Age = mean))
@@ -92,6 +93,13 @@ test_that("Test `merge_samples2()` on `enterotype` dataset", {
   expect_warning(ps3 <- merge_samples2(ps, "Enterotype"))
   sample_data(ps3)$Enterotype <- sample_data(ps3)$Enterotype %>% as.factor
   expect_identical(ps2, ps3)
+  # Test with alternate abundance-merging function
+  expect_warning(
+    ps0 <- merge_samples2(ps, "Project.ClinicalStatus",
+      fun_otu = mean,
+      funs = list(Age = mean)
+    )
+  )
 })
 
 test_that("Test that group names are preserved", {

@@ -13,6 +13,8 @@
 
 * Add  `ps_tibble()` S4 generic to provide `tibble::as_tibble()` functionality for phyloseq objects
 
+* `merge_samples2()` now has a `fun_otu` argument for specifying alternative abundance-summarization functions
+
 # speedyseq 0.5.3
 
 * `print(physeq)` now aligns the `refseq(physeq)` summary properly

@@ -9,10 +9,14 @@
 #' single unique value if it exists and otherwise returns NA. The new (merged)
 #' samples are named by the values in `group`.
 #' 
-#' @param x A `sample_data` object
+#' @param x A `phyloseq`, `otu_table`, or `sample_data` object
 #' @param group A sample variable or a vector of length `nsamples(x)` defining
 #'   the sample grouping. A vector must be supplied if x is an otu_table
-#' @param funs Named list of merge functions for each numeric variable
+#' @param fun_otu Function for combining abundances in the otu table; default
+#'   is `sum`. Can be a formula to be converted to a function by
+#'   [purrr::as_mapper()]
+#' @param funs Named list of merge functions for sample variables; default is
+#'   `unique_or_na`
 #' @param reorder Logical specifying whether to reorder the new (merged)
 #'   samples by name
 #' 
@@ -26,11 +30,15 @@
 #' sample_data(ps) <- sample_data(ps) %>%
 #'   transform(Project.ClinicalStatus = Project:ClinicalStatus)
 #' sample_data(ps) %>% head
-#' ps0 <- merge_samples2(ps, "Project.ClinicalStatus", funs = list(Age = mean))
+#' ps0 <- merge_samples2(ps, "Project.ClinicalStatus",
+#'   fun_otu = mean,
+#'   funs = list(Age = mean)
+#' )
 #' sample_data(ps0) %>% head
 setGeneric("merge_samples2", 
-  function(x, 
+  function(x,
            group,
+           fun_otu = sum,
            funs = list(),
            reorder = FALSE)
     standardGeneric("merge_samples2")
@@ -40,7 +48,7 @@ setGeneric("merge_samples2",
 setMethod(
   "merge_samples2", 
   signature("phyloseq"), 
-  function(x, group, funs = list(), reorder = FALSE) {
+  function(x, group, fun_otu = sum, funs = list(), reorder = FALSE) {
     if (length(group) == 1) {
       stopifnot(group %in% sample_variables(x))
       group <- sample_data(x)[[group]]
@@ -54,7 +62,10 @@ setMethod(
       group <- group[!is.na(group)]
     }
     # Merge
-    otu.merged <- merge_samples2(otu_table(x), group, reorder = reorder)
+    otu.merged <- merge_samples2(otu_table(x), group, 
+      fun_otu = fun_otu, 
+      reorder = reorder
+    )
     if (!is.null(access(x, "sam_data")))
       sam.merged <- merge_samples2(sample_data(x), group, funs = funs)
     else 
@@ -72,7 +83,7 @@ setMethod(
 setMethod(
   "merge_samples2", 
   signature("otu_table"), 
-  function(x, group, reorder = FALSE) {
+  function(x, group, fun_otu = sum, reorder = FALSE) {
     stopifnot(identical(length(group), nsamples(x)))
     # Work with samples as rows, and remember to flip back at end if needed
     needs_flip <- taxa_are_rows(x)
@@ -84,8 +95,28 @@ setMethod(
       x <- x[!is.na(group), ]
       group <- group[!is.na(group)]
     }
-    x.merged <- rowsum(x, group, reorder = reorder) %>%
-      otu_table(taxa_are_rows = FALSE)
+    # Merging; result is a matrix with taxa as columns and rownames
+    # corresponding to `group`
+    if (identical(fun_otu, sum)) {
+      x.merged <- rowsum(x, group, reorder = reorder)
+    } else {
+      stopifnot(!".group" %in% colnames(x))
+      f <- purrr::as_mapper(fun_otu)
+      x <- x %>% 
+        as("matrix") %>%
+        data.table::as.data.table() %>%
+        cbind(.group = group)
+      if (reorder) 
+        x.merged <- x[, lapply(.SD, f), keyby = .(.group)]
+      else
+        x.merged <- x[, lapply(.SD, f), by = .(.group)]
+      rns <- x.merged$.group
+      x.merged[, .group := NULL]
+      x.merged <- x.merged %>% as("matrix")
+      rownames(x.merged) <- rns
+    }
+    # Return an otu table in the proper orientation
+    x.merged <- x.merged %>% otu_table(taxa_are_rows = FALSE)
     if (needs_flip)
       x.merged <- t(x.merged)
     x.merged

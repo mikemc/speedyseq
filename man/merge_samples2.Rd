@@ -7,21 +7,26 @@
 \alias{merge_samples2,sample_data-method}
 \title{Merge samples by a sample variable or factor}
 \usage{
-merge_samples2(x, group, funs = list(), reorder = FALSE)
+merge_samples2(x, group, fun_otu = sum, funs = list(), reorder = FALSE)
 
-\S4method{merge_samples2}{phyloseq}(x, group, funs = list(), reorder = FALSE)
+\S4method{merge_samples2}{phyloseq}(x, group, fun_otu = sum, funs = list(), reorder = FALSE)
 
-\S4method{merge_samples2}{otu_table}(x, group, reorder = FALSE)
+\S4method{merge_samples2}{otu_table}(x, group, fun_otu = sum, reorder = FALSE)
 
 \S4method{merge_samples2}{sample_data}(x, group, funs = list(), reorder = FALSE)
 }
 \arguments{
-\item{x}{A \code{sample_data} object}
+\item{x}{A \code{phyloseq}, \code{otu_table}, or \code{sample_data} object}
 
 \item{group}{A sample variable or a vector of length \code{nsamples(x)} defining
 the sample grouping. A vector must be supplied if x is an otu_table}
 
-\item{funs}{Named list of merge functions for each numeric variable}
+\item{fun_otu}{Function for combining abundances in the otu table; default
+is \code{sum}. Can be a formula to be converted to a function by
+\code{\link[purrr:as_mapper]{purrr::as_mapper()}}}
+
+\item{funs}{Named list of merge functions for sample variables; default is
+\code{unique_or_na}}
 
 \item{reorder}{Logical specifying whether to reorder the new (merged)
 samples by name}
@@ -44,6 +49,9 @@ ps <- enterotype
 sample_data(ps) <- sample_data(ps) \%>\%
   transform(Project.ClinicalStatus = Project:ClinicalStatus)
 sample_data(ps) \%>\% head
-ps0 <- merge_samples2(ps, "Project.ClinicalStatus", funs = list(Age = mean))
+ps0 <- merge_samples2(ps, "Project.ClinicalStatus",
+  fun_otu = mean,
+  funs = list(Age = mean)
+)
 sample_data(ps0) \%>\% head
 }
