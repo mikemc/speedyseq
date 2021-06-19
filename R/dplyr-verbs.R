@@ -67,6 +67,7 @@ setMethod("filter_sample_data", "sample_data",
 #'
 #' This function is a wrapper around `dplyr::mutate()` that provides a
 #' convenient way to modify `tax_table(x)`.
+#' The `.otu` column name can be used to set new taxa names.
 #' 
 #' @param x A `phyloseq` or `taxonomyTable` object
 #' @param ... Expressions passed to `dplyr::mutate()`
@@ -79,7 +80,11 @@ setGeneric("mutate_tax_table",
 #' @rdname mutate_tax_table
 setMethod("mutate_tax_table", "phyloseq",
   function(x, ...) {
-    tax_table(x) <- tax_table(x) %>% mutate_tax_table(...)
+    # Mutating the tax table may create new taxa names, which need to get
+    # updated in the phyloseq object prior to updating its tax table
+    new_tax <- tax_table(x) %>% mutate_tax_table(...)
+    taxa_names(x) <- taxa_names(new_tax)
+    tax_table(x) <- new_tax
     x
   })
 
@@ -96,6 +101,7 @@ setMethod("mutate_tax_table", "taxonomyTable",
 #'
 #' This function is a wrapper around `dplyr::mutate()` that provides a
 #' convenient way to modify `sample_data(x)`.
+#' The `.sample` column name can be used to set new sample names.
 #' 
 #' @param x A `phyloseq` or `sample_data` object
 #' @param ... Expressions passed to `dplyr::mutate()`
@@ -108,7 +114,11 @@ setGeneric("mutate_sample_data",
 #' @rdname mutate_sample_data
 setMethod("mutate_sample_data", "phyloseq",
   function(x, ...) {
-    sample_data(x) <- sample_data(x) %>% mutate_sample_data(...)
+    # Mutating the sample data may create new sample names, which need to get
+    # updated in the phyloseq object prior to updating its sample data
+    new_sam <- sample_data(x) %>% mutate_sample_data(...)
+    sample_names(x) <- sample_names(new_sam)
+    sample_data(x) <- new_sam
     x
   })
 

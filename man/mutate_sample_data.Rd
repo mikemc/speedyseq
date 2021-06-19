@@ -20,4 +20,5 @@ mutate_sample_data(x, ...)
 \description{
 This function is a wrapper around \code{dplyr::mutate()} that provides a
 convenient way to modify \code{sample_data(x)}.
+The \code{.sample} column name can be used to set new sample names.
 }

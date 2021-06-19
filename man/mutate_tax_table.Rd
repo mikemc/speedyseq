@@ -20,4 +20,5 @@ mutate_tax_table(x, ...)
 \description{
 This function is a wrapper around \code{dplyr::mutate()} that provides a
 convenient way to modify \code{tax_table(x)}.
+The \code{.otu} column name can be used to set new taxa names.
 }
