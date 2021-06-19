@@ -73,7 +73,7 @@ function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ function." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@ function." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,16 +122,16 @@ function." />
 function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_taxa</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>, <span class='kw'>prune</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>filter_taxa</span><span class='op'>(</span><span class='va'>physeq</span>, <span class='va'>fun</span>, prune <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>filter_taxa2</span>(<span class='no'>physeq</span>, <span class='no'>fun</span>)</pre>
+<span class='fu'>filter_taxa2</span><span class='op'>(</span><span class='va'>physeq</span>, <span class='va'>fun</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
+      <td><p><code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class()</a></code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
     </tr>
     <tr>
       <th>fun</th>
@@ -164,11 +164,12 @@ pipe chain (see example).</p>
 <code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span><span class='op'>)</span>
 <span class='co'># Filter low prevalence taxa and then convert to proportions</span>
-<span class='no'>gp.prop</span> <span class='kw'>&lt;-</span> <span class='no'>GlobalPatterns</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter_taxa2</span>(~ <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>) <span class='kw'>&gt;</span> <span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='transform_sample_counts.html'>transform_sample_counts</a></span>(~ <span class='no'>.</span> / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span>))</div></pre>
+<span class='va'>gp.prop</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>filter_taxa2</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>.</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='transform_sample_counts.html'>transform_sample_counts</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>.</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -184,7 +185,7 @@ pipe chain (see example).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

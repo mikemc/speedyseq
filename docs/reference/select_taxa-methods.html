@@ -73,7 +73,7 @@ given in the specified order." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ given in the specified order." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@ given in the specified order." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -113,7 +113,7 @@ given in the specified order." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select a subset of taxa in a specified order where possible</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/select.R'><code>R/select.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>select_taxa-methods.Rd</code></div>
     </div>
 
@@ -122,25 +122,25 @@ given in the specified order." />
 given in the specified order.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span>, reorder <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for sample_data,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>)
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span><span class='op'>)</span>
 
 <span class='co'># S4 method for otu_table,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span>, reorder <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for taxonomyTable,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span>, reorder <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for XStringSet,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span>, reorder <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for phylo,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>)
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span><span class='op'>)</span>
 
 <span class='co'># S4 method for phyloseq,character</span>
-<span class='fu'>select_taxa</span>(<span class='no'>x</span>, <span class='no'>taxa</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>select_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>taxa</span>, reorder <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,13 +156,13 @@ given in the specified order.</p>
     <tr>
       <th>reorder</th>
       <td><p>Logical specifying whether to use the order in <code>taxa</code> (TRUE)
-or keep the order in <code>taxa_names(x)</code> (FALSE)</p></td>
+or keep the order in <code><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names(x)</a></code> (FALSE)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is a simple selector function that is like <code>prune_taxa(taxa, x)</code> when
+    <p>This is a simple selector function that is like <code><a href='https://rdrr.io/pkg/phyloseq/man/prune_taxa-methods.html'>prune_taxa(taxa, x)</a></code> when
 <code>taxa</code> is a character vector but always gives the taxa in the order <code>taxa</code>
 if possible (that is, except for phy_tree's and phyloseq objects that
 contain phy_tree's).</p>
@@ -182,7 +182,7 @@ contain phy_tree's).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

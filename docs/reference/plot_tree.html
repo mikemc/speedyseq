@@ -85,7 +85,7 @@ is to make the determination of these features/settings as easy as possible." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@ is to make the determination of these features/settings as easy as possible." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,7 +107,7 @@ is to make the determination of these features/settings as easy as possible." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,28 +142,28 @@ complexity of the additional annotations being mapped to the tree. It is
 usually possible to create an unreadable, uninterpretable tree with modern
 datasets. However, the goal should be toward parameter settings and data
 subsets that convey (honestly, accurately) some biologically relevant
-feature of the data. One of the goals of the <code>phyloseq-package</code>
+feature of the data. One of the goals of the <code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-package.html'>phyloseq-package</a></code>
 is to make the determination of these features/settings as easy as possible.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_tree</span>(
-  <span class='no'>physeq</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sampledodge"</span>,
-  <span class='kw'>nodelabf</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>min.abundance</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>label.tips</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>text.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sizebase</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>base.spacing</span> <span class='kw'>=</span> <span class='fl'>0.02</span>,
-  <span class='kw'>ladderize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>plot.margin</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>treetheme</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>justify</span> <span class='kw'>=</span> <span class='st'>"jagged"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_tree</span><span class='op'>(</span>
+  <span class='va'>physeq</span>,
+  method <span class='op'>=</span> <span class='st'>"sampledodge"</span>,
+  nodelabf <span class='op'>=</span> <span class='cn'>NULL</span>,
+  color <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shape <span class='op'>=</span> <span class='cn'>NULL</span>,
+  size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min.abundance <span class='op'>=</span> <span class='cn'>Inf</span>,
+  label.tips <span class='op'>=</span> <span class='cn'>NULL</span>,
+  text.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sizebase <span class='op'>=</span> <span class='fl'>5</span>,
+  base.spacing <span class='op'>=</span> <span class='fl'>0.02</span>,
+  ladderize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  plot.margin <span class='op'>=</span> <span class='fl'>0.2</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  treetheme <span class='op'>=</span> <span class='cn'>NULL</span>,
+  justify <span class='op'>=</span> <span class='st'>"jagged"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,13 +172,13 @@ is to make the determination of these features/settings as easy as possible.</p>
       <th>physeq</th>
       <td><p>(Required). The data about which you want to
 plot and annotate a phylogenetic tree, in the form of a single instance of
-the <code>phyloseq-class</code>, containing at minimum a phylogenetic
-tree component (try <code>phy_tree</code>).  One of the major advantages
+the <code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class</a></code>, containing at minimum a phylogenetic
+tree component (try <code><a href='https://rdrr.io/pkg/phyloseq/man/phy_tree-methods.html'>phy_tree</a></code>).  One of the major advantages
 of this function over basic tree-plotting utilities in the
 <code>ape</code>-package is the ability to easily annotate the tree with
 sample variables and taxonomic information. For these uses, the
-<code>physeq</code> argument should also have a <code>sample_data</code> and/or
-<code>tax_table</code> component(s).</p></td>
+<code>physeq</code> argument should also have a <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></code> and/or
+<code><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table</a></code> component(s).</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -193,12 +193,12 @@ point is drawn for each sample.</p></td>
       <th>nodelabf</th>
       <td><p>(Optional). A function. Default <code>NULL</code>.
 If <code>NULL</code>, the default, a function will be selected for you based
-upon whether or not there are node labels in <code>phy_tree(physeq)</code>.  For
+upon whether or not there are node labels in <code><a href='https://rdrr.io/pkg/phyloseq/man/phy_tree-methods.html'>phy_tree(physeq)</a></code>.  For
 convenience, the phyloseq package includes two generator functions for
 adding arbitrary node labels (can be any character string),
-<code>nodeplotdefault</code>; as well as for adding bootstrap values in a
-certain range, <code>nodeplotboot</code>.  To not have any node labels in
-the graphic, set this argument to <code>nodeplotblank</code>.</p></td>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/nodeplotdefault.html'>nodeplotdefault</a></code>; as well as for adding bootstrap values in a
+certain range, <code><a href='https://rdrr.io/pkg/phyloseq/man/nodeplotboot.html'>nodeplotboot</a></code>.  To not have any node labels in
+the graphic, set this argument to <code><a href='https://rdrr.io/pkg/phyloseq/man/nodeplotblank.html'>nodeplotblank</a></code>.</p></td>
     </tr>
     <tr>
       <th>color</th>
@@ -235,7 +235,7 @@ only the first element is used.</p></td>
 indicating that no tip labels will be printed.  If <code>"taxa_names"</code>,
 then the name of the taxa will be added to the tree; either next to the
 leaves, or next to the set of points that label the leaves. Alternatively,
-if this is one of the rank names (from <code>rank_names(physeq)</code>), then
+if this is one of the rank names (from <code><a href='https://rdrr.io/pkg/phyloseq/man/rank_names.html'>rank_names(physeq)</a></code>), then
 the identity (if any) for that particular taxonomic rank is printed
 instead.</p></td>
     </tr>
@@ -275,7 +275,7 @@ the tree (i.e., reorder nodes according to the depth of their enclosed
 subtrees) prior to plotting.  This tends to make trees more aesthetically
 pleasing and legible in a graphical display.  When <code>TRUE</code> or
 <code>"right"</code>, <code>right'' ladderization is used.  When set to \code{FALSE}, no ladderization is applied.  When set to \code{"left"}, the reverse direction (</code>left'' ladderization) is applied.  This argument is
-passed on to <code>tree_layout</code>.</p></td>
+passed on to <code><a href='https://rdrr.io/pkg/phyloseq/man/tree_layout.html'>tree_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>plot.margin</th>
@@ -318,7 +318,7 @@ both labels and points.</p></td>
     <p>This function received an early development contribution from the work of
 Gregory Jordan via <a href='https://github.com/gjuggler/ggphylo'>the ggphylo
 package</a>.  <code>plot_tree</code> has since been re-written.  For details see
-<code>tree_layout</code>.</p>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/tree_layout.html'>tree_layout</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>plot.phylo</code></p>
@@ -330,12 +330,14 @@ tutorials</a>.</p></div>
     <pre class="examples"><div class='input'><span class='co'># Using plot_tree() with the esophagus dataset.</span>
 <span class='co'># Please note that many more interesting examples are shown in the online</span>
 <span class='co'># tutorials at http://joey711.github.io/phyloseq/plot_tree-examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>esophagus</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>esophagus</span><span class='op'>)</span>
 <span class='co'># plot_tree(esophagus)</span>
 <span class='co'># plot_tree(esophagus, color="Sample")</span>
 <span class='co'># plot_tree(esophagus, size="Abundance")</span>
 <span class='co'># plot_tree(esophagus, size="Abundance", color="samples")</span>
-<span class='fu'>plot_tree</span>(<span class='no'>esophagus</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='st'>"Abundance"</span>, <span class='kw'>color</span><span class='kw'>=</span><span class='st'>"Sample"</span>, <span class='kw'>base.spacing</span><span class='kw'>=</span><span class='fl'>0.03</span>)</div><div class='img'><img src='plot_tree-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_tree</span>(<span class='no'>esophagus</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='st'>"abundance"</span>, <span class='kw'>color</span><span class='kw'>=</span><span class='st'>"samples"</span>, <span class='kw'>base.spacing</span><span class='kw'>=</span><span class='fl'>0.03</span>)</div><div class='img'><img src='plot_tree-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_tree</span><span class='op'>(</span><span class='va'>esophagus</span>, size<span class='op'>=</span><span class='st'>"Abundance"</span>, color<span class='op'>=</span><span class='st'>"Sample"</span>, base.spacing<span class='op'>=</span><span class='fl'>0.03</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_tree-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_tree</span><span class='op'>(</span><span class='va'>esophagus</span>, size<span class='op'>=</span><span class='st'>"abundance"</span>, color<span class='op'>=</span><span class='st'>"samples"</span>, base.spacing<span class='op'>=</span><span class='fl'>0.03</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_tree-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -351,7 +353,7 @@ tutorials</a>.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

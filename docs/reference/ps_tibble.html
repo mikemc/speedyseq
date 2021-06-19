@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reduce a vector x to its unique value or the value of bad — bad_or_unique • speedyseq</title>
+<title>Coerce phyloseq objects to tibbles (tbl_df objects) — ps_tibble • speedyseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Reduce a vector x to its unique value or the value of bad — bad_or_unique" />
-<meta property="og:description" content="Helper for merge_taxa_vec()" />
+<meta property="og:title" content="Coerce phyloseq objects to tibbles (tbl_df objects) — ps_tibble" />
+<meta property="og:description" content="An S4 generic function that serves the role of tibble::as_tibble() on
+phyloseq and phyloseq-component objects." />
 
 
 
@@ -111,27 +112,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reduce a vector x to its unique value or the value of <code>bad</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/merge_taxa_vec.R'><code>R/merge_taxa_vec.R</code></a></small>
-    <div class="hidden name"><code>bad_or_unique.Rd</code></div>
+    <h1>Coerce phyloseq objects to tibbles (tbl_df objects)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/ps_tibble.R'><code>R/ps_tibble.R</code></a></small>
+    <div class="hidden name"><code>ps_tibble.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Helper for <code><a href='merge_taxa_vec.html'>merge_taxa_vec()</a></code></p>
+    <p>An S4 generic function that serves the role of <code><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>tibble::as_tibble()</a></code> on
+phyloseq and phyloseq-component objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bad_or_unique</span><span class='op'>(</span><span class='va'>x</span>, bad <span class='op'>=</span> <span class='st'>"BAD"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for otu_table</span>
+<span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span>, pivot <span class='op'>=</span> <span class='cn'>TRUE</span>, .name_repair <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></span><span class='op'>)</span>
+
+<span class='co'># S4 method for sample_data</span>
+<span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span>, .name_repair <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></span><span class='op'>)</span>
+
+<span class='co'># S4 method for taxonomyTable</span>
+<span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span>, .name_repair <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></span><span class='op'>)</span>
+
+<span class='co'># S4 method for XStringSet</span>
+<span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S4 method for phyloseq</span>
+<span class='fu'>ps_tibble</span><span class='op'>(</span><span class='va'>x</span>, tax <span class='op'>=</span> <span class='cn'>TRUE</span>, ref <span class='op'>=</span> <span class='cn'>FALSE</span>, .name_repair <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/make.unique.html'>make.unique</a></span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a vector</p></td>
+      <td><p>A phyloseq object or component.</p></td>
     </tr>
     <tr>
-      <th>bad</th>
-      <td><p>the string representing a bad value</p></td>
+      <th>...</th>
+      <td><p>Unused; for methods.</p></td>
+    </tr>
+    <tr>
+      <th>pivot</th>
+      <td><p>Whether to pivot the data frame to long format.</p></td>
+    </tr>
+    <tr>
+      <th>.name_repair</th>
+      <td><p>Function to repair names in the case of conflicts.</p></td>
+    </tr>
+    <tr>
+      <th>tax</th>
+      <td><p>Whether to include taxonomy data.</p></td>
+    </tr>
+    <tr>
+      <th>ref</th>
+      <td><p>Whether to include reference sequences.</p></td>
     </tr>
     </table>
 

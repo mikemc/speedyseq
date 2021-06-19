@@ -74,7 +74,7 @@ the tree directly, rather than as the basis for hierarchical clustering." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ the tree directly, rather than as the basis for hierarchical clustering." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -96,7 +96,7 @@ the tree directly, rather than as the basis for hierarchical clustering." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -120,18 +120,18 @@ the tree directly, rather than as the basis for hierarchical clustering." />
 
     <div class="ref-description">
     <p>This function merges taxa that are sufficiently closely related in the tree
-in <code>phy_tree(physeq)</code>. It is similar to <code><a href='tip_glom.html'>tip_glom()</a></code>, except that it uses
+in <code><a href='https://rdrr.io/pkg/phyloseq/man/phy_tree-methods.html'>phy_tree(physeq)</a></code>. It is similar to <code><a href='tip_glom.html'>tip_glom()</a></code>, except that it uses
 the tree directly, rather than as the basis for hierarchical clustering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tree_glom</span>(<span class='no'>physeq</span>, <span class='no'>resolution</span>, <span class='kw'>criterion</span> <span class='kw'>=</span> <span class='st'>"max_tip_depth"</span>, <span class='kw'>tax_adjust</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</pre>
+    <pre class="usage"><span class='fu'>tree_glom</span><span class='op'>(</span><span class='va'>physeq</span>, <span class='va'>resolution</span>, criterion <span class='op'>=</span> <span class='st'>"max_tip_depth"</span>, tax_adjust <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p><code>phyloseq-class()</code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
+      <td><p><code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class()</a></code> or <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code>.</p></td>
     </tr>
     <tr>
       <th>resolution</th>
@@ -145,7 +145,7 @@ the tree directly, rather than as the basis for hierarchical clustering.</p>
     <tr>
       <th>tax_adjust</th>
       <td><p>0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for details)</p></td>
+conservative adjustment (see <code><a href='merge_taxa_vec.html'>merge_taxa_vec()</a></code> for details)</p></td>
     </tr>
     </table>
 
@@ -165,26 +165,31 @@ tree, reference sequences, and (by default) the taxonomy table reflect these
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/castor/man/collapse_tree_at_resolution.html'>castor::collapse_tree_at_resolution()</a></code> for more information about the
 <code>resolution</code> and <code>criterion</code> parameters.</p>
-<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for more about <code>tax_adjust</code> and general merging behavior</p>
+<p><code><a href='merge_taxa_vec.html'>merge_taxa_vec()</a></code> for more about <code>tax_adjust</code> and general merging behavior</p>
 <p><code><a href='tip_glom.html'>tip_glom()</a></code> for indirect phylogenetic merging</p>
 <p><code><a href='tax_glom.html'>tax_glom()</a></code> for merging using taxonomy</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)
-<span class='no'>ps1</span> <span class='kw'>&lt;-</span> <span class='fu'>subset_taxa</span>(<span class='no'>GlobalPatterns</span>, <span class='no'>Phylum</span> <span class='kw'>==</span> <span class='st'>"Chlamydiae"</span>)
-<span class='fu'>ntaxa</span>(<span class='no'>ps1</span>)</div><div class='output co'>#&gt; [1] 21</div><div class='input'><span class='no'>ps2</span> <span class='kw'>&lt;-</span> <span class='fu'>tree_glom</span>(<span class='no'>ps1</span>, <span class='fl'>0.05</span>)
-<span class='fu'>ntaxa</span>(<span class='no'>ps2</span>)</div><div class='output co'>#&gt; [1] 10</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggtree</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>cowplot</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span><span class='op'>)</span>
+<span class='va'>ps1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/subset_taxa-methods.html'>subset_taxa</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span>, <span class='va'>Phylum</span> <span class='op'>==</span> <span class='st'>"Chlamydiae"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/ntaxa-methods.html'>ntaxa</a></span><span class='op'>(</span><span class='va'>ps1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 21</div><div class='input'><span class='va'>ps2</span> <span class='op'>&lt;-</span> <span class='fu'>tree_glom</span><span class='op'>(</span><span class='va'>ps1</span>, <span class='fl'>0.05</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/ntaxa-methods.html'>ntaxa</a></span><span class='op'>(</span><span class='va'>ps2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 10</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yulab-smu.top/treedata-book/'>ggtree</a></span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressPackageStartupMessages</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://wilkelab.org/cowplot/'>cowplot</a></span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='no'>plot1</span> <span class='kw'>&lt;-</span> <span class='fu'>phy_tree</span>(<span class='no'>ps1</span>) <span class='kw'>%&gt;%</span>
-  <span class='no'>ggtree</span> +
-  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/geom_tiplab.html'>geom_tiplab</a></span>() +
-  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/reexports.html'>geom_label</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/reexports.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>branch</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>branch.length</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>Found more than one class "phylo" in cache; using the first, from namespace 'phyloseq'</span></div><div class='output co'>#&gt; <span class='message'>Also defined by ‘tidytree’</span></div><div class='input'><span class='no'>plot2</span> <span class='kw'>&lt;-</span> <span class='fu'>phy_tree</span>(<span class='no'>ps2</span>) <span class='kw'>%&gt;%</span>
-  <span class='no'>ggtree</span> +
-  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/geom_tiplab.html'>geom_tiplab</a></span>() +
-  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/reexports.html'>geom_label</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/reexports.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>branch</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>branch.length</span>, <span class='fl'>4</span>)))</div><div class='output co'>#&gt; <span class='message'>Found more than one class "phylo" in cache; using the first, from namespace 'phyloseq'</span></div><div class='output co'>#&gt; <span class='message'>Also defined by ‘tidytree’</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/plot_grid.html'>plot_grid</a></span>(<span class='no'>plot1</span>, <span class='no'>plot2</span>)</div><div class='img'><img src='tree_glom-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='va'>plot1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/phy_tree-methods.html'>phy_tree</a></span><span class='op'>(</span><span class='va'>ps1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='va'>ggtree</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/geom_tiplab.html'>geom_tiplab</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_label</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>branch</span>, label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>branch.length</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Found more than one class "phylo" in cache; using the first, from namespace 'phyloseq'</span></div><div class='output co'>#&gt; <span class='message'>Also defined by ‘tidytree’</span></div><div class='input'><span class='va'>plot2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/phy_tree-methods.html'>phy_tree</a></span><span class='op'>(</span><span class='va'>ps2</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='va'>ggtree</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggtree/man/geom_tiplab.html'>geom_tiplab</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_label</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>branch</span>, label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>branch.length</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Found more than one class "phylo" in cache; using the first, from namespace 'phyloseq'</span></div><div class='output co'>#&gt; <span class='message'>Also defined by ‘tidytree’</span></div><div class='input'><span class='fu'><a href='https://wilkelab.org/cowplot/reference/plot_grid.html'>plot_grid</a></span><span class='op'>(</span><span class='va'>plot1</span>, <span class='va'>plot2</span><span class='op'>)</span>
+</div><div class='img'><img src='tree_glom-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -200,7 +205,7 @@ tree, reference sequences, and (by default) the taxonomy table reflect these
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

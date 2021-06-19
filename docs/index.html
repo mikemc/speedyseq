@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -53,7 +53,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,54 +79,58 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the current development version with the remotes package,</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># install.packages("remotes")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"mikemc/speedyseq"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mikemc/speedyseq"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Method 1: Call speedyseq functions explicitly when you want to use speedyseq’s version instead of phyloseq. This method ensures that you do not unintentionally call speedyseq’s version of a phyloseq function.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">library</span>(phyloseq)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="kw">data</span>(GlobalPatterns)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">system.time</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>  <span class="co"># Calls phyloseq's psmelt</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>  df1 &lt;-<span class="st"> </span><span class="kw">psmelt</span>(GlobalPatterns) <span class="co"># slow</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="co">#&gt;   6.623   0.076   6.711</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="kw">system.time</span>(</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  df2 &lt;-<span class="st"> </span>speedyseq<span class="op">::</span><span class="kw">psmelt</span>(GlobalPatterns) <span class="co"># fast</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="co">#&gt;   0.339   0.000   0.216</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>dplyr<span class="op">::</span><span class="kw">all_equal</span>(df1, df2, <span class="dt">ignore_row_order =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a><span class="kw">detach</span>(package<span class="op">:</span>phyloseq)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217">phyloseq</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">GlobalPatterns</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span>
+  <span class="co"># Calls phyloseq's psmelt</span>
+  <span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/psmelt.html">psmelt</a></span><span class="op">(</span><span class="va">GlobalPatterns</span><span class="op">)</span> <span class="co"># slow</span>
+<span class="op">)</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;   6.320   0.063   6.390</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span>
+  <span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu">speedyseq</span><span class="fu">::</span><span class="fu"><a href="reference/psmelt.html">psmelt</a></span><span class="op">(</span><span class="va">GlobalPatterns</span><span class="op">)</span> <span class="co"># fast</span>
+<span class="op">)</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;   0.344   0.004   0.245</span>
+<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/all_equal.html">all_equal</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, ignore_row_order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw"><a href="https://rdrr.io/r/base/detach.html">detach</a></span><span class="op">(</span><span class="va">package</span><span class="op">:</span><span class="va">phyloseq</span><span class="op">)</span></code></pre></div>
 <p>Method 2: Load speedyseq, which will load phyloseq and all speedyseq functions and cause calls to the overlapping function names to go to speedyseq by default.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">library</span>(speedyseq)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="co">#&gt; Loading required package: phyloseq</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="co">#&gt; </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">#&gt; Attaching package: 'speedyseq'</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="co">#&gt; The following objects are masked from 'package:phyloseq':</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="co">#&gt; </span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="co">#&gt;     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom,</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a><span class="co">#&gt;     tip_glom, transform_sample_counts</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="kw">data</span>(GlobalPatterns)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="kw">system.time</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>  ps1 &lt;-<span class="st"> </span>phyloseq<span class="op">::</span><span class="kw">tax_glom</span>(GlobalPatterns, <span class="st">"Genus"</span>) <span class="co"># slow</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="co">#&gt;  35.266   0.143  35.538</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a><span class="kw">system.time</span>(</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>  <span class="co"># Calls speedyseq's tax_glom</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>  ps2 &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(GlobalPatterns, <span class="st">"Genus"</span>) <span class="co"># fast</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a><span class="co">#&gt;   0.259   0.000   0.247</span></span></code></pre></div>
-<p>Loading speedyseq will also load the <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="reference/pipe.html">%&gt;%</a></code>) to allow pipe chains with phyloseq objects,</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>gp.filt.prop &lt;-<span class="st"> </span>GlobalPatterns <span class="op">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter_taxa2</span>(<span class="op">~</span><span class="st"> </span><span class="kw">sum</span>(. <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">transform_sample_counts</span>(<span class="op">~</span><span class="st"> </span>. <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(.))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mikemc.github.io/speedyseq">speedyseq</a></span><span class="op">)</span>
+<span class="co">#&gt; Loading required package: phyloseq</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'speedyseq'</span>
+<span class="co">#&gt; The following objects are masked from 'package:phyloseq':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter_taxa, plot_bar, plot_heatmap, plot_tree, psmelt, tax_glom, tip_glom,</span>
+<span class="co">#&gt;     transform_sample_counts</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">GlobalPatterns</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span>
+  <span class="va">ps1</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_glom.html">tax_glom</a></span><span class="op">(</span><span class="va">GlobalPatterns</span>, <span class="st">"Genus"</span><span class="op">)</span> <span class="co"># slow</span>
+<span class="op">)</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;  31.856   0.106  32.031</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span>
+  <span class="co"># Calls speedyseq's tax_glom</span>
+  <span class="va">ps2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tax_glom.html">tax_glom</a></span><span class="op">(</span><span class="va">GlobalPatterns</span>, <span class="st">"Genus"</span><span class="op">)</span> <span class="co"># fast</span>
+<span class="op">)</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;   0.241   0.000   0.230</span></code></pre></div>
+<p>Loading speedyseq will also load the <a href="https://magrittr.tidyverse.org/">magrittr</a> pipe (<code><a href="reference/%&gt;%.html">%&gt;%</a></code>) to allow pipe chains with phyloseq objects,</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gp.filt.prop</span> <span class="op">&lt;-</span> <span class="va">GlobalPatterns</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/filter_taxa.html">filter_taxa2</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">.</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/transform_sample_counts.html">transform_sample_counts</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
@@ -145,7 +149,7 @@
 <h3 class="hasAnchor">
 <a href="#new-taxonomic-merging-functions" class="anchor"></a>New taxonomic merging functions</h3>
 <ul>
-<li>A general-purpose merging function <code><a href="reference/merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> that provides a vectorized version of phyloseq’s <code>merge_taxa()</code> function.</li>
+<li>A general-purpose merging function <code><a href="reference/merge_taxa_vec.html">merge_taxa_vec()</a></code> that provides a vectorized version of phyloseq’s <code><a href="https://rdrr.io/pkg/phyloseq/man/merge_taxa-methods.html">merge_taxa()</a></code> function.</li>
 <li>A function <code><a href="reference/tree_glom.html">tree_glom()</a></code> that performs direct phylogenetic merging of taxa. This function provides an alternative to the indirect phylogenetic merging done by <code><a href="reference/tip_glom.html">tip_glom()</a></code> that is much faster and arguably more intuitive.</li>
 </ul>
 <p>See the <a href="https://mikemc.github.io/speedyseq/news/index.html">Changelog</a> for details and examples.</p>
@@ -188,8 +192,8 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://zenodo.org/badge/latestdoi/179732395"><img src="https://zenodo.org/badge/179732395.svg" alt="DOI"></a></li>
-<li><a href="https://travis-ci.org/mikemc/speedyseq"><img src="https://travis-ci.org/mikemc/speedyseq.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://codecov.io/gh/mikemc/speedyseq?branch=master"><img src="https://codecov.io/gh/mikemc/speedyseq/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://travis-ci.com/mikemc/speedyseq"><img src="https://travis-ci.com/mikemc/speedyseq.svg?branch=main" alt="Travis build status"></a></li>
+<li><a href="https://codecov.io/gh/mikemc/speedyseq?branch=main"><img src="https://codecov.io/gh/mikemc/speedyseq/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>
@@ -201,7 +205,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -10,6 +10,12 @@
     <loc>https://mikemc.github.io/speedyseq/reference/bad_or_unique.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/filter_sample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/filter_tax_table.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/filter_taxa.html</loc>
   </url>
   <url>
@@ -22,10 +28,22 @@
     <loc>https://mikemc.github.io/speedyseq/reference/merge_samples2.html</loc>
   </url>
   <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/merge_taxa_vec-methods.html</loc>
+    <loc>https://mikemc.github.io/speedyseq/reference/merge_taxa_vec.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/merge_taxa_vec_pseudo.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/mutate_sample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/mutate_tax_table.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/oneline.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/orient_taxa.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/pipe.html</loc>
@@ -40,6 +58,9 @@
     <loc>https://mikemc.github.io/speedyseq/reference/plot_tree.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/ps_tibble.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
   </url>
   <url>
@@ -49,10 +70,16 @@
     <loc>https://mikemc.github.io/speedyseq/reference/select_taxa-methods.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/show-methods.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tax_glom.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tibble-constructors.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/tibble_print.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/tip_glom.html</loc>

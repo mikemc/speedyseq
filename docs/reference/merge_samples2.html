@@ -79,7 +79,7 @@ samples are named by the values in group." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@ samples are named by the values in group." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,7 +101,7 @@ samples are named by the values in group." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,39 +127,46 @@ samples are named by the values in group." />
     <p>This function provides an alternative to <code><a href='https://rdrr.io/pkg/phyloseq/man/merge_samples-methods.html'>phyloseq::merge_samples()</a></code> that
 better handles sample variables of different types, especially categorical
 sample variables. It combines the samples in <code>x</code> defined by the sample
-variable or factor <code>group</code> by summing the abundances in <code>otu_table(x)</code> and
+variable or factor <code>group</code> by summing the abundances in <code><a href='https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html'>otu_table(x)</a></code> and
 combines sample variables by the summary functions in <code>funs</code>. The default
 summary function, <code><a href='unique_or_na.html'>unique_or_na()</a></code>, collapses the values within a group to a
 single unique value if it exists and otherwise returns NA. The new (merged)
 samples are named by the values in <code>group</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>merge_samples2</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>merge_samples2</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>group</span>, fun_otu <span class='op'>=</span> <span class='va'>sum</span>, funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, reorder <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for phyloseq</span>
-<span class='fu'>merge_samples2</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>merge_samples2</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>group</span>, fun_otu <span class='op'>=</span> <span class='va'>sum</span>, funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, reorder <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for otu_table</span>
-<span class='fu'>merge_samples2</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>merge_samples2</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>group</span>, fun_otu <span class='op'>=</span> <span class='va'>sum</span>, reorder <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S4 method for sample_data</span>
-<span class='fu'>merge_samples2</span>(<span class='no'>x</span>, <span class='no'>group</span>, <span class='kw'>funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>reorder</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>merge_samples2</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>group</span>, funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, reorder <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>sample_data</code> object</p></td>
+      <td><p>A <code>phyloseq</code>, <code>otu_table</code>, or <code>sample_data</code> object</p></td>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>A sample variable or a vector of length <code>nsamples(x)</code> defining
+      <td><p>A sample variable or a vector of length <code><a href='https://rdrr.io/pkg/phyloseq/man/nsamples-methods.html'>nsamples(x)</a></code> defining
 the sample grouping. A vector must be supplied if x is an otu_table</p></td>
     </tr>
     <tr>
+      <th>fun_otu</th>
+      <td><p>Function for combining abundances in the otu table; default
+is <code>sum</code>. Can be a formula to be converted to a function by
+<code><a href='https://purrr.tidyverse.org/reference/as_mapper.html'>purrr::as_mapper()</a></code></p></td>
+    </tr>
+    <tr>
       <th>funs</th>
-      <td><p>Named list of merge functions for each numeric variable</p></td>
+      <td><p>Named list of merge functions for sample variables; default is
+<code>unique_or_na</code></p></td>
     </tr>
     <tr>
       <th>reorder</th>
@@ -170,41 +177,39 @@ samples by name</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>enterotype</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>enterotype</span><span class='op'>)</span>
 
 <span class='co'># Merge samples with the same project and clinical status</span>
-<span class='no'>ps</span> <span class='kw'>&lt;-</span> <span class='no'>enterotype</span>
-<span class='fu'>sample_data</span>(<span class='no'>ps</span>) <span class='kw'>&lt;-</span> <span class='fu'>sample_data</span>(<span class='no'>ps</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span>(<span class='kw'>Project.ClinicalStatus</span> <span class='kw'>=</span> <span class='no'>Project</span>:<span class='no'>ClinicalStatus</span>)
-<span class='fu'>sample_data</span>(<span class='no'>ps</span>) <span class='kw'>%&gt;%</span> <span class='no'>head</span></div><div class='output co'>#&gt; Sample Data:        [6 samples by 10 sample variables]:
-#&gt;           Enterotype Sample_ID SeqTech  SampleID     Project Nationality Gender
-#&gt; AM.AD.1         &lt;NA&gt;   AM.AD.1  Sanger   AM.AD.1      gill06    american      F
-#&gt; AM.AD.2         &lt;NA&gt;   AM.AD.2  Sanger   AM.AD.2      gill06    american      M
-#&gt; AM.F10.T1       &lt;NA&gt; AM.F10.T1  Sanger AM.F10.T1 turnbaugh09    american      F
-#&gt; AM.F10.T2          3 AM.F10.T2  Sanger AM.F10.T2 turnbaugh09    american      F
-#&gt; DA.AD.1            2   DA.AD.1  Sanger   DA.AD.1     MetaHIT      danish      F
-#&gt; DA.AD.1T        &lt;NA&gt;  DA.AD.1T  Sanger      &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;   &lt;NA&gt;
-#&gt;           Age ClinicalStatus Project.ClinicalStatus
-#&gt; AM.AD.1    28        healthy         gill06:healthy
-#&gt; AM.AD.2    37        healthy         gill06:healthy
-#&gt; AM.F10.T1  NA          obese      turnbaugh09:obese
-#&gt; AM.F10.T2  NA          obese      turnbaugh09:obese
-#&gt; DA.AD.1    59        healthy        MetaHIT:healthy
-#&gt; DA.AD.1T   NA           &lt;NA&gt;                   &lt;NA&gt;</div><div class='input'><span class='no'>ps0</span> <span class='kw'>&lt;-</span> <span class='fu'>merge_samples2</span>(<span class='no'>ps</span>, <span class='st'>"Project.ClinicalStatus"</span>, <span class='kw'>funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>mean</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `group` has missing values; corresponding samples will be dropped</span></div><div class='input'><span class='fu'>sample_data</span>(<span class='no'>ps0</span>) <span class='kw'>%&gt;%</span> <span class='no'>head</span></div><div class='output co'>#&gt; Sample Data:        [6 samples by 10 sample variables]:
-#&gt;                   Enterotype Sample_ID SeqTech SampleID     Project Nationality
-#&gt; gill06:healthy          &lt;NA&gt;      &lt;NA&gt;  Sanger     &lt;NA&gt;      gill06    american
-#&gt; turnbaugh09:obese       &lt;NA&gt;      &lt;NA&gt;  Sanger     &lt;NA&gt; turnbaugh09    american
-#&gt; MetaHIT:healthy         &lt;NA&gt;      &lt;NA&gt;  Sanger     &lt;NA&gt;     MetaHIT        &lt;NA&gt;
-#&gt; MetaHIT:obese           &lt;NA&gt;      &lt;NA&gt;  Sanger     &lt;NA&gt;     MetaHIT      danish
-#&gt; MetaHIT:CD                 1   ES.AD.1  Sanger  ES.AD.1     MetaHIT     spanish
-#&gt; MetaHIT:UC                 2   ES.AD.3  Sanger  ES.AD.3     MetaHIT     spanish
-#&gt;                   Gender  Age ClinicalStatus Project.ClinicalStatus
-#&gt; gill06:healthy      &lt;NA&gt; 32.5        healthy         gill06:healthy
-#&gt; turnbaugh09:obese      F   NA          obese      turnbaugh09:obese
-#&gt; MetaHIT:healthy     &lt;NA&gt; 50.0        healthy        MetaHIT:healthy
-#&gt; MetaHIT:obese       &lt;NA&gt; 54.0          obese          MetaHIT:obese
-#&gt; MetaHIT:CD             F 25.0             CD             MetaHIT:CD
-#&gt; MetaHIT:UC             F 47.0             UC             MetaHIT:UC</div></pre>
+<span class='va'>ps</span> <span class='op'>&lt;-</span> <span class='va'>enterotype</span> 
+<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/transform.html'>transform</a></span><span class='op'>(</span>Project.ClinicalStatus <span class='op'>=</span> <span class='va'>Project</span><span class='op'>:</span><span class='va'>ClinicalStatus</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>head</span>
+</div><div class='output co'>#&gt; Sample Data:        [ 6 samples by 10 sample variables ]:
+#&gt;             Enterotype Sample_ID SeqTech SampleID Project Nationality Gender
+#&gt; <span style='color: #BCBCBC;'>1</span> AM.AD.1   <span style='color: #BB0000;'>NA</span>         AM.AD.1   Sanger  AM.AD.1  gill06  american    F     
+#&gt; <span style='color: #BCBCBC;'>2</span> AM.AD.2   <span style='color: #BB0000;'>NA</span>         AM.AD.2   Sanger  AM.AD.2  gill06  american    M     
+#&gt; <span style='color: #BCBCBC;'>3</span> AM.F10.T1 <span style='color: #BB0000;'>NA</span>         AM.F10.T1 Sanger  AM.F10.… turnba… american    F     
+#&gt; <span style='color: #BCBCBC;'>4</span> AM.F10.T2 3          AM.F10.T2 Sanger  AM.F10.… turnba… american    F     
+#&gt; <span style='color: #BCBCBC;'>5</span> DA.AD.1   2          DA.AD.1   Sanger  DA.AD.1  MetaHIT danish      F     
+#&gt; <span style='color: #BCBCBC;'>6</span> DA.AD.1T  <span style='color: #BB0000;'>NA</span>         DA.AD.1T  Sanger  <span style='color: #BB0000;'>NA</span>       <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>          <span style='color: #BB0000;'>NA</span>    
+#&gt; <span style='color: #949494;'># … with 3 more variables: Age &lt;dbl&gt;, ClinicalStatus &lt;fct&gt;,</span>
+#&gt; <span style='color: #949494;'>#   Project.ClinicalStatus &lt;fct&gt;</span>
+#&gt; </div><div class='input'><span class='va'>ps0</span> <span class='op'>&lt;-</span> <span class='fu'>merge_samples2</span><span class='op'>(</span><span class='va'>ps</span>, <span class='st'>"Project.ClinicalStatus"</span>,
+  fun_otu <span class='op'>=</span> <span class='va'>mean</span>,
+  funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Age <span class='op'>=</span> <span class='va'>mean</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `group` has missing values; corresponding samples will be dropped</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>head</span>
+</div><div class='output co'>#&gt; Sample Data:        [ 6 samples by 10 sample variables ]:
+#&gt;              Enterotype Sample_ID SeqTech SampleID Project Nationality Gender
+#&gt; <span style='color: #BCBCBC;'>1</span> gill06:he… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       gill06  american    <span style='color: #BB0000;'>NA</span>    
+#&gt; <span style='color: #BCBCBC;'>2</span> turnbaugh… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       turnba… american    F     
+#&gt; <span style='color: #BCBCBC;'>3</span> MetaHIT:h… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       MetaHIT <span style='color: #BB0000;'>NA</span>          <span style='color: #BB0000;'>NA</span>    
+#&gt; <span style='color: #BCBCBC;'>4</span> MetaHIT:o… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       MetaHIT danish      <span style='color: #BB0000;'>NA</span>    
+#&gt; <span style='color: #BCBCBC;'>5</span> MetaHIT:CD 1          ES.AD.1   Sanger  ES.AD.1  MetaHIT spanish     F     
+#&gt; <span style='color: #BCBCBC;'>6</span> MetaHIT:UC 2          ES.AD.3   Sanger  ES.AD.3  MetaHIT spanish     F     
+#&gt; <span style='color: #949494;'># … with 3 more variables: Age &lt;dbl&gt;, ClinicalStatus &lt;fct&gt;,</span>
+#&gt; <span style='color: #949494;'>#   Project.ClinicalStatus &lt;fct&gt;</span>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -220,7 +225,7 @@ samples by name</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

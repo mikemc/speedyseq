@@ -1,17 +1,24 @@
 url: https://mikemc.github.io/speedyseq
 reference:
-- title: "Merging"
+- title: "Merge samples or taxa"
 - contents: 
-  - merge_samples2
-  - merge_taxa_vec
+  - starts_with("merge")
   - ends_with("glom")
+- title: "Transform or subset data"
+- contents: 
+  - starts_with("filter")
+  - starts_with("mutate")
+  - starts_with("transform")
+  - orient_taxa
+- title: "Coercion"
+- contents: 
+  - psmelt
+  - ps_tibble
+  - tibble-constructors
 - title: "Plotting"
 - contents:
   - starts_with("plot")
 - title: "Other"
-- contents: 
-  - starts_with("transform")
-  - starts_with("filter")
-  - psmelt
-  - tibble-constructors
+- contents:
   - unique_or_na
+  - show,phyloseq-method

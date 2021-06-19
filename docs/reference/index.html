@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -93,7 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -124,7 +124,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-merging" class="hasAnchor"><a href="#section-merging" class="anchor"></a>Merging</h2>
+          <h2 id="section-merge-samples-or-taxa" class="hasAnchor"><a href="#section-merge-samples-or-taxa" class="anchor"></a>Merge samples or taxa</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -136,13 +136,19 @@
       <tr>
         
         <td>
+          <p><code><a href="merge_groups.html">merge_groups()</a></code> </p>
+        </td>
+        <td><p>Merge groups of elements within a vector by a function</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="merge_samples2.html">merge_samples2()</a></code> </p>
         </td>
         <td><p>Merge samples by a sample variable or factor</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="merge_taxa_vec-methods.html">merge_taxa_vec()</a></code> </p>
+          <p><code><a href="merge_taxa_vec.html">merge_taxa_vec()</a></code> </p>
         </td>
         <td><p>Merge taxa in groups (vectorized version)</p></td>
       </tr><tr>
@@ -163,6 +169,92 @@
           <p><code><a href="tree_glom.html">tree_glom()</a></code> </p>
         </td>
         <td><p>Agglomerate taxa at a given phylogenetic resolution.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-transform-or-subset-data" class="hasAnchor"><a href="#section-transform-or-subset-data" class="anchor"></a>Transform or subset data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="filter_sample_data.html">filter_sample_data()</a></code> </p>
+        </td>
+        <td><p>Subset samples using values in the sample data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="filter_tax_table.html">filter_tax_table()</a></code> </p>
+        </td>
+        <td><p>Subset taxa using values in the taxonomy table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="filter_taxa.html">filter_taxa()</a></code> <code><a href="filter_taxa.html">filter_taxa2()</a></code> </p>
+        </td>
+        <td><p>Filter taxa based on across-sample OTU abundance criteria</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mutate_sample_data.html">mutate_sample_data()</a></code> </p>
+        </td>
+        <td><p>Create, modify, and delete columns in the sample data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mutate_tax_table.html">mutate_tax_table()</a></code> </p>
+        </td>
+        <td><p>Create, modify, and delete columns in the taxonomy table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="transform_sample_counts.html">transform_sample_counts()</a></code> </p>
+        </td>
+        <td><p>Transform abundance data in an <code>otu_table</code>, sample-by-sample</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="orient_taxa.html">orient_taxa()</a></code> </p>
+        </td>
+        <td><p>Orient a phyloseq object or otu table to have taxa as rows or as columns</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-coercion" class="hasAnchor"><a href="#section-coercion" class="anchor"></a>Coercion</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="psmelt.html">psmelt()</a></code> </p>
+        </td>
+        <td><p>Melt phyloseq data object into large data.frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ps_tibble.html">ps_tibble()</a></code> </p>
+        </td>
+        <td><p>Coerce phyloseq objects to tibbles (tbl_df objects)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tibble-constructors.html">otu_table(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="tibble-constructors.html">sample_data(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="tibble-constructors.html">tax_table(<i>&lt;tbl_df&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Construct phyloseq objects from tibbles</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -210,33 +302,15 @@
       <tr>
         
         <td>
-          <p><code><a href="transform_sample_counts.html">transform_sample_counts()</a></code> </p>
-        </td>
-        <td><p>Transform abundance data in an <code>otu_table</code>, sample-by-sample</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_taxa.html">filter_taxa()</a></code> <code><a href="filter_taxa.html">filter_taxa2()</a></code> </p>
-        </td>
-        <td><p>Filter taxa based on across-sample OTU abundance criteria</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="psmelt.html">psmelt()</a></code> </p>
-        </td>
-        <td><p>Melt phyloseq data object into large data.frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tibble-constructors.html">otu_table(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="tibble-constructors.html">sample_data(<i>&lt;tbl_df&gt;</i>)</a></code> <code><a href="tibble-constructors.html">tax_table(<i>&lt;tbl_df&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Construct phyloseq objects from tibbles</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="unique_or_na.html">unique_or_na()</a></code> </p>
         </td>
         <td><p>Get the unique value in x or NA if none</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="show-methods.html">show(<i>&lt;phyloseq&gt;</i>)</a></code> <code><a href="show-methods.html">show(<i>&lt;taxonomyTable&gt;</i>)</a></code> <code><a href="show-methods.html">show(<i>&lt;sample_data&gt;</i>)</a></code> <code><a href="show-methods.html">show(<i>&lt;otu_table&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Methods for <code>show()</code> for phyloseq objects.</p></td>
       </tr>
     </tbody>
     </table>
@@ -256,7 +330,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

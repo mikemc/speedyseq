@@ -100,7 +100,7 @@ of the NeatMap approach, please cite both our packages/articles." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@ of the NeatMap approach, please cite both our packages/articles." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -122,7 +122,7 @@ of the NeatMap approach, please cite both our packages/articles." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -153,13 +153,13 @@ rows and columns instead of (hierarchical) cluster analysis. In many cases
 the ordination-based ordering does a much better job than h-clustering.
 An immediately useful example of their approach is provided in the NeatMap
 package for R. The NeatMap package can be used directly on the abundance
-table (<code>otu_table-class</code>) of phylogenetic-sequencing data, but
+table (<code><a href='https://rdrr.io/pkg/phyloseq/man/otu_table-class.html'>otu_table-class</a></code>) of phylogenetic-sequencing data, but
 the NMDS or PCA ordination options that it supports are not based on ecological
 distances. To fill this void, phyloseq provides the <code>plot_heatmap()</code>
 function as an ecology-oriented variant of the NeatMap approach to organizing
 a heatmap and build it using ggplot2 graphics tools.
 The <code>distance</code> and <code>method</code> arguments are the same as for the
-<code>plot_ordination</code> function, and support large number of
+<code><a href='https://rdrr.io/pkg/phyloseq/man/plot_ordination.html'>plot_ordination</a></code> function, and support large number of
 distances and ordination methods, respectively, with a strong leaning toward
 ecology.
 This function also provides the options to re-label the OTU and sample
@@ -176,24 +176,24 @@ representation. If you benefit from this phyloseq-specific implementation
 of the NeatMap approach, please cite both our packages/articles.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_heatmap</span>(
-  <span class='no'>physeq</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"NMDS"</span>,
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='st'>"bray"</span>,
-  <span class='kw'>sample.label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>taxa.label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>low</span> <span class='kw'>=</span> <span class='st'>"#000033"</span>,
-  <span class='kw'>high</span> <span class='kw'>=</span> <span class='st'>"#66CCFF"</span>,
-  <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='fu'>log_trans</span>(<span class='fl'>4</span>),
-  <span class='kw'>max.label</span> <span class='kw'>=</span> <span class='fl'>250</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sample.order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>taxa.order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>first.sample</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>first.taxa</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_heatmap</span><span class='op'>(</span>
+  <span class='va'>physeq</span>,
+  method <span class='op'>=</span> <span class='st'>"NMDS"</span>,
+  distance <span class='op'>=</span> <span class='st'>"bray"</span>,
+  sample.label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  taxa.label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  low <span class='op'>=</span> <span class='st'>"#000033"</span>,
+  high <span class='op'>=</span> <span class='st'>"#66CCFF"</span>,
+  na.value <span class='op'>=</span> <span class='st'>"black"</span>,
+  trans <span class='op'>=</span> <span class='fu'>log_trans</span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>,
+  max.label <span class='op'>=</span> <span class='fl'>250</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sample.order <span class='op'>=</span> <span class='cn'>NULL</span>,
+  taxa.order <span class='op'>=</span> <span class='cn'>NULL</span>,
+  first.sample <span class='op'>=</span> <span class='cn'>NULL</span>,
+  first.taxa <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,13 +201,13 @@ of the NeatMap approach, please cite both our packages/articles.</p>
     <tr>
       <th>physeq</th>
       <td><p>(Required). The data, in the form of an instance of the
-<code>phyloseq-class</code>. This should be what you get as a result
+<code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class</a></code>. This should be what you get as a result
 from one of the
-<code>import</code> functions, or any of the processing downstream.
-No data components beyond the <code>otu_table</code> are strictly
+<code><a href='https://rdrr.io/pkg/phyloseq/man/import.html'>import</a></code> functions, or any of the processing downstream.
+No data components beyond the <code><a href='https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html'>otu_table</a></code> are strictly
 necessary, though they may be useful if you want to re-label the
 axis ticks according to some observable or taxonomic rank, for instance,
-or if you want to use a <code>UniFrac</code>-based distance
+or if you want to use a <code><a href='https://rdrr.io/pkg/phyloseq/man/UniFrac-methods.html'>UniFrac</a></code>-based distance
 (in which case your <code>physeq</code> data would need to have a tree included).</p></td>
     </tr>
     <tr>
@@ -221,7 +221,7 @@ the way in which the rows and columns are ordered.</p></td>
       <th>distance</th>
       <td><p>(Optional). A character string.
 The ecological distance method to use in the ordination.
-See <code>distance</code>.</p></td>
+See <code><a href='https://rdrr.io/pkg/phyloseq/man/distance.html'>distance</a></code>.</p></td>
     </tr>
     <tr>
       <th>sample.label</th>
@@ -234,7 +234,7 @@ The sample variable by which you want to re-label the sample (horizontal) axis.<
 The name of the taxonomic rank by which you want to
 re-label the taxa/species/OTU (vertical) axis.
 You can see available options in your data using
-<code>rank_names(physeq)</code>.</p></td>
+<code><a href='https://rdrr.io/pkg/phyloseq/man/rank_names.html'>rank_names</a>(physeq)</code>.</p></td>
     </tr>
     <tr>
       <th>low</th>
@@ -267,7 +267,7 @@ reverse the values of <code>high</code> and <code>low</code>, above.</p></td>
       <th>trans</th>
       <td><p>(Optional). <code>"trans"</code>-class transformer-definition object.
 A numerical transformer to use in
-the continuous color scale. See <code><a href='https://scales.r-lib.org//reference/trans_new.html'>trans_new</a></code> for details.
+the continuous color scale. See <code><a href='https://scales.r-lib.org/reference/trans_new.html'>trans_new</a></code> for details.
 The default is <code>log_trans(4)</code>.</p></td>
     </tr>
     <tr>
@@ -291,8 +291,8 @@ The main title for the graphic.</p></td>
       <th>sample.order</th>
       <td><p>(Optional). Default <code>NULL</code>.
 Either a single character string matching
-one of the <code>sample_variables</code> in your data,
-or a character vector of <code>sample_names</code>
+one of the <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_variables.html'>sample_variables</a></code> in your data,
+or a character vector of <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_names-methods.html'>sample_names</a></code>
 in the precise order that you want them displayed in the heatmap.
 This overrides any ordination ordering that might be done
 with the <code>method</code>/<code>distance</code> arguments.</p></td>
@@ -301,8 +301,8 @@ with the <code>method</code>/<code>distance</code> arguments.</p></td>
       <th>taxa.order</th>
       <td><p>(Optional). Default <code>NULL</code>.
 Either a single character string matching
-one of the <code>rank_names</code> in your data,
-or a character vector of <code>taxa_names</code>
+one of the <code><a href='https://rdrr.io/pkg/phyloseq/man/rank_names.html'>rank_names</a></code> in your data,
+or a character vector of <code><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names</a></code>
 in the precise order that you want them displayed in the heatmap.
 This overrides any ordination ordering that might be done
 with the <code>method</code>/<code>distance</code> arguments.</p></td>
@@ -310,7 +310,7 @@ with the <code>method</code>/<code>distance</code> arguments.</p></td>
     <tr>
       <th>first.sample</th>
       <td><p>(Optional). Default <code>NULL</code>.
-A character string matching one of the <code>sample_names</code>
+A character string matching one of the <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_names-methods.html'>sample_names</a></code>
 of your input data (<code>physeq</code>).
 It will become the left-most sample in the plot.
 For the ordination-based ordering (recommended),
@@ -324,14 +324,14 @@ and thereby avoid cluster-splitting, emphasize a gradient, etc.</p></td>
     <tr>
       <th>first.taxa</th>
       <td><p>(Optional). Default <code>NULL</code>.
-A character string matching one of the <code>taxa_names</code>
+A character string matching one of the <code><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names</a></code>
 of your input data (<code>physeq</code>).
 This is equivalent to <code>first.sample</code> (above),
 but for the taxa/OTU indices, usually the vertical axis.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>(Optional). Additional parameters passed to <code>ordinate</code>.</p></td>
+      <td><p>(Optional). Additional parameters passed to <code><a href='https://rdrr.io/pkg/phyloseq/man/ordinate.html'>ordinate</a></code>.</p></td>
     </tr>
     </table>
 
@@ -361,39 +361,47 @@ NeatMap--non-clustering heat map alternatives in R. BMC Bioinformatics, 11, 45.<
 <a href='http://joey711.github.io/phyloseq/plot_heatmap-examples'>phyloseq online tutorials</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"GlobalPatterns"</span>)
-<span class='no'>gpac</span> <span class='kw'>&lt;-</span> <span class='fu'>subset_taxa</span>(<span class='no'>GlobalPatterns</span>, <span class='no'>Phylum</span><span class='kw'>==</span><span class='st'>"Crenarchaeota"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"GlobalPatterns"</span><span class='op'>)</span>
+<span class='va'>gpac</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/subset_taxa-methods.html'>subset_taxa</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span>, <span class='va'>Phylum</span><span class='op'>==</span><span class='st'>"Crenarchaeota"</span><span class='op'>)</span>
 <span class='co'># FYI, the base-R function uses a non-ecological ordering scheme,</span>
 <span class='co'># but does add potentially useful hclust dendrogram to the sides...</span>
-<span class='no'>gpac</span> <span class='kw'>&lt;-</span> <span class='fu'>subset_taxa</span>(<span class='no'>GlobalPatterns</span>, <span class='no'>Phylum</span><span class='kw'>==</span><span class='st'>"Crenarchaeota"</span>)
+<span class='va'>gpac</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/subset_taxa-methods.html'>subset_taxa</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span>, <span class='va'>Phylum</span><span class='op'>==</span><span class='st'>"Crenarchaeota"</span><span class='op'>)</span>
 <span class='co'># Remove the nearly-empty samples (e.g. 10 reads or less)</span>
-<span class='no'>gpac</span> <span class='kw'>=</span> <span class='fu'>prune_samples</span>(<span class='fu'>sample_sums</span>(<span class='no'>gpac</span>) <span class='kw'>&gt;</span> <span class='fl'>50</span>, <span class='no'>gpac</span>)
+<span class='va'>gpac</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/prune_samples-methods.html'>prune_samples</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_sums.html'>sample_sums</a></span><span class='op'>(</span><span class='va'>gpac</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>50</span>, <span class='va'>gpac</span><span class='op'>)</span>
 <span class='co'># Arbitrary order if method set to NULL</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>,
-  <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Use ordination</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>, <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Use ordination for OTUs, but not sample-order</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>, <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>,
-  <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Specifying both orders omits any attempt to use ordination. The following</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, method<span class='op'>=</span><span class='cn'>NULL</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>,
+  taxa.label<span class='op'>=</span><span class='st'>"Family"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Use ordination</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>, taxa.label<span class='op'>=</span><span class='st'>"Family"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Use ordination for OTUs, but not sample-order</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>, taxa.label<span class='op'>=</span><span class='st'>"Family"</span>,
+  sample.order<span class='op'>=</span><span class='st'>"SampleType"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Specifying both orders omits any attempt to use ordination. The following</span>
 <span class='co'># should be the same.</span>
-<span class='no'>p0</span> <span class='kw'>=</span> <span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>, <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>,
-  <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='st'>"Phylum"</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>)
-<span class='no'>p1</span> <span class='kw'>=</span> <span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>,
-  <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>, <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='st'>"Phylum"</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>)
+<span class='va'>p0</span> <span class='op'>=</span> <span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>, taxa.label<span class='op'>=</span><span class='st'>"Family"</span>,
+  taxa.order<span class='op'>=</span><span class='st'>"Phylum"</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span><span class='op'>)</span>
+<span class='va'>p1</span> <span class='op'>=</span> <span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, method<span class='op'>=</span><span class='cn'>NULL</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>,
+  taxa.label<span class='op'>=</span><span class='st'>"Family"</span>, taxa.order<span class='op'>=</span><span class='st'>"Phylum"</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span><span class='op'>)</span>
 <span class='co'>#expect_equivalent(p0, p1)</span>
 <span class='co'># Example: Order matters. Random ordering of OTU indices is difficult to</span>
 <span class='co'># interpret, even with structured sample order</span>
-<span class='no'>rando</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'>taxa_names</span>(<span class='no'>gpac</span>), <span class='kw'>size</span><span class='kw'>=</span><span class='fu'>ntaxa</span>(<span class='no'>gpac</span>), <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>,
-  <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>, <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='no'>rando</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># # Select the edges of each axis. </span>
+<span class='va'>rando</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names</a></span><span class='op'>(</span><span class='va'>gpac</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/ntaxa-methods.html'>ntaxa</a></span><span class='op'>(</span><span class='va'>gpac</span><span class='op'>)</span>, replace<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, method<span class='op'>=</span><span class='cn'>NULL</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>,
+  taxa.label<span class='op'>=</span><span class='st'>"Family"</span>, taxa.order<span class='op'>=</span><span class='va'>rando</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># # Select the edges of each axis. </span>
 <span class='co'># First, arbitrary edge, ordering</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='kw'>NULL</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Second, biological-ordering (instead of default ordination-ordering), but</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, method<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Second, biological-ordering (instead of default ordination-ordering), but</span>
 <span class='co'># arbitrary edge</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='st'>"Family"</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Third, biological ordering, selected edges</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='st'>"Family"</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>,
-  <span class='kw'>first.taxa</span><span class='kw'>=</span><span class='st'>"546313"</span>, <span class='kw'>first.sample</span><span class='kw'>=</span><span class='st'>"NP2"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Fourth, add meaningful labels</span>
-<span class='fu'>plot_heatmap</span>(<span class='no'>gpac</span>, <span class='kw'>sample.label</span><span class='kw'>=</span><span class='st'>"SampleType"</span>, <span class='kw'>taxa.label</span><span class='kw'>=</span><span class='st'>"Family"</span>,
-  <span class='kw'>taxa.order</span><span class='kw'>=</span><span class='st'>"Family"</span>, <span class='kw'>sample.order</span><span class='kw'>=</span><span class='st'>"SampleType"</span>, <span class='kw'>first.taxa</span><span class='kw'>=</span><span class='st'>"546313"</span>,
-  <span class='kw'>first.sample</span><span class='kw'>=</span><span class='st'>"NP2"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-8.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, taxa.order<span class='op'>=</span><span class='st'>"Family"</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Third, biological ordering, selected edges</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, taxa.order<span class='op'>=</span><span class='st'>"Family"</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span>,
+  first.taxa<span class='op'>=</span><span class='st'>"546313"</span>, first.sample<span class='op'>=</span><span class='st'>"NP2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Fourth, add meaningful labels</span>
+<span class='fu'>plot_heatmap</span><span class='op'>(</span><span class='va'>gpac</span>, sample.label<span class='op'>=</span><span class='st'>"SampleType"</span>, taxa.label<span class='op'>=</span><span class='st'>"Family"</span>,
+  taxa.order<span class='op'>=</span><span class='st'>"Family"</span>, sample.order<span class='op'>=</span><span class='st'>"SampleType"</span>, first.taxa<span class='op'>=</span><span class='st'>"546313"</span>,
+  first.sample<span class='op'>=</span><span class='st'>"NP2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in discrete y-axis</span></div><div class='img'><img src='plot_heatmap-8.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -409,7 +417,7 @@ NeatMap--non-clustering heat map alternatives in R. BMC Bioinformatics, 11, 45.<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

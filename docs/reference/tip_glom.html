@@ -73,7 +73,7 @@ than h will be agglomerated into one taxon." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ than h will be agglomerated into one taxon." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@ than h will be agglomerated into one taxon." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,14 +122,14 @@ than h will be agglomerated into one taxon." />
 than <code>h</code> will be agglomerated into one taxon.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tip_glom</span>(<span class='no'>physeq</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>hcfun</span> <span class='kw'>=</span> <span class='kw pkg'>cluster</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>agnes</a></span>, <span class='kw'>tax_adjust</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>tip_glom</span><span class='op'>(</span><span class='va'>physeq</span>, h <span class='op'>=</span> <span class='fl'>0.2</span>, hcfun <span class='op'>=</span> <span class='fu'>cluster</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>agnes</a></span>, tax_adjust <span class='op'>=</span> <span class='fl'>1L</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). A <code>phyloseq-class()</code>, containing a phylogenetic
+      <td><p>(Required). A <code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class()</a></code>, containing a phylogenetic
 tree. Alternatively, a phylogenetic tree <code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code> will also work.</p></td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@ compatiblity.</p></td>
     <tr>
       <th>tax_adjust</th>
       <td><p>0: no adjustment; 1: phyloseq-compatible adjustment; 2:
-conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code> for details)</p></td>
+conservative adjustment (see <code><a href='merge_taxa_vec.html'>merge_taxa_vec()</a></code> for details)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -157,9 +157,9 @@ conservative adjustment (see <code><a href='merge_taxa_vec-methods.html'>merge_t
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An instance of the <code>phyloseq-class()</code>.  Or alternatively, a
-<code>phylo()</code> object if the <code>physeq</code> argument was just a tree.  In the
-expected-use case, the number of OTUs will be fewer (see <code>ntaxa()</code>), after
+    <p>An instance of the <code><a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq-class()</a></code>.  Or alternatively, a
+<code><a href='https://rdrr.io/pkg/phyloseq/man/phylo.html'>phylo()</a></code> object if the <code>physeq</code> argument was just a tree.  In the
+expected-use case, the number of OTUs will be fewer (see <code><a href='https://rdrr.io/pkg/phyloseq/man/ntaxa-methods.html'>ntaxa()</a></code>), after
 merging OTUs that are related enough to be called the same OTU.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -170,7 +170,7 @@ possible to specify different clustering approaches by setting <code>hcfun</code
 its parameters in <code>...</code>. In particular, complete-linkage clustering appears
 to be used more commonly for OTU clustering applications.</p>
 <p>The merged taxon is named according to the "archetype" defined as the the
-most abundant taxon (having the largest value of <code>taxa_sums(physeq)</code>. The
+most abundant taxon (having the largest value of <code><a href='https://rdrr.io/pkg/phyloseq/man/taxa_sums.html'>taxa_sums(physeq)</a></code>. The
 tree and refseq objects are pruned to the archetype taxa.</p>
 <p>Speedyseq note: <code><a href='https://rdrr.io/r/stats/hclust.html'>stats::hclust()</a></code> is faster than the default <code>hcfun</code>; set
 <code>method = "average"</code> to get equivalent clustering.</p>
@@ -180,43 +180,43 @@ tree and refseq objects are pruned to the archetype taxa.</p>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/phyloseq/man/tip_glom.html'>phyloseq::tip_glom()</a></code></p>
 <p><code><a href='tree_glom.html'>tree_glom()</a></code> for direct phylogenetic merging</p>
-<p><code><a href='merge_taxa_vec-methods.html'>merge_taxa_vec()</a></code></p>
+<p><code><a href='merge_taxa_vec.html'>merge_taxa_vec()</a></code></p>
 <p><code><a href='https://rdrr.io/pkg/cluster/man/agnes.html'>cluster::agnes()</a></code></p>
 <p><code><a href='https://rdrr.io/r/stats/hclust.html'>stats::hclust()</a></code></p>
 <p><code><a href='https://rdrr.io/pkg/castor/man/get_all_pairwise_distances.html'>castor::get_all_pairwise_distances()</a></code></p>
 <p><code><a href='https://rdrr.io/pkg/ape/man/read.tree.html'>ape::phylo()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"esophagus"</span>)
-<span class='no'>esophagus</span> <span class='kw'>&lt;-</span> <span class='fu'>prune_taxa</span>(<span class='fu'>taxa_names</span>(<span class='no'>esophagus</span>)[<span class='fl'>1</span>:<span class='fl'>25</span>], <span class='no'>esophagus</span>)
-<span class='fu'><a href='plot_tree.html'>plot_tree</a></span>(<span class='no'>esophagus</span>, <span class='kw'>label.tips</span><span class='kw'>=</span><span class='st'>"taxa_names"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='st'>"abundance"</span>,
-  <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"Before tip_glom()"</span>)</div><div class='img'><img src='tip_glom-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plot_tree.html'>plot_tree</a></span>(<span class='fu'>tip_glom</span>(<span class='no'>esophagus</span>, <span class='kw'>h</span><span class='kw'>=</span><span class='fl'>0.2</span>), <span class='kw'>label.tips</span><span class='kw'>=</span><span class='st'>"taxa_names"</span>,
-  <span class='kw'>size</span><span class='kw'>=</span><span class='st'>"abundance"</span>, <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"After tip_glom()"</span>)</div><div class='img'><img src='tip_glom-2.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"esophagus"</span><span class='op'>)</span>
+<span class='va'>esophagus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/prune_taxa-methods.html'>prune_taxa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names</a></span><span class='op'>(</span><span class='va'>esophagus</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>25</span><span class='op'>]</span>, <span class='va'>esophagus</span><span class='op'>)</span>
+<span class='fu'><a href='plot_tree.html'>plot_tree</a></span><span class='op'>(</span><span class='va'>esophagus</span>, label.tips<span class='op'>=</span><span class='st'>"taxa_names"</span>, size<span class='op'>=</span><span class='st'>"abundance"</span>, 
+  title<span class='op'>=</span><span class='st'>"Before tip_glom()"</span><span class='op'>)</span>
+</div><div class='img'><img src='tip_glom-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='plot_tree.html'>plot_tree</a></span><span class='op'>(</span><span class='fu'>tip_glom</span><span class='op'>(</span><span class='va'>esophagus</span>, h<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span>, label.tips<span class='op'>=</span><span class='st'>"taxa_names"</span>, 
+  size<span class='op'>=</span><span class='st'>"abundance"</span>, title<span class='op'>=</span><span class='st'>"After tip_glom()"</span><span class='op'>)</span>
+</div><div class='img'><img src='tip_glom-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># *speedyseq only:* Demonstration of different `tax_adjust` behaviors</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>GlobalPatterns</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>20190421</span>)
-<span class='no'>ps</span> <span class='kw'>&lt;-</span> <span class='fu'>prune_taxa</span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'>taxa_names</span>(<span class='no'>GlobalPatterns</span>), <span class='fl'>2e2</span>), <span class='no'>GlobalPatterns</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>20190421</span><span class='op'>)</span>
+<span class='va'>ps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/prune_taxa-methods.html'>prune_taxa</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_names-methods.html'>taxa_names</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span><span class='op'>)</span>, <span class='fl'>2e2</span><span class='op'>)</span>, <span class='va'>GlobalPatterns</span><span class='op'>)</span>
 
-<span class='no'>ps1</span> <span class='kw'>&lt;-</span> <span class='fu'>tip_glom</span>(<span class='no'>ps</span>, <span class='fl'>0.1</span>, <span class='kw'>tax_adjust</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='no'>ps2</span> <span class='kw'>&lt;-</span> <span class='fu'>tip_glom</span>(<span class='no'>ps</span>, <span class='fl'>0.1</span>, <span class='kw'>tax_adjust</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'>tax_table</span>(<span class='no'>ps1</span>)[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>108</span>, <span class='fl'>136</span>, <span class='fl'>45</span>),]</div><div class='output co'>#&gt; Taxonomy Table:     [3 taxa by 7 taxonomic ranks]:
-#&gt;        Kingdom    Phylum           Class                 Order               
-#&gt; 578831 "Bacteria" "Bacteroidetes"  "Sphingobacteria"     "Sphingobacteriales"
-#&gt; 2801   "Bacteria" "Planctomycetes" "Planctomycea"        "Pirellulales"      
-#&gt; 185581 "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Oceanospirillales" 
-#&gt;        Family Genus            Species                             
-#&gt; 578831 NA     "Niabella"       NA                                  
-#&gt; 2801   NA     "Rhodopirellula" NA                                  
-#&gt; 185581 "OM60" NA               "marinegammaproteobacteriumHTCC2080"</div><div class='input'><span class='fu'>tax_table</span>(<span class='no'>ps2</span>)[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>108</span>, <span class='fl'>136</span>, <span class='fl'>45</span>),]</div><div class='output co'>#&gt; Taxonomy Table:     [3 taxa by 7 taxonomic ranks]:
-#&gt;        Kingdom    Phylum           Class                 Order               
-#&gt; 578831 "Bacteria" "Bacteroidetes"  "Sphingobacteria"     "Sphingobacteriales"
-#&gt; 2801   "Bacteria" "Planctomycetes" "Planctomycea"        "Pirellulales"      
-#&gt; 185581 "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Oceanospirillales" 
-#&gt;        Family Genus Species
-#&gt; 578831 NA     NA    NA     
-#&gt; 2801   NA     NA    NA     
-#&gt; 185581 "OM60" NA    NA     </div></pre>
+<span class='va'>ps1</span> <span class='op'>&lt;-</span> <span class='fu'>tip_glom</span><span class='op'>(</span><span class='va'>ps</span>, <span class='fl'>0.1</span>, tax_adjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>ps2</span> <span class='op'>&lt;-</span> <span class='fu'>tip_glom</span><span class='op'>(</span><span class='va'>ps</span>, <span class='fl'>0.1</span>, tax_adjust <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table</a></span><span class='op'>(</span><span class='va'>ps1</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>108</span>, <span class='fl'>136</span>, <span class='fl'>45</span><span class='op'>)</span>,<span class='op'>]</span>
+</div><div class='output co'>#&gt; Taxonomy Table:     [ 3 taxa by 7 taxonomic ranks ]:
+#&gt;          Kingdom  Phylum    Class     Order     Family Genus    Species         
+#&gt;   <span style='color: #949494; font-style: italic;'>     </span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           
+#&gt; <span style='color: #BCBCBC;'>1</span> 578831 Bacteria Bacteroi… Sphingob… Sphingob… <span style='color: #BB0000;'>NA</span>     Niabella <span style='color: #BB0000;'>NA</span>              
+#&gt; <span style='color: #BCBCBC;'>2</span> 2801   Bacteria Planctom… Planctom… Pirellul… <span style='color: #BB0000;'>NA</span>     Rhodopi… <span style='color: #BB0000;'>NA</span>              
+#&gt; <span style='color: #BCBCBC;'>3</span> 185581 Bacteria Proteoba… Gammapro… Oceanosp… OM60   <span style='color: #BB0000;'>NA</span>       marinegammaprot…
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table</a></span><span class='op'>(</span><span class='va'>ps2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>108</span>, <span class='fl'>136</span>, <span class='fl'>45</span><span class='op'>)</span>,<span class='op'>]</span>
+</div><div class='output co'>#&gt; Taxonomy Table:     [ 3 taxa by 7 taxonomic ranks ]:
+#&gt;          Kingdom  Phylum       Class          Order         Family Genus Species
+#&gt;   <span style='color: #949494; font-style: italic;'>     </span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>1</span> 578831 Bacteria Bacteroidet… Sphingobacter… Sphingobacte… <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     
+#&gt; <span style='color: #BCBCBC;'>2</span> 2801   Bacteria Planctomyce… Planctomycea   Pirellulales  <span style='color: #BB0000;'>NA</span>     <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     
+#&gt; <span style='color: #BCBCBC;'>3</span> 185581 Bacteria Proteobacte… Gammaproteoba… Oceanospiril… OM60   <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>     
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -232,7 +232,7 @@ tree and refseq objects are pruned to the archetype taxa.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

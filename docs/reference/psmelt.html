@@ -50,7 +50,7 @@ Also, you should not have identical names for sample variables and taxonomic
 ranks. That is, the intersection of the output of the following two
 functions sample_variables(), rank_names() should be an empty vector
 (e.g.  intersect(sample_variables(physeq), rank_names(physeq))). All of
-these potential name collisions are checked-for and renamed automtically
+these potential name collisions are checked-for and renamed automatically
 with a warning. However, if you (re)name your variables accordingly ahead of
 time, it will reduce confusion and eliminate the warnings." />
 
@@ -84,7 +84,7 @@ time, it will reduce confusion and eliminate the warnings." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9008</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ time, it will reduce confusion and eliminate the warnings." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -106,7 +106,7 @@ time, it will reduce confusion and eliminate the warnings." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mikemc/speedyseq/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,35 +133,47 @@ time, it will reduce confusion and eliminate the warnings." />
 objects (instances of the phyloseq class), usually for producing graphics
 with <a href='https://ggplot2.tidyverse.org/reference/ggplot2-package.html'>ggplot2::ggplot2</a>. The naming conventions used in downstream phyloseq
 graphics functions have reserved the following variable names that should
-not be used as the names of <code>sample_variables()</code> or taxonomic
-<code>rank_names()</code>. These reserved names are <code><a href='https://rdrr.io/r/base/c.html'>c("Sample", "Abundance", "OTU")</a></code>.
+not be used as the names of <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_variables.html'>sample_variables()</a></code> or taxonomic
+<code><a href='https://rdrr.io/pkg/phyloseq/man/rank_names.html'>rank_names()</a></code>. These reserved names are <code><a href='https://rdrr.io/r/base/c.html'>c("Sample", "Abundance", "OTU")</a></code>.
 Also, you should not have identical names for sample variables and taxonomic
 ranks. That is, the intersection of the output of the following two
-functions <code>sample_variables()</code>, <code>rank_names()</code> should be an empty vector
+functions <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_variables.html'>sample_variables()</a></code>, <code><a href='https://rdrr.io/pkg/phyloseq/man/rank_names.html'>rank_names()</a></code> should be an empty vector
 (e.g.  <code><a href='https://rdrr.io/r/base/sets.html'>intersect(sample_variables(physeq), rank_names(physeq))</a></code>). All of
-these potential name collisions are checked-for and renamed automtically
+these potential name collisions are checked-for and renamed automatically
 with a warning. However, if you (re)name your variables accordingly ahead of
 time, it will reduce confusion and eliminate the warnings.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>psmelt</span>(<span class='no'>physeq</span>)</pre>
+    <pre class="usage"><span class='fu'>psmelt</span><span class='op'>(</span><span class='va'>physeq</span>, as <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"speedyseq.psmelt_class"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>physeq</th>
-      <td><p>(Required). An otu_table or phyloseq.
-Function most useful for phyloseq-class.</p></td>
+      <td><p>An <a href='https://rdrr.io/pkg/phyloseq/man/otu_table-class.html'>otu_table</a> or <a href='https://rdrr.io/pkg/phyloseq/man/phyloseq-class.html'>phyloseq</a>; most useful for
+phyloseq-class.</p></td>
+    </tr>
+    <tr>
+      <th>as</th>
+      <td><p>Class of the output table; see Details.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame table.</p>
+    <p>A table of the specified class</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that "melted" phyloseq data is stored much less efficiently, and so RAM
+    <p>The <code>as</code> argument allows choosing between three classes for tabular data:</p><ul>
+<li><p>data.frame is chosen by "data.frame" or "df"</p></li>
+<li><p>data.table is chosen by "data.table" or "dt"</p></li>
+<li><p>tbl_df is chosen by "tbl_df", "tbl", or "tibble"</p></li>
+</ul>
+
+<p>The default is "data.frame" and can be overridden by setting the
+"speedyseq.psmelt_class" option.</p>
+<p>Note that "melted" phyloseq data is stored much less efficiently, and so RAM
 storage issues could arise with a smaller dataset (smaller number of
 samples/OTUs/variables) than one might otherwise expect.  For common sizes
 of graphics-ready datasets, however, this should not be a problem.  Because
@@ -175,10 +187,13 @@ flexibility, but is also used extensively by plot functions in phyloseq.</p>
     <div class='dont-index'><p><code><a href='plot_bar.html'>plot_bar()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"GlobalPatterns"</span>)
-<span class='no'>gp.ch</span> <span class='kw'>=</span> <span class='fu'>subset_taxa</span>(<span class='no'>GlobalPatterns</span>, <span class='no'>Phylum</span> <span class='kw'>==</span> <span class='st'>"Chlamydiae"</span>)
-<span class='no'>mdf</span> <span class='kw'>=</span> <span class='fu'>psmelt</span>(<span class='no'>gp.ch</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>mdf</span>)</div><div class='output co'>#&gt; [1] 546</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>mdf</span>)</div><div class='output co'>#&gt; [1] 17</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mdf</span>)</div><div class='output co'>#&gt;  [1] "OTU"                      "Sample"                  
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"GlobalPatterns"</span><span class='op'>)</span>
+<span class='va'>gp.ch</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/subset_taxa-methods.html'>subset_taxa</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span>, <span class='va'>Phylum</span> <span class='op'>==</span> <span class='st'>"Chlamydiae"</span><span class='op'>)</span>
+<span class='va'>mdf</span> <span class='op'>=</span> <span class='fu'>psmelt</span><span class='op'>(</span><span class='va'>gp.ch</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 546</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 17</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "OTU"                      "Sample"                  
 #&gt;  [3] "Abundance"                "X.SampleID"              
 #&gt;  [5] "Primer"                   "Final_Barcode"           
 #&gt;  [7] "Barcode_truncated_plus_T" "Barcode_full_length"     
@@ -186,11 +201,13 @@ flexibility, but is also used extensively by plot functions in phyloseq.</p>
 #&gt; [11] "Kingdom"                  "Phylum"                  
 #&gt; [13] "Class"                    "Order"                   
 #&gt; [15] "Family"                   "Genus"                   
-#&gt; [17] "Species"                 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mdf</span>))</div><div class='output co'>#&gt; [1] "1" "2" "3" "4" "5" "6"</div><div class='input'><span class='co'># Create a ggplot similar to</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"ggplot2"</span>)
-<span class='no'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>mdf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>SampleType</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>Abundance</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='no'>Genus</span>))
-<span class='no'>p</span> <span class='kw'>=</span> <span class='no'>p</span> + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='kw'>color</span><span class='kw'>=</span><span class='st'>"black"</span>, <span class='kw'>stat</span><span class='kw'>=</span><span class='st'>"identity"</span>, <span class='kw'>position</span><span class='kw'>=</span><span class='st'>"stack"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>p</span>)</div><div class='img'><img src='psmelt-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; [17] "Species"                 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "1" "2" "3" "4" "5" "6"</div><div class='input'><span class='co'># Create a ggplot similar to</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mdf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>SampleType</span>, y<span class='op'>=</span><span class='va'>Abundance</span>, fill<span class='op'>=</span><span class='va'>Genus</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>=</span> <span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>color<span class='op'>=</span><span class='st'>"black"</span>, stat<span class='op'>=</span><span class='st'>"identity"</span>, position<span class='op'>=</span><span class='st'>"stack"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+</div><div class='img'><img src='psmelt-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,7 +223,7 @@ flexibility, but is also used extensively by plot functions in phyloseq.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
