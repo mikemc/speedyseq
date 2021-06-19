@@ -1,19 +1,22 @@
 # speedyseq (development version)
 
+* dplyr verbs for added for sample data and taxonomy tables: mutate and filter (see #69)
+
+* `merge_samples2()` now has a `fun_otu` argument for specifying alternative abundance-summarization functions
+
+* Add  `ps_tibble()` S4 generic to provide `tibble::as_tibble()` functionality for phyloseq objects
+
+* Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see [#60](https://github.com/mikemc/speedyseq/issues/60).
+
+* Fixed namespace bug that caused `psmelt(as="tibble")` to throw an error if
+  tibble wasn't loaded
+
 * `psmelt()` now uses `getOption(speedyseq.psmelt_class)` as the default value
   for the `as` argument. Users can set their preferred tabular class to 
   "speedyseq.psmelt_class" (among "data.table", "data.frame", or "tbl_df") in
   their ".Rprofile" file. The default option is set to "data.frame" for
   backwards compatibility.
 
-* Fixed namespace bug that caused `psmelt(as="tibble")` to throw an error if
-  tibble wasn't loaded
-
-* Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see [#60](https://github.com/mikemc/speedyseq/issues/60).
-
-* Add  `ps_tibble()` S4 generic to provide `tibble::as_tibble()` functionality for phyloseq objects
-
-* `merge_samples2()` now has a `fun_otu` argument for specifying alternative abundance-summarization functions
 
 # speedyseq 0.5.3
 
