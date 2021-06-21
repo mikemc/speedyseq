@@ -40,7 +40,7 @@ test_that("mutate and filter sample data", {
   expect_identical(sample_data(ps1), sam1)
 })
 
-test_that("renaming taxonomy table and sample data", {
+test_that("can rename columns in taxonomy table and sample data", {
   ps1 <- GlobalPatterns %>%
     rename_tax_table(Domain = Kingdom) %>%
     rename_with_tax_table(stringr::str_to_lower) %>%
