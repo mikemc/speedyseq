@@ -2,12 +2,14 @@ url: https://mikemc.github.io/speedyseq
 reference:
 - title: "Merge samples or taxa"
 - contents: 
-  - starts_with("merge")
+  - merge_samples2
+  - merge_taxa_vec
   - ends_with("glom")
 - title: "Transform or subset data"
 - contents: 
   - starts_with("filter")
-  - starts_with("mutate")
+  - mutate-phyloseq
+  - rename-phyloseq
   - starts_with("transform")
   - orient_taxa
 - title: "Coercion"

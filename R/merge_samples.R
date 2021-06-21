@@ -221,6 +221,8 @@ unique_or_na.factor <- function(x) {
 #' @param group A vector such that `as.factor(group)` defines the grouping.
 #' @param f A function that, when applied to a subvector of x, returns a single
 #'   value. Can also be a formula as interpretted by `purrr::as_mapper()`.
+#'
+#' @keywords internal
 merge_groups <- function(x, group, f = unique_or_na) {
   f <- purrr::as_mapper(f)
   split(x, group) %>% 

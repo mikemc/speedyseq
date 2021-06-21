@@ -230,20 +230,20 @@ setMethod("transmute_sample_data", "phyloseq",
 #' @name rename-phyloseq
 #'
 #' @examples
+#' data(GlobalPatterns)
+#'
 #' GlobalPatterns %>% rank_names
 #' 
 #' ps1 <- GlobalPatterns %>%
-#'   rename_tax_table(Domain = Kingdom)
-#' ps1 %>% rank_names
-#' ps2 <- ps1 %>%
+#'   rename_tax_table(Domain = Kingdom) %>%
 #'   rename_with_tax_table(stringr::str_to_lower)
-#' ps2 %>% rank_names
+#' ps1 %>% rank_names
 #' 
 #' GlobalPatterns %>% sample_variables
-#' ps3 <- GlobalPatterns %>%
+#' ps2 <- GlobalPatterns %>%
 #'   rename_with_sample_data(janitor::make_clean_names) %>%
 #'   rename_sample_data(sample_id = x_sample_id)
-#' ps3 %>% sample_variables
+#' ps2 %>% sample_variables
 NULL
 
 ## rename_tax_table

@@ -19,3 +19,4 @@ Internal function used in \code{merge_samples2()} to merge variables. Note, owin
 to the use of \code{split()}, the merged elements in the new vector will be
 reordered according to \code{group}.
 }
+\keyword{internal}

@@ -34,10 +34,7 @@
     <loc>https://mikemc.github.io/speedyseq/reference/merge_taxa_vec_pseudo.html</loc>
   </url>
   <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/mutate_sample_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/mutate_tax_table.html</loc>
+    <loc>https://mikemc.github.io/speedyseq/reference/mutate-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/oneline.html</loc>
@@ -62,6 +59,9 @@
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/rename-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/sample_data_stable.html</loc>
