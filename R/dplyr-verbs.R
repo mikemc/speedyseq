@@ -130,3 +130,131 @@ setMethod("mutate_sample_data", "sample_data",
       dplyr::mutate(...) %>%
       {suppressMessages(sample_data(.))}
   })
+
+# rename ----------------------------------------------------------------------
+
+#' Rename columns in the taxonomy table or sample data
+#'
+#' `rename_tax_table()` and `rename_with_tax_table()` provide the functionality
+#' of `dplyr::rename()` and `dplyr::rename_with()` to phyloseq taxonomy tables;
+#' `rename_sample_data()` and `rename_with_sample_data()` provide this
+#' functionality to phyloseq sample data.
+#' 
+#' @param x A `phyloseq`, `taxonomyTable`, or `sample_data` object
+#' @param ... Renaming expressions passed to `dplyr::rename()` or arguments
+#'   passed to `dplyr::rename_with()`
+#'
+#' @name rename-phyloseq
+#'
+#' @examples
+#' GlobalPatterns %>% rank_names
+#' 
+#' ps1 <- GlobalPatterns %>%
+#'   rename_tax_table(Domain = Kingdom)
+#' ps1 %>% rank_names
+#' ps2 <- ps1 %>%
+#'   rename_with_tax_table(stringr::str_to_lower)
+#' ps2 %>% rank_names
+#' 
+#' GlobalPatterns %>% sample_variables
+#' ps3 <- GlobalPatterns %>%
+#'   rename_with_sample_data(janitor::make_clean_names) %>%
+#'   rename_sample_data(sample_id = x_sample_id)
+#' ps3 %>% sample_variables
+NULL
+
+## rename_tax_table
+
+#' @rdname rename-phyloseq
+#' @export
+setGeneric("rename_tax_table", 
+  function(x, ...) standardGeneric("rename_tax_table")
+)
+
+#' @rdname rename-phyloseq
+setMethod("rename_tax_table", "taxonomyTable",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::rename(...) %>%
+      {suppressMessages(tax_table(.))}
+  })
+
+#' @rdname rename-phyloseq
+setMethod("rename_tax_table", "phyloseq",
+  function(x, ...) {
+    tax_table(x) <- tax_table(x) %>% rename_tax_table(...)
+    x
+  })
+
+## rename_with_tax_table
+
+#' @rdname rename-phyloseq
+#' @export
+setGeneric("rename_with_tax_table", 
+  function(x, ...) standardGeneric("rename_with_tax_table")
+)
+
+#' @rdname rename-phyloseq
+setMethod("rename_with_tax_table", "taxonomyTable",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::rename_with(...) %>%
+      {suppressMessages(tax_table(.))}
+  })
+
+#' @rdname rename-phyloseq
+setMethod("rename_with_tax_table", "phyloseq",
+  function(x, ...) {
+    tax_table(x) <- tax_table(x) %>% rename_with_tax_table(...)
+    x
+  })
+
+## rename_sample_data
+
+#' @rdname rename-phyloseq
+#' @export
+setGeneric("rename_sample_data", 
+  function(x, ...) standardGeneric("rename_sample_data")
+)
+
+#' @rdname rename-phyloseq
+setMethod("rename_sample_data", "sample_data",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::rename(...) %>%
+      {suppressMessages(sample_data(.))}
+  })
+
+#' @rdname rename-phyloseq
+setMethod("rename_sample_data", "phyloseq",
+  function(x, ...) {
+    sample_data(x) <- sample_data(x) %>% rename_sample_data(...)
+    x
+  })
+
+## rename_with_sample_data
+
+#' @rdname rename-phyloseq
+#' @export
+setGeneric("rename_with_sample_data", 
+  function(x, ...) standardGeneric("rename_with_sample_data")
+)
+
+#' @rdname rename-phyloseq
+setMethod("rename_with_sample_data", "sample_data",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::rename_with(...) %>%
+      {suppressMessages(sample_data(.))}
+  })
+
+#' @rdname rename-phyloseq
+setMethod("rename_with_sample_data", "phyloseq",
+  function(x, ...) {
+    sample_data(x) <- sample_data(x) %>% rename_with_sample_data(...)
+    x
+  })
