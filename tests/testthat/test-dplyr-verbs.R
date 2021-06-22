@@ -55,3 +55,22 @@ test_that("can rename columns in taxonomy table and sample data", {
   nms[1] <- "sample_id"
   expect_identical(ps1 %>% sample_variables, nms)
 })
+
+test_that("can select and relocate columns in taxonomy table and sample data", {
+  ps1 <- GlobalPatterns %>%
+    select_tax_table(Phylum, Genus:Species) %>%
+    select_sample_data(-dplyr::contains("Barcode"))
+  expect_identical(c("Phylum", "Genus", "Species"), rank_names(ps1))
+  nms <- GlobalPatterns %>% sample_variables %>% 
+    stringr::str_subset("Barcode", negate = TRUE)
+  expect_identical(nms, sample_variables(ps1))
+  ps2 <- ps1 %>%
+    relocate_sample_data(SampleType) %>%
+    relocate_tax_table(Phylum, .after = dplyr::last_col())
+  expect_identical(sample_variables(ps2),
+    c("SampleType", setdiff(sample_variables(ps1), "SampleType"))
+  )
+  expect_identical(rank_names(ps2),
+    c(setdiff(rank_names(ps1), "Phylum"), "Phylum")
+  )
+})

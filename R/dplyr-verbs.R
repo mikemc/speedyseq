@@ -1,4 +1,10 @@
-# filter ----------------------------------------------------------------------
+# vim: foldmethod=marker
+
+# Some of the documentation for these functions is modified from the
+# corresponding dplyr functions (https://github.com/tidyverse/dplyr), MIT
+# license RStudio and others.
+
+# filter -------------------------------------------------------------------{{{
 
 #' Subset taxa using values in the taxonomy table
 #'
@@ -61,7 +67,9 @@ setMethod("filter_sample_data", "sample_data",
       {suppressMessages(sample_data(.))}
   })
 
-# mutate ----------------------------------------------------------------------
+# }}}
+
+# mutate and transmute -----------------------------------------------------{{{
 
 #' Create, modify, and delete columns in the taxonomy table or sample data
 #'
@@ -214,7 +222,165 @@ setMethod("transmute_sample_data", "phyloseq",
     x
   })
 
-# rename ----------------------------------------------------------------------
+# }}}
+
+# select -------------------------------------------------------------------{{{
+
+#' Subset columns in the taxonomy table or sample data using their names and types
+#'
+#' These functions are wrappers around `dplyr::select()` that provide
+#' convenient ways to modify `tax_table(x)` and `sample_data(x)`.
+#' See `dplyr::select()` for supported syntax and helpers.
+#'
+#' The special column names '.otu' and '.sample' should not be used; see
+#' `mutate-phyloseq` for the ability to change taxa and sample names using
+#' these names.
+#'
+#' @param x A `phyloseq`, `taxonomyTable`, or `sample_data` object
+#' @param ... Expressions passed to `dplyr::select()`
+#'
+#' @name select-phyloseq
+#'
+#' @examples
+#' data(GlobalPatterns)
+#'
+#' GlobalPatterns %>% rank_names
+#' GlobalPatterns %>% sample_variables
+#' ps <- GlobalPatterns %>%
+#'   select_tax_table(Phylum, Genus:Species) %>%
+#'   select_sample_data(!dplyr::contains("Barcode"))
+#' ps %>% rank_names
+#' ps %>% sample_variables
+NULL
+
+#' @rdname select-phyloseq
+#' @export
+setGeneric("select_tax_table", 
+  function(x, ...) standardGeneric("select_tax_table")
+)
+
+#' @rdname select-phyloseq
+setMethod("select_tax_table", "taxonomyTable",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      # Ensure .otu always kept; Putafter the ... to handle use of '-' for
+      # column removal
+      dplyr::select(..., .otu) %>%
+      dplyr::relocate(.otu) %>%
+      {suppressMessages(tax_table(.))}
+  })
+
+#' @rdname select-phyloseq
+setMethod("select_tax_table", "phyloseq",
+  function(x, ...) {
+    tax_table(x) <- tax_table(x) %>% select_tax_table(...)
+    x
+  })
+
+#' @rdname select-phyloseq
+#' @export
+setGeneric("select_sample_data", 
+  function(x, ...) standardGeneric("select_sample_data")
+)
+
+#' @rdname select-phyloseq
+setMethod("select_sample_data", "sample_data",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      # Ensure .sample always kept; put after the ... to handle use of '-' for
+      # column removal
+      dplyr::select(..., .sample) %>%
+      dplyr::relocate(.sample) %>%
+      {suppressMessages(sample_data(.))}
+  })
+
+#' @rdname select-phyloseq
+setMethod("select_sample_data", "phyloseq",
+  function(x, ...) {
+    sample_data(x) <- sample_data(x) %>% select_sample_data(...)
+    x
+  })
+
+# }}}
+
+# relocate -----------------------------------------------------------------{{{
+
+#' Change column order in the taxonomy table or sample data
+#'
+#' These functions are wrappers around `dplyr::relocate()` that provide
+#' convenient ways to modify `tax_table(x)` and `sample_data(x)`.
+#'
+#' The special column names '.otu' and '.sample' should not be used; see
+#' `mutate-phyloseq` for the ability to change taxa and sample names using
+#' these names.
+#'
+#' @param x A `phyloseq`, `taxonomyTable`, or `sample_data` object
+#' @param ... Expressions and arguments passed to `dplyr::relocate()`
+#'
+#' @name relocate-phyloseq
+#'
+#' @examples
+#' data(GlobalPatterns)
+#'
+#' GlobalPatterns %>% sample_variables
+#' ps <- GlobalPatterns %>%
+#'   relocate_sample_data(SampleType, .after = X.SampleID)
+#' ps %>% sample_variables
+NULL
+
+#' @rdname relocate-phyloseq
+#' @export
+setGeneric("relocate_tax_table", 
+  function(x, ...) standardGeneric("relocate_tax_table")
+)
+
+#' @rdname relocate-phyloseq
+setMethod("relocate_tax_table", "taxonomyTable",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::relocate(...) %>%
+      # Ensure .otu always kept first
+      dplyr::relocate(.otu) %>%
+      {suppressMessages(tax_table(.))}
+  })
+
+#' @rdname relocate-phyloseq
+setMethod("relocate_tax_table", "phyloseq",
+  function(x, ...) {
+    tax_table(x) <- tax_table(x) %>% relocate_tax_table(...)
+    x
+  })
+
+#' @rdname relocate-phyloseq
+#' @export
+setGeneric("relocate_sample_data", 
+  function(x, ...) standardGeneric("relocate_sample_data")
+)
+
+#' @rdname relocate-phyloseq
+setMethod("relocate_sample_data", "sample_data",
+  function(x, ...) {
+    x %>%
+      ps_tibble %>%
+      dplyr::relocate(...) %>%
+      # Ensure .sample always kept first
+      dplyr::relocate(.sample) %>%
+      {suppressMessages(sample_data(.))}
+  })
+
+#' @rdname relocate-phyloseq
+setMethod("relocate_sample_data", "phyloseq",
+  function(x, ...) {
+    sample_data(x) <- sample_data(x) %>% relocate_sample_data(...)
+    x
+  })
+
+# }}}
+
+# rename -------------------------------------------------------------------{{{
 
 #' Rename columns in the taxonomy table or sample data
 #'
