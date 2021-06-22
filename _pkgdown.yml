@@ -7,10 +7,12 @@ reference:
   - ends_with("glom")
 - title: "Transform or subset data"
 - contents: 
-  - starts_with("filter")
   - select-phyloseq
+  - relocate-phyloseq
   - rename-phyloseq
+  - filter-phyloseq
   - mutate-phyloseq
+  - starts_with("filter_taxa")
   - starts_with("transform")
   - orient_taxa
 - title: "Coercion"

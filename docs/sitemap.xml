@@ -10,10 +10,7 @@
     <loc>https://mikemc.github.io/speedyseq/reference/bad_or_unique.html</loc>
   </url>
   <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/filter_sample_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/filter_tax_table.html</loc>
+    <loc>https://mikemc.github.io/speedyseq/reference/filter-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/filter_taxa.html</loc>
@@ -61,10 +58,16 @@
     <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/relocate-phyloseq.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/rename-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/sample_data_stable.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/select-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/select_taxa-methods.html</loc>

@@ -74,7 +74,7 @@ and sample_data(x) as well as the sample and taxa names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
       </span>
     </div>
 
@@ -184,8 +184,8 @@ behavior.</p>
 
 <span class='va'>ps</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
   <span class='fu'>transmute_sample_data</span><span class='op'>(</span><span class='va'>SampleType</span>, sample_sum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_sums.html'>sample_sums</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='filter_sample_data.html'>filter_sample_data</a></span><span class='op'>(</span><span class='va'>SampleType</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Feces"</span>, <span class='st'>"Skin"</span>, <span class='st'>"Tongue"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='filter_tax_table.html'>filter_tax_table</a></span><span class='op'>(</span><span class='va'>Kingdom</span> <span class='op'>==</span> <span class='st'>"Bacteria"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='filter-phyloseq.html'>filter_sample_data</a></span><span class='op'>(</span><span class='va'>SampleType</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Feces"</span>, <span class='st'>"Skin"</span>, <span class='st'>"Tongue"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='filter-phyloseq.html'>filter_tax_table</a></span><span class='op'>(</span><span class='va'>Kingdom</span> <span class='op'>==</span> <span class='st'>"Bacteria"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='tax_glom.html'>tax_glom</a></span><span class='op'>(</span><span class='st'>"Phylum"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>transmute_tax_table</span><span class='op'>(</span><span class='va'>Kingdom</span>, <span class='va'>Phylum</span>, .otu <span class='op'>=</span> <span class='va'>Phylum</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span>

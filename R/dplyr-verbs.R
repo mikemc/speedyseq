@@ -6,30 +6,39 @@
 
 # filter -------------------------------------------------------------------{{{
 
-#' Subset taxa using values in the taxonomy table
+#' Subset rows in the taxonomy table or sample data using column values
 #'
-#' This function makes it possible to choose a subset of taxa using values in
-#' the taxonomy table as in `dplyr::filter()`. The taxonomy table is converted
-#' to a tibble using `ps_tibble()` and the arguments in `...` are passed
-#' directly to `dplyr::filter()`. The taxonomy table in the phyloseq object is
-#' then updated to contain just the subset taxa.
+#' These functions are wrappers around `dplyr::filter()` that make it possible
+#' to subset rows (corresponding to taxa or samples) using column values in the
+#' taxonomy table or sample data.
 #' 
-#' @param x A `phyloseq` or `taxonomyTable` object
+#' @param x A `phyloseq`, `taxonomyTable`, or `sample_data` object
 #' @param ... Expressions passed to `dplyr::filter()`
-#' 
+#'
+#' @name filter-phyloseq
+#'
+#' @examples
+#' data(GlobalPatterns)
+#'
+#' ps <- GlobalPatterns %>%
+#'   filter_tax_table(Kingdom == "Bacteria") %>%
+#'   filter_sample_data(SampleType %in% c("Feces", "Soil"))
+NULL
+
+#' @rdname filter-phyloseq
 #' @export
 setGeneric("filter_tax_table", 
   function(x, ...) standardGeneric("filter_tax_table")
 )
 
-#' @rdname filter_tax_table
+#' @rdname filter-phyloseq
 setMethod("filter_tax_table", "phyloseq",
   function(x, ...) {
     tax_table(x) <- tax_table(x) %>% filter_tax_table(...)
     x
   })
 
-#' @rdname filter_tax_table
+#' @rdname filter-phyloseq
 setMethod("filter_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
@@ -38,27 +47,20 @@ setMethod("filter_tax_table", "taxonomyTable",
       {suppressMessages(tax_table(.))}
   })
 
-#' Subset samples using values in the sample data
-#'
-#' This function is a wrapper around `dplyr::filter()` that provides a
-#' convenient way to subset samples using the `sample_data(x)`.
-#' 
-#' @param x A `phyloseq` or `sample_data` object
-#' @param ... Expressions passed to `dplyr::filter()`
-#' 
+#' @rdname filter-phyloseq
 #' @export
 setGeneric("filter_sample_data", 
   function(x, ...) standardGeneric("filter_sample_data")
 )
 
-#' @rdname filter_sample_data
+#' @rdname filter-phyloseq
 setMethod("filter_sample_data", "phyloseq",
   function(x, ...) {
     sample_data(x) <- sample_data(x) %>% filter_sample_data(...)
     x
   })
 
-#' @rdname filter_sample_data
+#' @rdname filter-phyloseq
 setMethod("filter_sample_data", "sample_data",
   function(x, ...) {
     x %>%

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Orient a phyloseq object or otu table to have taxa as rows or as columns — orient_taxa • speedyseq</title>
+<title>Change column order in the taxonomy table or sample data — relocate-phyloseq • speedyseq</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Orient a phyloseq object or otu table to have taxa as rows or as columns — orient_taxa" />
-<meta property="og:description" content="Puts the phyloseq or otu-table object x in the orientation (taxa as rows
-or as columns) specified by as. This is useful when passing the otu table
-on to functions that require the abundance matrix to have a specific
-orientation and are unaware of the taxa_are_rows(x) property." />
+<meta property="og:title" content="Change column order in the taxonomy table or sample data — relocate-phyloseq" />
+<meta property="og:description" content="These functions are wrappers around dplyr::relocate() that provide
+convenient ways to modify tax_table(x) and sample_data(x)." />
 
 
 
@@ -114,47 +112,65 @@ orientation and are unaware of the taxa_are_rows(x) property." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Orient a phyloseq object or otu table to have taxa as rows or as columns</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>orient_taxa.Rd</code></div>
+    <h1>Change column order in the taxonomy table or sample data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mikemc/speedyseq/blob/master/R/dplyr-verbs.R'><code>R/dplyr-verbs.R</code></a></small>
+    <div class="hidden name"><code>relocate-phyloseq.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Puts the phyloseq or otu-table object <code>x</code> in the orientation (taxa as rows
-or as columns) specified by <code>as</code>. This is useful when passing the otu table
-on to functions that require the abundance matrix to have a specific
-orientation and are unaware of the <code><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows(x)</a></code> property.</p>
+    <p>These functions are wrappers around <code><a href='https://dplyr.tidyverse.org/reference/relocate.html'>dplyr::relocate()</a></code> that provide
+convenient ways to modify <code><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table(x)</a></code> and <code><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data(x)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>orient_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>as</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>relocate_tax_table</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S4 method for otu_table</span>
-<span class='fu'>orient_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>as</span><span class='op'>)</span>
+<span class='co'># S4 method for taxonomyTable</span>
+<span class='fu'>relocate_tax_table</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for phyloseq</span>
-<span class='fu'>orient_taxa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>as</span><span class='op'>)</span></pre>
+<span class='fu'>relocate_tax_table</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>relocate_sample_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for sample_data</span>
+<span class='fu'>relocate_sample_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for phyloseq</span>
+<span class='fu'>relocate_sample_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A phyloseq or otu-table object</p></td>
+      <td><p>A <code>phyloseq</code>, <code>taxonomyTable</code>, or <code>sample_data</code> object</p></td>
     </tr>
     <tr>
-      <th>as</th>
-      <td><p>The matrix dimension that is desired for taxa. Must be
-"rows" for rows and "columns" or "cols" for columns.</p></td>
+      <th>...</th>
+      <td><p>Expressions and arguments passed to <code><a href='https://dplyr.tidyverse.org/reference/relocate.html'>dplyr::relocate()</a></code></p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The special column names '.otu' and '.sample' should not be used; see
+<code>mutate-phyloseq</code> for the ability to change taxa and sample names using
+these names.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>soilrep</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows</a></span><span class='op'>(</span><span class='va'>soilrep</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>soilrep</span> <span class='op'>%&gt;%</span> <span class='fu'>orient_taxa</span><span class='op'>(</span>as <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>GlobalPatterns</span><span class='op'>)</span>
+
+<span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
+</div><div class='output co'>#&gt; [1] "X.SampleID"               "Primer"                  
+#&gt; [3] "Final_Barcode"            "Barcode_truncated_plus_T"
+#&gt; [5] "Barcode_full_length"      "SampleType"              
+#&gt; [7] "Description"             </div><div class='input'><span class='va'>ps</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>relocate_sample_data</span><span class='op'>(</span><span class='va'>SampleType</span>, .after <span class='op'>=</span> <span class='va'>X.SampleID</span><span class='op'>)</span>
+<span class='va'>ps</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
+</div><div class='output co'>#&gt; [1] "X.SampleID"               "SampleType"              
+#&gt; [3] "Primer"                   "Final_Barcode"           
+#&gt; [5] "Barcode_truncated_plus_T" "Barcode_full_length"     
+#&gt; [7] "Description"             </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
