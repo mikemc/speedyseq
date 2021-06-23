@@ -49,17 +49,20 @@ special column names reserved for the otu/taxa names, sample names,
 abundances, and reference sequences.
 }
 \examples{
+library(dplyr) # for glimpse()
+
 data(GlobalPatterns)
+
 # Subset to 1/100 of the original taxa to speed operations
 ps <- GlobalPatterns \%>\% filter_tax_table(dplyr::row_number() \%\% 100 == 1)
 
 # On phyloseq objects, ps_tibble is similar to psmelt()
-psmelt(ps)
-ps_tibble(ps)
+psmelt(ps) \%>\% glimpse
+ps_tibble(ps) \%>\% glimpse
 
 # By default, the otu_table method provides a tibble in long-format like
 # psmelt and the phyloseq method
-otu_table(ps) \%>\% ps_tibble
+otu_table(ps) \%>\% ps_tibble \%>\% glimpse
 
 # Sample data and taxonomy tables produced by ps_tibble can be converted
 # back into their respective phyloseq objects using speedyseq's tbl_df
