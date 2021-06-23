@@ -74,3 +74,21 @@ test_that("can select and relocate columns in taxonomy table and sample data", {
     c(setdiff(rank_names(ps1), "Phylum"), "Phylum")
   )
 })
+
+test_that("can join on sample data", {
+  data(GlobalPatterns)
+
+  ps1 <- GlobalPatterns %>%
+    select_sample_data(!contains("Barcode"))
+  y <- GlobalPatterns %>%
+    sample_data %>%
+    select_sample_data(contains("Barcode")) %>%
+    ps_tibble
+  ps2 <- ps1 %>% left_join_sample_data(y, by = ".sample")
+
+  z <- GlobalPatterns %>% 
+    relocate_sample_data(contains("Barcode"), .after = dplyr::last_col()) %>% 
+    sample_data
+
+  expect_identical(ps2 %>% sample_data, z)
+})

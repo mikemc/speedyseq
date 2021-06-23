@@ -1,6 +1,6 @@
 # speedyseq (development version)
 
-* dplyr verbs for added for sample data and taxonomy tables: select, relocate, rename, rename_with, mutate, transmute, and filter (see #69)
+* Add dplyr verbs for sample data and taxonomy tables: select, relocate, rename, rename_with, mutate, transmute, filter, left_join, inner_join (see #69 and #72)
 
 * `merge_samples2()` now has a `fun_otu` argument for specifying alternative abundance-summarization functions
 
