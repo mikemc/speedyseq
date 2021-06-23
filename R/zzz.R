@@ -1,10 +1,5 @@
 speedyseq_default_options <- list(
-  speedyseq.psmelt_class = "data.frame",
-  # column names for as_tibble methods; match psmelt by default
-  speedyseq.tibble_sample = ".sample",
-  speedyseq.tibble_otu = ".otu",
-  speedyseq.tibble_abundance = ".abundance",
-  speedyseq.tibble_sequence = ".sequence"
+  speedyseq.psmelt_class = "data.frame"
 )
 
 .onLoad <- function(libname, pkgname) {

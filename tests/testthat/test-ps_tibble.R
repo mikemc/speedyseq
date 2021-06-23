@@ -16,19 +16,23 @@ rs <- split(
 ps <- merge_phyloseq(ps, rs)
 rm(rs)
 
-test_that("ps_tibble respects name options and handles conflicts", {
-  withr::local_options("speedyseq.tibble_sample" = "X.SampleID")
+test_that("ps_tibble returns expected columns", {
   x <- ps %>% sample_data %>% ps_tibble
-  expect_identical(names(x)[1:2], c("X.SampleID", "X.SampleID.1"))
-  withr::local_options("speedyseq.tibble_otu" = "CL3")
+  expect_identical(names(x), c(".sample", sample_variables(ps)))
+  x <- ps %>% otu_table %>% ps_tibble
+  expect_identical(names(x), c(".otu", ".sample", ".abundance"))
   x <- ps %>% otu_table %>% ps_tibble(pivot = FALSE)
-  expect_identical(names(x)[1:2], c("CL3", "CL3.1"))
-  withr::local_options("speedyseq.tibble_otu" = "X")
-  withr::local_options("speedyseq.tibble_abundance" = "X")
-  expect_error(x <- ps %>% otu_table %>% ps_tibble(pivot = TRUE))
-  withr::local_options("speedyseq.tibble_abundance" = "Y")
-  x <- ps %>% otu_table %>% ps_tibble(pivot = TRUE)
-  expect_identical(names(x), c("X", "X.SampleID", "Y"))
-  x <- ps %>% ps_tibble
-  expect_identical(names(x)[1:4], c("X", "X.SampleID", "Y", "X.SampleID.1"))
+  expect_identical(names(x), c(".otu", sample_names(ps)))
+  x <- ps %>% ps_tibble(ref = TRUE)
+  expect_identical(names(x), 
+    c(".otu", ".sample", ".abundance", sample_variables(ps), rank_names(ps),
+      ".sequence")
+  )
+})
+
+test_that("ps_tibble and psmelt agree up to row order", {
+  x <- ps %>% ps_tibble %>% 
+    dplyr::rename(OTU = .otu, Sample = .sample, Abundance = .abundance)
+  y <- ps %>% psmelt
+  expect_true(dplyr::all_equal(x, y, ignore_row_order = TRUE))
 })

@@ -7,7 +7,7 @@
 \alias{ps_tibble,taxonomyTable-method}
 \alias{ps_tibble,XStringSet-method}
 \alias{ps_tibble,phyloseq-method}
-\title{Coerce phyloseq objects to tibbles (tbl_df objects)}
+\title{Coerce phyloseq objects to tibble data frames}
 \usage{
 ps_tibble(x, ...)
 
@@ -34,7 +34,39 @@ ps_tibble(x, ...)
 
 \item{ref}{Whether to include reference sequences.}
 }
+\value{
+A tibble (tbl_df)
+}
 \description{
 An S4 generic function that serves the role of \code{tibble::as_tibble()} on
 phyloseq and phyloseq-component objects.
+}
+\details{
+Tibbles (tbl_df objects) do not support rownames; the taxa and sample names
+in the returned tibbles will always be stored in the first or second
+columns. The names ".otu", ".sample", ".abundance", and ".sequence" are
+special column names reserved for the otu/taxa names, sample names,
+abundances, and reference sequences.
+}
+\examples{
+data(GlobalPatterns)
+# Subset to 1/100 of the original taxa to speed operations
+ps <- GlobalPatterns \%>\% filter_tax_table(dplyr::row_number() \%\% 100 == 1)
+
+# On phyloseq objects, ps_tibble is similar to psmelt()
+psmelt(ps)
+ps_tibble(ps)
+
+# By default, the otu_table method provides a tibble in long-format like
+# psmelt and the phyloseq method
+otu_table(ps) \%>\% ps_tibble
+
+# Sample data and taxonomy tables produced by ps_tibble can be converted
+# back into their respective phyloseq objects using speedyseq's tbl_df
+# constructors
+sample_data(ps) <- sample_data(ps) \%>\%
+  ps_tibble \%>\%
+  dplyr::mutate(sample_sum = sample_sums(ps)) \%>\%
+  sample_data
+sample_data(ps) \%>\% glimpse
 }
