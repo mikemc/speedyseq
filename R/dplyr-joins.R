@@ -52,12 +52,14 @@ setGeneric("left_join_tax_table",
   function(x, ...) standardGeneric("left_join_tax_table")
 )
 
+#' @rdname join-phyloseq
 setMethod("left_join_tax_table", "phyloseq",
   function(x, ...) {
     tax_table(x) <- tax_table(x) %>% left_join_tax_table(...)
     x
   })
 
+#' @rdname join-phyloseq
 setMethod("left_join_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
@@ -72,12 +74,14 @@ setGeneric("left_join_sample_data",
   function(x, ...) standardGeneric("left_join_sample_data")
 )
 
+#' @rdname join-phyloseq
 setMethod("left_join_sample_data", "phyloseq",
   function(x, ...) {
     sample_data(x) <- sample_data(x) %>% left_join_sample_data(...)
     x
   })
 
+#' @rdname join-phyloseq
 setMethod("left_join_sample_data", "sample_data",
   function(x, ...) {
     x %>%
@@ -96,12 +100,14 @@ setGeneric("inner_join_tax_table",
   function(x, ...) standardGeneric("inner_join_tax_table")
 )
 
+#' @rdname join-phyloseq
 setMethod("inner_join_tax_table", "phyloseq",
   function(x, ...) {
     tax_table(x) <- tax_table(x) %>% inner_join_tax_table(...)
     x
   })
 
+#' @rdname join-phyloseq
 setMethod("inner_join_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
@@ -116,12 +122,14 @@ setGeneric("inner_join_sample_data",
   function(x, ...) standardGeneric("inner_join_sample_data")
 )
 
+#' @rdname join-phyloseq
 setMethod("inner_join_sample_data", "phyloseq",
   function(x, ...) {
     sample_data(x) <- sample_data(x) %>% inner_join_sample_data(...)
     x
   })
 
+#' @rdname join-phyloseq
 setMethod("inner_join_sample_data", "sample_data",
   function(x, ...) {
     x %>%

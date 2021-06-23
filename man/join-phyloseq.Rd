@@ -3,18 +3,42 @@
 \name{join-phyloseq}
 \alias{join-phyloseq}
 \alias{left_join_tax_table}
+\alias{left_join_tax_table,phyloseq-method}
+\alias{left_join_tax_table,taxonomyTable-method}
 \alias{left_join_sample_data}
+\alias{left_join_sample_data,phyloseq-method}
+\alias{left_join_sample_data,sample_data-method}
 \alias{inner_join_tax_table}
+\alias{inner_join_tax_table,phyloseq-method}
+\alias{inner_join_tax_table,taxonomyTable-method}
 \alias{inner_join_sample_data}
+\alias{inner_join_sample_data,phyloseq-method}
+\alias{inner_join_sample_data,sample_data-method}
 \title{Mutating joins of the taxonomy table or sample data}
 \usage{
 left_join_tax_table(x, ...)
 
+\S4method{left_join_tax_table}{phyloseq}(x, ...)
+
+\S4method{left_join_tax_table}{taxonomyTable}(x, ...)
+
 left_join_sample_data(x, ...)
+
+\S4method{left_join_sample_data}{phyloseq}(x, ...)
+
+\S4method{left_join_sample_data}{sample_data}(x, ...)
 
 inner_join_tax_table(x, ...)
 
+\S4method{inner_join_tax_table}{phyloseq}(x, ...)
+
+\S4method{inner_join_tax_table}{taxonomyTable}(x, ...)
+
 inner_join_sample_data(x, ...)
+
+\S4method{inner_join_sample_data}{phyloseq}(x, ...)
+
+\S4method{inner_join_sample_data}{sample_data}(x, ...)
 }
 \arguments{
 \item{x}{A \code{phyloseq}, \code{taxonomyTable}, or \code{sample_data} object}
