@@ -62,6 +62,8 @@ When joining by sample data, the .sample column name can be used to match
 sample names.
 }
 \examples{
+library(tibble)
+
 data(GlobalPatterns)
 
 GlobalPatterns \%>\% sample_variables
@@ -70,7 +72,7 @@ ps1 <- GlobalPatterns \%>\%
 y <- GlobalPatterns \%>\%
   sample_data \%>\%
   select_sample_data(contains("Barcode")) \%>\%
-  ps_tibble
+  as_tibble
 ps2 <- ps1 \%>\% left_join_sample_data(y, by = ".sample")
 ps2 \%>\% sample_variables
 }

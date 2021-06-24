@@ -4,7 +4,7 @@
 
 * `merge_samples2()` now has a `fun_otu` argument for specifying alternative abundance-summarization functions
 
-* Add  `ps_tibble()` S4 generic to provide `tibble::as_tibble()` functionality for phyloseq objects
+* Add  `as_tibble()` methods for phyloseq objects
 
 * Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see [#60](https://github.com/mikemc/speedyseq/issues/60).
 

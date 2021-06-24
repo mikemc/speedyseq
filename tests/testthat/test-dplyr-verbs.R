@@ -83,7 +83,7 @@ test_that("can join on sample data", {
   y <- GlobalPatterns %>%
     sample_data %>%
     select_sample_data(contains("Barcode")) %>%
-    ps_tibble
+    as_tibble
   ps2 <- ps1 %>% left_join_sample_data(y, by = ".sample")
 
   z <- GlobalPatterns %>% 

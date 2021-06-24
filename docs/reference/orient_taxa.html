@@ -75,7 +75,7 @@ orientation and are unaware of the taxa_are_rows(x) property." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -153,8 +153,8 @@ orientation and are unaware of the <code><a href='https://rdrr.io/pkg/phyloseq/m
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>soilrep</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows</a></span><span class='op'>(</span><span class='va'>soilrep</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='va'>soilrep</span> <span class='op'>%&gt;%</span> <span class='fu'>orient_taxa</span><span class='op'>(</span>as <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in orient_taxa(., as = "columns"): could not find function "orient_taxa"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/taxa_are_rows-methods.html'>taxa_are_rows</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'physeq' in selecting a method for function 'taxa_are_rows': object 'x' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

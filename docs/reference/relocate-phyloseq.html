@@ -73,7 +73,7 @@ convenient ways to modify tax_table(x) and sample_data(x)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -166,11 +166,8 @@ these names.</p>
 #&gt; [5] "Barcode_full_length"      "SampleType"              
 #&gt; [7] "Description"             </div><div class='input'><span class='va'>ps</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
   <span class='fu'>relocate_sample_data</span><span class='op'>(</span><span class='va'>SampleType</span>, .after <span class='op'>=</span> <span class='va'>X.SampleID</span><span class='op'>)</span>
-<span class='va'>ps</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
-</div><div class='output co'>#&gt; [1] "X.SampleID"               "SampleType"              
-#&gt; [3] "Primer"                   "Final_Barcode"           
-#&gt; [5] "Barcode_truncated_plus_T" "Barcode_full_length"     
-#&gt; [7] "Description"             </div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in relocate_sample_data(., SampleType, .after = X.SampleID): could not find function "relocate_sample_data"</span></div><div class='input'><span class='va'>ps</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colnames': error in evaluating the argument 'object' in selecting a method for function 'sample_data': object 'ps' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

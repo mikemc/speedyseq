@@ -42,7 +42,7 @@ setMethod("filter_tax_table", "phyloseq",
 setMethod("filter_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::filter(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -64,7 +64,7 @@ setMethod("filter_sample_data", "phyloseq",
 setMethod("filter_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::filter(...) %>%
       {suppressMessages(sample_data(.))}
   })
@@ -118,7 +118,7 @@ setGeneric("mutate_tax_table",
 setMethod("mutate_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::mutate(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -146,7 +146,7 @@ setGeneric("transmute_tax_table",
 setMethod("transmute_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       # Make sure the .otu column is always included; new names can still be
       # set if .otu occurs in the ... expressions
       dplyr::transmute(.otu, ...) %>%
@@ -177,7 +177,7 @@ setGeneric("mutate_sample_data",
 setMethod("mutate_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::mutate(...) %>%
       {suppressMessages(sample_data(.))}
   })
@@ -205,7 +205,7 @@ setGeneric("transmute_sample_data",
 setMethod("transmute_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       # Make sure the .sample column is always included; new names can still be
       # set if .sample occurs in the ... expressions
       dplyr::transmute(.sample, ...) %>%
@@ -265,7 +265,7 @@ setGeneric("select_tax_table",
 setMethod("select_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       # Ensure .otu always kept; Putafter the ... to handle use of '-' for
       # column removal
       dplyr::select(..., .otu) %>%
@@ -290,7 +290,7 @@ setGeneric("select_sample_data",
 setMethod("select_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       # Ensure .sample always kept; put after the ... to handle use of '-' for
       # column removal
       dplyr::select(..., .sample) %>%
@@ -342,7 +342,7 @@ setGeneric("relocate_tax_table",
 setMethod("relocate_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::relocate(...) %>%
       # Ensure .otu always kept first
       dplyr::relocate(.otu) %>%
@@ -366,7 +366,7 @@ setGeneric("relocate_sample_data",
 setMethod("relocate_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::relocate(...) %>%
       # Ensure .sample always kept first
       dplyr::relocate(.sample) %>%
@@ -426,7 +426,7 @@ setGeneric("rename_tax_table",
 setMethod("rename_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::rename(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -450,7 +450,7 @@ setGeneric("rename_with_tax_table",
 setMethod("rename_with_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::rename_with(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -474,7 +474,7 @@ setGeneric("rename_sample_data",
 setMethod("rename_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::rename(...) %>%
       {suppressMessages(sample_data(.))}
   })
@@ -498,7 +498,7 @@ setGeneric("rename_with_sample_data",
 setMethod("rename_with_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::rename_with(...) %>%
       {suppressMessages(sample_data(.))}
   })

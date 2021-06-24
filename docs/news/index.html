@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -118,9 +118,9 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#speedyseq-development-version" class="anchor"></a>speedyseq (development version)</h1>
 <ul>
-<li><p>dplyr verbs for added for sample data and taxonomy tables: select, relocate, rename, rename_with, mutate, transmute, and filter (see <a href='https://github.com/mikemc/speedyseq/issues/69'>#69</a>)</p></li>
+<li><p>Add dplyr verbs for sample data and taxonomy tables: select, relocate, rename, rename_with, mutate, transmute, filter, left_join, inner_join (see <a href='https://github.com/mikemc/speedyseq/issues/69'>#69</a> and <a href='https://github.com/mikemc/speedyseq/issues/72'>#72</a>)</p></li>
 <li><p><code><a href="../reference/merge_samples2.html">merge_samples2()</a></code> now has a <code>fun_otu</code> argument for specifying alternative abundance-summarization functions</p></li>
-<li><p>Add <code><a href="../reference/ps_tibble.html">ps_tibble()</a></code> S4 generic to provide <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">tibble::as_tibble()</a></code> functionality for phyloseq objects</p></li>
+<li><p>Add <code>as_tibble()</code> methods for phyloseq objects</p></li>
 <li><p>Fixed bug in print outputs. Row numbers are now kept as their removal was causing the issue. This is a temporary fix; see <a href="https://github.com/mikemc/speedyseq/issues/60"><a href='https://github.com/mikemc/speedyseq/issues/60'>#60</a></a>.</p></li>
 <li><p>Fixed namespace bug that caused <code><a href="../reference/psmelt.html">psmelt(as="tibble")</a></code> to throw an error if tibble wasn’t loaded</p></li>
 <li><p><code><a href="../reference/psmelt.html">psmelt()</a></code> now uses <code><a href="https://rdrr.io/r/base/options.html">getOption(speedyseq.psmelt_class)</a></code> as the default value for the <code>as</code> argument. Users can set their preferred tabular class to “speedyseq.psmelt_class” (among “data.table”, “data.frame”, or “tbl_df”) in their “.Rprofile” file. The default option is set to “data.frame” for backwards compatibility.</p></li>

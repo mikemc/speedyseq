@@ -75,7 +75,7 @@ functionality to phyloseq sample data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -181,8 +181,8 @@ passed to <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>dply
 <span class='va'>ps1</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rename_tax_table</span><span class='op'>(</span>Domain <span class='op'>=</span> <span class='va'>Kingdom</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rename_with_tax_table</span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='va'><a href='https://stringr.tidyverse.org/reference/case.html'>str_to_lower</a></span><span class='op'>)</span>
-<span class='va'>ps1</span> <span class='op'>%&gt;%</span> <span class='va'>rank_names</span>
-</div><div class='output co'>#&gt; [1] "domain"  "phylum"  "class"   "order"   "family"  "genus"   "species"</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in rename_with_tax_table(., stringr::str_to_lower): could not find function "rename_with_tax_table"</span></div><div class='input'><span class='va'>ps1</span> <span class='op'>%&gt;%</span> <span class='va'>rank_names</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colnames': error in evaluating the argument 'object' in selecting a method for function 'tax_table': object 'ps1' not found</span></div><div class='input'>
 <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
 </div><div class='output co'>#&gt; [1] "X.SampleID"               "Primer"                  
 #&gt; [3] "Final_Barcode"            "Barcode_truncated_plus_T"
@@ -190,11 +190,8 @@ passed to <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>dply
 #&gt; [7] "Description"             </div><div class='input'><span class='va'>ps2</span> <span class='op'>&lt;-</span> <span class='va'>GlobalPatterns</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rename_with_sample_data</span><span class='op'>(</span><span class='fu'>janitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/janitor/man/make_clean_names.html'>make_clean_names</a></span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rename_sample_data</span><span class='op'>(</span>sample_id <span class='op'>=</span> <span class='va'>x_sample_id</span><span class='op'>)</span>
-<span class='va'>ps2</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
-</div><div class='output co'>#&gt; [1] "sample_id"                "primer"                  
-#&gt; [3] "final_barcode"            "barcode_truncated_plus_t"
-#&gt; [5] "barcode_full_length"      "sample_type"             
-#&gt; [7] "description"             </div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in rename_sample_data(., sample_id = x_sample_id): could not find function "rename_sample_data"</span></div><div class='input'><span class='va'>ps2</span> <span class='op'>%&gt;%</span> <span class='va'>sample_variables</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colnames': error in evaluating the argument 'object' in selecting a method for function 'sample_data': object 'ps2' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

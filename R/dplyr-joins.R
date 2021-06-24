@@ -31,6 +31,8 @@
 #' @name join-phyloseq
 #'
 #' @examples
+#' library(tibble)
+#'
 #' data(GlobalPatterns)
 #' 
 #' GlobalPatterns %>% sample_variables
@@ -39,7 +41,7 @@
 #' y <- GlobalPatterns %>%
 #'   sample_data %>%
 #'   select_sample_data(contains("Barcode")) %>%
-#'   ps_tibble
+#'   as_tibble
 #' ps2 <- ps1 %>% left_join_sample_data(y, by = ".sample")
 #' ps2 %>% sample_variables
 NULL
@@ -63,7 +65,7 @@ setMethod("left_join_tax_table", "phyloseq",
 setMethod("left_join_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::left_join(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -85,7 +87,7 @@ setMethod("left_join_sample_data", "phyloseq",
 setMethod("left_join_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::left_join(...) %>%
       {suppressMessages(sample_data(.))}
   })
@@ -111,7 +113,7 @@ setMethod("inner_join_tax_table", "phyloseq",
 setMethod("inner_join_tax_table", "taxonomyTable",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::inner_join(...) %>%
       {suppressMessages(tax_table(.))}
   })
@@ -133,7 +135,7 @@ setMethod("inner_join_sample_data", "phyloseq",
 setMethod("inner_join_sample_data", "sample_data",
   function(x, ...) {
     x %>%
-      ps_tibble %>%
+      as_tibble %>%
       dplyr::inner_join(...) %>%
       {suppressMessages(sample_data(.))}
   })

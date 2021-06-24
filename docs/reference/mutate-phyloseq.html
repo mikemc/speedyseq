@@ -74,7 +74,7 @@ and sample_data(x) as well as the sample and taxa names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -188,34 +188,9 @@ behavior.</p>
   <span class='fu'><a href='filter-phyloseq.html'>filter_tax_table</a></span><span class='op'>(</span><span class='va'>Kingdom</span> <span class='op'>==</span> <span class='st'>"Bacteria"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='tax_glom.html'>tax_glom</a></span><span class='op'>(</span><span class='st'>"Phylum"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>transmute_tax_table</span><span class='op'>(</span><span class='va'>Kingdom</span>, <span class='va'>Phylum</span>, .otu <span class='op'>=</span> <span class='va'>Phylum</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Sample Data:        [ 9 samples by 2 sample variables ]:
-#&gt;           SampleType sample_sum
-#&gt; <span style='color: #BCBCBC;'>1</span> M31Fcsw Feces         1<span style='text-decoration: underline;'>543</span>451
-#&gt; <span style='color: #BCBCBC;'>2</span> M11Fcsw Feces         2<span style='text-decoration: underline;'>076</span>476
-#&gt; <span style='color: #BCBCBC;'>3</span> M31Plmr Skin           <span style='text-decoration: underline;'>718</span>943
-#&gt; <span style='color: #BCBCBC;'>4</span> M11Plmr Skin           <span style='text-decoration: underline;'>433</span>894
-#&gt; <span style='color: #BCBCBC;'>5</span> F21Plmr Skin           <span style='text-decoration: underline;'>186</span>297
-#&gt; <span style='color: #BCBCBC;'>6</span> M31Tong Tongue        2<span style='text-decoration: underline;'>000</span>402
-#&gt; <span style='color: #BCBCBC;'>7</span> M11Tong Tongue         <span style='text-decoration: underline;'>100</span>187
-#&gt; <span style='color: #BCBCBC;'>8</span> TS28    Feces          <span style='text-decoration: underline;'>937</span>466
-#&gt; <span style='color: #BCBCBC;'>9</span> TS29    Feces         1<span style='text-decoration: underline;'>211</span>071
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Taxonomy Table:     [ 64 taxa by 2 taxonomic ranks ]:
-#&gt;                   Kingdom  Phylum        
-#&gt;    <span style='color: #949494; font-style: italic;'>     </span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
-#&gt; <span style='color: #BCBCBC;'> 1</span> Actinobacteria Bacteria Actinobacteria
-#&gt; <span style='color: #BCBCBC;'> 2</span> Spirochaetes   Bacteria Spirochaetes  
-#&gt; <span style='color: #BCBCBC;'> 3</span> MVP-15         Bacteria MVP-15        
-#&gt; <span style='color: #BCBCBC;'> 4</span> SBR1093        Bacteria SBR1093       
-#&gt; <span style='color: #BCBCBC;'> 5</span> Fusobacteria   Bacteria Fusobacteria  
-#&gt; <span style='color: #BCBCBC;'> 6</span> Tenericutes    Bacteria Tenericutes   
-#&gt; <span style='color: #BCBCBC;'> 7</span> ZB3            Bacteria ZB3           
-#&gt; <span style='color: #BCBCBC;'> 8</span> Cyanobacteria  Bacteria Cyanobacteria 
-#&gt; <span style='color: #BCBCBC;'> 9</span> Proteobacteria Bacteria Proteobacteria
-#&gt; <span style='color: #BCBCBC;'>10</span> GOUTA4         Bacteria GOUTA4        
-#&gt; <span style='color: #949494;'># … with 54 more rows</span>
-#&gt; </div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in transmute_tax_table(., Kingdom, Phylum, .otu = Phylum): could not find function "transmute_tax_table"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'sample_data': object 'ps' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html'>tax_table</a></span><span class='op'>(</span><span class='va'>ps</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'tax_table': object 'ps' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -84,7 +84,7 @@ time, it will reduce confusion and eliminate the warnings." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -168,7 +168,7 @@ phyloseq-class.</p></td>
     <p>The <code>as</code> argument allows choosing between three classes for tabular data:</p><ul>
 <li><p>data.frame is chosen by "data.frame" or "df"</p></li>
 <li><p>data.table is chosen by "data.table" or "dt"</p></li>
-<li><p>tbl_df is chosen by "tbl_df", "tbl", or "tibble"</p></li>
+<li><p><a href='https://tibble.tidyverse.org/reference/tbl_df-class.html'>tbl_df</a> is chosen by "tbl_df", "tbl", or "tibble"</p></li>
 </ul>
 
 <p>The default is "data.frame" and can be overridden by setting the
@@ -201,8 +201,8 @@ flexibility, but is also used extensively by plot functions in phyloseq.</p>
 #&gt; [11] "Kingdom"                  "Phylum"                  
 #&gt; [13] "Class"                    "Order"                   
 #&gt; [15] "Family"                   "Genus"                   
-#&gt; [17] "Species"                 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "1" "2" "3" "4" "5" "6"</div><div class='input'><span class='co'># Create a ggplot similar to</span>
+#&gt; [17] "Species"                 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mdf</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "436" "243" "84"  "417" "395" "458"</div><div class='input'><span class='co'># Create a ggplot similar to</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>mdf</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>SampleType</span>, y<span class='op'>=</span><span class='va'>Abundance</span>, fill<span class='op'>=</span><span class='va'>Genus</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>=</span> <span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>color<span class='op'>=</span><span class='st'>"black"</span>, stat<span class='op'>=</span><span class='st'>"identity"</span>, position<span class='op'>=</span><span class='st'>"stack"</span><span class='op'>)</span>

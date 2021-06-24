@@ -79,7 +79,7 @@ samples are named by the values in group." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">speedyseq</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9018</span>
       </span>
     </div>
 
@@ -198,18 +198,8 @@ samples by name</p></td>
   fun_otu <span class='op'>=</span> <span class='va'>mean</span>,
   funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Age <span class='op'>=</span> <span class='va'>mean</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `group` has missing values; corresponding samples will be dropped</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>head</span>
-</div><div class='output co'>#&gt; Sample Data:        [ 6 samples by 10 sample variables ]:
-#&gt;              Enterotype Sample_ID SeqTech SampleID Project Nationality Gender
-#&gt; <span style='color: #BCBCBC;'>1</span> gill06:he… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       gill06  american    <span style='color: #BB0000;'>NA</span>    
-#&gt; <span style='color: #BCBCBC;'>2</span> turnbaugh… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       turnba… american    F     
-#&gt; <span style='color: #BCBCBC;'>3</span> MetaHIT:h… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       MetaHIT <span style='color: #BB0000;'>NA</span>          <span style='color: #BB0000;'>NA</span>    
-#&gt; <span style='color: #BCBCBC;'>4</span> MetaHIT:o… <span style='color: #BB0000;'>NA</span>         <span style='color: #BB0000;'>NA</span>        Sanger  <span style='color: #BB0000;'>NA</span>       MetaHIT danish      <span style='color: #BB0000;'>NA</span>    
-#&gt; <span style='color: #BCBCBC;'>5</span> MetaHIT:CD 1          ES.AD.1   Sanger  ES.AD.1  MetaHIT spanish     F     
-#&gt; <span style='color: #BCBCBC;'>6</span> MetaHIT:UC 2          ES.AD.3   Sanger  ES.AD.3  MetaHIT spanish     F     
-#&gt; <span style='color: #949494;'># … with 3 more variables: Age &lt;dbl&gt;, ClinicalStatus &lt;fct&gt;,</span>
-#&gt; <span style='color: #949494;'>#   Project.ClinicalStatus &lt;fct&gt;</span>
-#&gt; </div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in merge_samples2(ps, "Project.ClinicalStatus", fun_otu = mean,     funs = list(Age = mean)): could not find function "merge_samples2"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html'>sample_data</a></span><span class='op'>(</span><span class='va'>ps0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>head</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'sample_data': object 'ps0' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

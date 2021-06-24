@@ -4,6 +4,9 @@
     <loc>https://mikemc.github.io/speedyseq/index.html</loc>
   </url>
   <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/as_tibble-phyloseq.html</loc>
+  </url>
+  <url>
     <loc>https://mikemc.github.io/speedyseq/reference/bad_flush_right.html</loc>
   </url>
   <url>
@@ -17,6 +20,9 @@
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/import_phyloseq_functions.html</loc>
+  </url>
+  <url>
+    <loc>https://mikemc.github.io/speedyseq/reference/join-phyloseq.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/merge_groups.html</loc>
@@ -52,10 +58,10 @@
     <loc>https://mikemc.github.io/speedyseq/reference/plot_tree.html</loc>
   </url>
   <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/ps_tibble.html</loc>
+    <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
   </url>
   <url>
-    <loc>https://mikemc.github.io/speedyseq/reference/psmelt.html</loc>
+    <loc>https://mikemc.github.io/speedyseq/reference/reexports.html</loc>
   </url>
   <url>
     <loc>https://mikemc.github.io/speedyseq/reference/relocate-phyloseq.html</loc>

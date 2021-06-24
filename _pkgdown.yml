@@ -12,13 +12,14 @@ reference:
   - rename-phyloseq
   - filter-phyloseq
   - mutate-phyloseq
+  - join-phyloseq
   - starts_with("filter_taxa")
   - starts_with("transform")
   - orient_taxa
 - title: "Coercion"
 - contents: 
   - psmelt
-  - ps_tibble
+  - as_tibble-phyloseq
   - tibble-constructors
 - title: "Plotting"
 - contents:
