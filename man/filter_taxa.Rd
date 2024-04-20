@@ -31,9 +31,9 @@ pipe chain (see example).
 }
 \section{Functions}{
 \itemize{
-\item \code{filter_taxa2}: Sets \code{prune = TRUE}
-}}
+\item \code{filter_taxa2()}: Sets \code{prune = TRUE}
 
+}}
 \examples{
 data(GlobalPatterns)
 # Filter low prevalence taxa and then convert to proportions
