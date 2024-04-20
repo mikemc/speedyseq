@@ -244,25 +244,25 @@ oneline <- function(x) {
 
 oneline.otu_table <- function(x) {
   stringr::str_glue(
-    "OTU Table:          [ {ntaxa(x)} taxa and {nsamples(x)} samples ]:", 
+    "OTU Table:          [ {ntaxa(x)} taxa and {nsamples(x)} samples ]:"
   )
 }
 
 oneline.sample_data <- function(x) {
   stringr::str_glue(
-    "Sample Data:        [ {dim(x)[1]} samples by {dim(x)[2]} sample variables ]:", 
+    "Sample Data:        [ {dim(x)[1]} samples by {dim(x)[2]} sample variables ]:"
   )
 }
 
 oneline.taxonomyTable <- function(x) {
   stringr::str_glue(
-    "Taxonomy Table:     [ {dim(x)[1]} taxa by {dim(x)[2]} taxonomic ranks ]:", 
+    "Taxonomy Table:     [ {dim(x)[1]} taxa by {dim(x)[2]} taxonomic ranks ]:"
   )
 }
 
 oneline.phylo <- function(x) {
   stringr::str_glue(
-    "Phylogenetic Tree:  [ {ntaxa(x)} tips and {phy_tree(x)$Nnode} internal nodes ]:", 
+    "Phylogenetic Tree:  [ {ntaxa(x)} tips and {phy_tree(x)$Nnode} internal nodes ]:"
   )
 }
 
