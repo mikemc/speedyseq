@@ -287,17 +287,21 @@ setMethod("oneline", "XStringSet", oneline.XStringSet)
 #' @importFrom tibble glimpse
 #' @export
 glimpse.sample_data <- function(x, width = NULL, ...) {
+  cat(oneline(x), fill = TRUE)
   x %>% 
     as("data.frame") %>% 
     tibble::glimpse(width = width, ...)
+  invisible(x)
 }
 
 #' @importFrom tibble glimpse
 #' @export
 glimpse.taxonomyTable <- function(x, width = NULL, ...) {
+  cat(oneline(x), fill = TRUE)
   x %>% 
     as.data.frame %>% 
     tibble::glimpse(width = width, ...)
+  invisible(x)
 }
 
 
